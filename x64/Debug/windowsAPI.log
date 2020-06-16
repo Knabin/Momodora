@@ -1,0 +1,17 @@
+﻿  playGround.cpp
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(62): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(98): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(99): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(418): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(445): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(448): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(451): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(454): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(458): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(461): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(463): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(467): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(469): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  windowsAPI.vcxproj -> C:\Users\ppoxx\Desktop\김나빈_너구리\x64\Debug\windowsAPI.exe
