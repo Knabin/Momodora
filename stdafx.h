@@ -19,6 +19,7 @@ using namespace std;
 #include "keyManager.h"
 #include "utils.h"
 #include "collision.h"
+#include "imageManager.h"
 
 using namespace TTYONE_UTIL;
 
@@ -32,6 +33,7 @@ using namespace TTYONE_UTIL;
 
 #define RND randomFunction::getSingleton()
 #define KEYMANAGER keyManager::getSingleton()
+#define IMAGEMANAGER imageManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
 

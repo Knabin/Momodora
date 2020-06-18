@@ -1,11 +1,15 @@
 #pragma once
 #include "image.h"
+#include "camera.h"
 
 class gameNode
 {
 private:
 	image* _backBuffer;
+	camera* _camera;
+
 	void setBackBuffer();
+	void setCamera();
 
 public:
 	gameNode();
@@ -21,6 +25,7 @@ public:
 
 	//백버퍼 접근자
 	image* getBackBuffer() { return _backBuffer; }
+	camera* getCamera() { return _camera; }
 
 	LRESULT MainProc(HWND, UINT, WPARAM, LPARAM);
 };

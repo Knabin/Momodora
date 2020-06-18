@@ -1,17 +1,58 @@
-﻿  playGround.cpp
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(62): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(98): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(99): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(418): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(445): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(448): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(451): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(454): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(458): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(461): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(463): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(467): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\ppoxx\desktop\김나빈_너구리\playground.cpp(469): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  windowsAPI.vcxproj -> C:\Users\ppoxx\Desktop\김나빈_너구리\x64\Debug\windowsAPI.exe
+﻿  stdafx.cpp
+  camera.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.h(56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(59): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(70): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(74): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  collision.cpp
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(167): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(168): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(169): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(170): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+  gameNode.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.h(56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(59): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(70): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(74): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(83): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(84): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+  image.cpp
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(68): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(112): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(154): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(203): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(202): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(217): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(216): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  imageManager.cpp
+  keyManager.cpp
+  playGround.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.h(56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(59): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(70): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(74): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(95): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(414): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(441): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(444): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(447): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(450): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(454): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(457): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(459): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(463): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\playground.cpp(465): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  utils.cpp
+  windowsAPI.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.h(56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(59): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(70): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(74): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\windowsapi.cpp(73): warning C4244: 'return': conversion from 'WPARAM' to 'int', possible loss of data
+  Generating Code...
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(82): warning C4715: 'TTYONE_UTIL::checkPointInCircle': not all control paths return a value
+  windowsAPI.vcxproj -> C:\Users\ppoxx\source\repos\Moonlighter\x64\Debug\windowsAPI.exe

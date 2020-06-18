@@ -31,6 +31,9 @@
     <Filter Include="2DGameFramework\Utils">
       <UniqueIdentifier>{6649f313-dbf4-4ec9-afff-24f47b1a709e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DGameFramework\camera">
+      <UniqueIdentifier>{67e5f9ff-43ee-4375-83dd-dee257d39079}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="collision.h">
       <Filter>2DGameFramework\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>2DGameFramework\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="imageManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -97,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="collision.cpp">
       <Filter>2DGameFramework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>2DGameFramework\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="imageManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

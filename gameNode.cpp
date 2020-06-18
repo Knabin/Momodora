@@ -8,6 +8,12 @@ void gameNode::setBackBuffer()
 	_backBuffer->init(WINSIZEX, WINSIZEY);
 }
 
+void gameNode::setCamera()
+{
+	_camera = new camera;
+	_camera->init(WINSIZEX, WINSIZEY, _backBuffer->getWidth(), _backBuffer->getHeight());
+}
+
 gameNode::gameNode()
 {
 }
@@ -21,8 +27,10 @@ HRESULT gameNode::init()
 {
 	SetTimer(_hWnd, 1, 10, NULL);
 	KEYMANAGER->init();
+	IMAGEMANAGER->init();
 	
 	setBackBuffer();
+	setCamera();
 
 	return S_OK;
 }
@@ -33,6 +41,9 @@ void gameNode::release()
 
 	KEYMANAGER->release();
 	KEYMANAGER->releaseSingleton();
+
+	IMAGEMANAGER->release();
+	IMAGEMANAGER->releaseSingleton();
 }
 
 void gameNode::update()
