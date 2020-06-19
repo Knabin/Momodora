@@ -31,14 +31,14 @@ public:
 
 		tagImageInfo()
 		{
-			resID	= 0;
-			hMemDC	= NULL;
-			hBit	= NULL;
-			hOBit	= NULL;
-			x		= 0;
-			y		= 0;
-			width	= 0;
-			height	= 0;
+			resID = 0;
+			hMemDC = NULL;
+			hBit = NULL;
+			hOBit = NULL;
+			x = 0;
+			y = 0;
+			width = 0;
+			height = 0;
 			currentFrameX = 0;
 			currentFrameY = 0;
 			maxFrameX = 0;
@@ -63,7 +63,7 @@ public:
 	HRESULT init(int width, int height);
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = FALSE);
-	
+
 	//프레임 이미지 용 초기화 함수
 	HRESULT init(const char* fileName, float x, float y,
 		int width, int height,
@@ -75,7 +75,7 @@ public:
 
 
 	void release();
-	
+
 	//혹시 다른 픽셀값으로 날려야 할때 날려줄 픽셀값 변경할 함수
 	void setTransColor(BOOL trans, COLORREF transColor);
 
@@ -88,13 +88,14 @@ public:
 
 	//렌더함수(뿌려질DC, 그려질 좌표X(left), 그려질 좌표Y(top), 가져올좌표X, 가져올좌표Y, 가져올 가로크기, 가져올 세로크기)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
-	
+
 	//이미지 프레임 렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top))
 	void frameRender(HDC hdc, int destX, int destY);
 
 	//이미지 프레임 렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top), 현재 프레임 가로번호, 현재 프레임 세로번호)
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
+	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 

@@ -9,7 +9,7 @@ image::image()
 	: _imageInfo(NULL),
 	_fileName(NULL),
 	_trans(false),
-	_transColor(RGB(0,0,0))
+	_transColor(RGB(0, 0, 0))
 {
 }
 
@@ -251,7 +251,7 @@ void image::render(HDC hdc, int destX, int destY)
 			0, 0,					//복사될 X,Y(left, top)
 			SRCCOPY);				//변형없이 복사하겠다
 	}
-	
+
 
 }
 
@@ -350,4 +350,69 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 			_imageInfo->currentFrameY * _imageInfo->frameHeight,			//복사될 X,Y(left, top)
 			SRCCOPY);				//변형없이 복사하겠다
 	}
+}
+
+void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
+{
+	//정밀한 예외처리를 할땐 나머지 연산자를 꼭 이용합시다
+	if (offSetX < 0) offSetX = _imageInfo->width + (offSetX % _imageInfo->width);
+	if (offSetY < 0) offSetY = _imageInfo->height + (offSetY % _imageInfo->height);
+
+	int sourWidth;
+	int sourHeight;
+
+	RECT rcDest;
+	RECT rcSour;
+
+	int drawAreaX = drawArea->left;					//그려질 영역 left
+	int drawAreaY = drawArea->top;					//그려질 영역 top
+	int drawAreaW = drawArea->right - drawAreaX;	//그려질 영역 width
+	int drawAreaH = drawArea->bottom - drawAreaY;	//그려질 영역 height
+
+	//세로부터
+	for (int y = 0; y < drawAreaH; y += sourHeight)
+	{
+		rcSour.top = (y + offSetY) % _imageInfo->height;
+		rcSour.bottom = _imageInfo->height;
+
+		sourHeight = rcSour.bottom - rcSour.top;
+
+		//화면 밖 나간 영역 확보
+		if (y + sourHeight > drawAreaH)
+		{
+			rcSour.bottom -= (y + sourHeight) - drawAreaH;
+			sourHeight = rcSour.bottom - rcSour.top;
+		}
+
+
+		//화면밖으로 나간영역만큼을 산정한다
+		rcDest.top = y + drawAreaY;
+		rcDest.bottom = rcDest.top + sourHeight;
+
+		for (int x = 0; x < drawAreaW; x += sourWidth)
+		{
+			rcSour.left = (x + offSetX) % _imageInfo->width;
+			rcSour.right = _imageInfo->width;
+
+			sourWidth = rcSour.right - rcSour.left;
+
+			if (x + sourWidth > drawAreaW)
+			{
+				rcSour.right -= (x + sourWidth) - drawAreaW;
+				sourWidth = rcSour.right - rcSour.left;
+			}
+
+			rcDest.left = x + drawAreaX;
+			rcDest.right = rcDest.left + sourWidth;
+
+			render(hdc, rcDest.left, rcDest.top,
+				rcSour.left, rcSour.top,
+				rcSour.right - rcSour.left,
+				rcSour.bottom - rcSour.top);
+		}
+
+
+	}
+
+
 }

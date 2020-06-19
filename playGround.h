@@ -110,11 +110,7 @@ private:
 	bool _isClear;
 	bool _isGameOver;
 
-	/*MYRECT _rect;
-	MYRECT _rectMove;
-
-	MYCIRCLE _cir;
-	MYCIRCLE _cirMove;*/
+	int _loopX1, _loopX2;
 
 public:
 	playGround();

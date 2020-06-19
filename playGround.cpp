@@ -172,6 +172,9 @@ HRESULT playGround::init()
 
 	_count = _index = _countEnemy = _isGameOver = _score = _isClear = 0;
 
+	_loopX1 = 0;
+	_loopX2 = WINSIZEY;
+
 	return S_OK;
 }
 
@@ -436,6 +439,8 @@ void playGround::render(HDC hdc)
 	HDC backDC = this->getBackBuffer()->getMemDC();
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 	//=================================================
+
+	IMAGEMANAGER->findImage("background")->loopRender(backDC, &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX1, _loopX2);
 
 	for (int i = 0; i < GROUNDMAX; i++)
 		_ground[i].img->render(backDC, _ground[i].rc.left, _ground[i].rc.top, _groundImg->getX(), _groundImg->getY(), _ground[i].rc.getWidth(), _ground[i].rc.getHeight());
