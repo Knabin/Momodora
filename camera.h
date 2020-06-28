@@ -19,15 +19,15 @@ class camera
 
 		tagCameraInfo()
 		{
-			hMemDC = NULL;
-			hBit = NULL;
-			hOBit = NULL;
-			x = 0.0f;
-			y = 0.0f;
-			width = WINSIZEX;
-			height = WINSIZEY;
-			backWidth = WINSIZEX;
-			backHeight = WINSIZEY;
+			hMemDC			= NULL;
+			hBit			= NULL;
+			hOBit			= NULL;
+			x				= 0.0f;
+			y				= 0.0f;
+			width			= WINSIZEX;
+			height			= WINSIZEY;
+			backWidth		= WINSIZEX;
+			backHeight		= WINSIZEY;
 
 		}
 	} CAMERA_INFO, *LPCAMERA_INFO;
@@ -38,20 +38,17 @@ private:
 public:
 	camera();
 	~camera();
-
+ 
 	HRESULT init(int width, int height, int backWidth, int backHeight);
 
 	void release();
 
 	inline HDC getMemDC() { return _cameraInfo->hMemDC; }
 
-	// 뭔가..이동하면 같이 움직이는 함수
 	bool checkCameraX();
 	bool checkCameraY();
 
 	void render(HDC hdc);
-
-	// getters & setters
 
 	inline void setX(int x) { _cameraInfo->x = x; }
 	inline float getX() { return _cameraInfo->x; }
@@ -65,13 +62,11 @@ public:
 	inline void setHeight(int height) { _cameraInfo->height = height; }
 	inline int getHeight() { return _cameraInfo->height; }
 
-	inline int getLeft() {
+	inline int getLeft() { 
 		if (!checkCameraX()) return (_cameraInfo->x <= _cameraInfo->width) ? 0 : _cameraInfo->backWidth - _cameraInfo->width;
-		return _cameraInfo->x - _cameraInfo->width / 2;
-	}
-	inline int getTop() {
+		return _cameraInfo->x - _cameraInfo->width / 2; }
+	inline int getTop() { 
 		if (!checkCameraY()) return (_cameraInfo->y <= _cameraInfo->height) ? 0 : _cameraInfo->backHeight - _cameraInfo->height;
-		return _cameraInfo->y - _cameraInfo->height / 2;
-	}
+		return _cameraInfo->y - _cameraInfo->height / 2; }
 };
 

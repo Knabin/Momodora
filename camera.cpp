@@ -63,7 +63,6 @@ bool camera::checkCameraY()
 	return true;
 }
 
-// backDC를 받으면
 void camera::render(HDC hdc)
 {
 	BitBlt(hdc,
