@@ -61,12 +61,31 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		return 0;
 	}
 
-
+	/* 애는 나중에 맵툴 & 라디오버튼으로 만들때 씁니다
 	while (GetMessage(&message, 0, 0, 0))
 	{
 		TranslateMessage(&message);
 		DispatchMessage(&message);
 	}
+	*/
+
+	while (true)
+	{
+		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+		{
+			if (message.message == WM_QUIT) break;
+			TranslateMessage(&message);
+			DispatchMessage(&message);
+		}
+		else
+		{
+			//우선 60프레임으로 둔다
+			TIMEMANAGER->update(60);
+			_pg.update();
+			_pg.render();
+		}
+	}
+
 
 	_pg.release();
 

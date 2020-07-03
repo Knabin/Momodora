@@ -31,8 +31,38 @@
     <Filter Include="2DGameFramework\Utils">
       <UniqueIdentifier>{6649f313-dbf4-4ec9-afff-24f47b1a709e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Bullets">
+      <UniqueIdentifier>{0cdf7837-5b4b-4626-83fc-554acbcd0e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\progressBar">
+      <UniqueIdentifier>{2f09af2d-ecf1-47c1-8190-27c3eb4af701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\txtData">
+      <UniqueIdentifier>{431e51a5-80a3-453e-b6b4-0a46c07862b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\timer">
+      <UniqueIdentifier>{903124e9-0a6f-4f4f-8a9b-cc25c6f3482b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\animation">
+      <UniqueIdentifier>{206ac15a-4721-4c12-93be-e176c2715a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\effect">
+      <UniqueIdentifier>{b3284ef1-2dfe-42bb-bb2d-937dfd3982d5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="2DGameFramework\camera">
-      <UniqueIdentifier>{67e5f9ff-43ee-4375-83dd-dee257d39079}</UniqueIdentifier>
+      <UniqueIdentifier>{665bbd36-3bcb-4e7b-b521-740494436fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\stage">
+      <UniqueIdentifier>{9d82b515-d61c-4095-b202-e228548bc5b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{a705bc9a-44ce-41d7-9646-e65a758735bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{87b3438e-f8ae-4d6d-ae1c-ba8f44509c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\stage">
+      <UniqueIdentifier>{a040f114-111c-4a45-b270-4c12fcd473fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,17 +105,68 @@
     <ClInclude Include="collision.h">
       <Filter>2DGameFramework\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="imageManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="bullets.h">
+      <Filter>playGround\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClInclude>
+    <ClInclude Include="txtData.h">
+      <Filter>2DGameFramework\txtData</Filter>
+    </ClInclude>
+    <ClInclude Include="pixelCollsion.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>2DGameFramework\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="timeManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>2DGameFramework\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="camel.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>2DGameFramework\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="effectManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>2DGameFramework\camera</Filter>
     </ClInclude>
-    <ClInclude Include="imageManager.h">
+    <ClInclude Include="stageManager.h">
+      <Filter>2DGameFramework\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="commonStage.h">
+      <Filter>playGround\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="bossStage.h">
+      <Filter>playGround\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="soundManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="windowsAPI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -107,10 +188,67 @@
     <ClCompile Include="collision.cpp">
       <Filter>2DGameFramework\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="imageManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="bullets.cpp">
+      <Filter>playGround\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="txtData.cpp">
+      <Filter>2DGameFramework\txtData</Filter>
+    </ClCompile>
+    <ClCompile Include="pixelCollsion.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>2DGameFramework\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="timeManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>2DGameFramework\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="camel.cpp">
+      <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>2DGameFramework\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="effectManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>2DGameFramework\camera</Filter>
     </ClCompile>
-    <ClCompile Include="imageManager.cpp">
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stageManager.cpp">
+      <Filter>2DGameFramework\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="commonStage.cpp">
+      <Filter>playGround\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="bossStage.cpp">
+      <Filter>playGround\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>

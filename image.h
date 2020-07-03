@@ -1,4 +1,6 @@
 #pragma once
+#include "animation.h"
+
 class image
 {
 public:
@@ -31,14 +33,14 @@ public:
 
 		tagImageInfo()
 		{
-			resID = 0;
-			hMemDC = NULL;
-			hBit = NULL;
-			hOBit = NULL;
-			x = 0;
-			y = 0;
-			width = 0;
-			height = 0;
+			resID	= 0;
+			hMemDC	= NULL;
+			hBit	= NULL;
+			hOBit	= NULL;
+			x		= 0;
+			y		= 0;
+			width	= 0;
+			height	= 0;
 			currentFrameX = 0;
 			currentFrameY = 0;
 			maxFrameX = 0;
@@ -56,6 +58,9 @@ private:
 	BOOL			_trans;		//특정픽셀 제거할꺼니? 유무
 	COLORREF		_transColor;//제거할 특정 픽셀값 정보
 
+	BLENDFUNCTION	_blendFunc;	//알파블렌드 관련 함수
+	LPIMAGE_INFO	_blendImage;//알파블렌드 처리할 이미지정보
+
 public:
 	image();
 	~image();
@@ -63,7 +68,7 @@ public:
 	HRESULT init(int width, int height);
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = FALSE);
-
+	
 	//프레임 이미지 용 초기화 함수
 	HRESULT init(const char* fileName, float x, float y,
 		int width, int height,
@@ -75,7 +80,7 @@ public:
 
 
 	void release();
-
+	
 	//혹시 다른 픽셀값으로 날려야 할때 날려줄 픽셀값 변경할 함수
 	void setTransColor(BOOL trans, COLORREF transColor);
 
@@ -88,7 +93,7 @@ public:
 
 	//렌더함수(뿌려질DC, 그려질 좌표X(left), 그려질 좌표Y(top), 가져올좌표X, 가져올좌표Y, 가져올 가로크기, 가져올 세로크기)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
-
+	
 	//이미지 프레임 렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top))
 	void frameRender(HDC hdc, int destX, int destY);
 
@@ -96,6 +101,16 @@ public:
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
+	void loopRender(HDC hdc, const LPRECT drawArea, float offSetX, float offSetY);
+
+	//알파렌더 (뿌려질DC, 알파값(0 ~ 255))
+	void alphaRender(HDC hdc, BYTE alpha);
+	//알파렌더 (뿌려질DC, 뿌릴위치X, 뿌릴위치Y, 알파값(0 ~ 255))
+	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
+
+	//애니메이션 렌더링용
+	void aniRender(HDC hdc, int destX, int destY, animation* ani);
+
 
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 

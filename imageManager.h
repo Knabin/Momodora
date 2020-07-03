@@ -12,7 +12,7 @@ private:
 
 private:
 	mapImageList _mImageList;
-
+	   
 public:
 	imageManager();
 	~imageManager();
@@ -30,7 +30,7 @@ public:
 	image* findImage(string strKey);
 
 	BOOL deleteImage(string strKey);
-
+	
 	BOOL deleteAll();
 
 	void render(string strKey, HDC hdc);
@@ -38,8 +38,6 @@ public:
 	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 
 	//frameRender는 여러분이 만들어보세요~
-	void frameRender(string strKey, HDC hdc, int destX, int destY);
-	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 };
 

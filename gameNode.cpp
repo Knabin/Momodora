@@ -1,19 +1,6 @@
 #include "stdafx.h"
 #include "gameNode.h"
 
-
-void gameNode::setBackBuffer()
-{
-	_backBuffer = new image;
-	_backBuffer->init(WINSIZEX, WINSIZEY);
-}
-
-void gameNode::setCamera()
-{
-	_camera = new camera;
-	_camera->init(WINSIZEX, WINSIZEY, _backBuffer->getWidth(), _backBuffer->getHeight());
-}
-
 gameNode::gameNode()
 {
 }
@@ -25,34 +12,77 @@ gameNode::~gameNode()
 
 HRESULT gameNode::init()
 {
-	SetTimer(_hWnd, 1, 10, NULL);
-	KEYMANAGER->init();
-	IMAGEMANAGER->init();
-	
-	setBackBuffer();
-	setCamera();
+
+	_hdc = GetDC(_hWnd);
+	_managerInit = false;
+
+
+	return S_OK;
+}
+
+HRESULT gameNode::init(bool managerInit)
+{
+	_hdc = GetDC(_hWnd);
+	_managerInit = managerInit;
+
+	if (_managerInit)
+	{
+	//	SetTimer(_hWnd, 1, 10, NULL);
+		KEYMANAGER->init();
+		IMAGEMANAGER->init();
+		TIMEMANAGER->init();
+		EFFECTMANAGER->init();
+		SOUNDMANAGER->init();
+		SCENEMANAGER->init();
+		TXTDATA->init();
+		CAMERA->init(WINSIZEX, WINSIZEY, WINSIZEX * 2, WINSIZEY);
+	}
 
 	return S_OK;
 }
 
 void gameNode::release()
 {
-	KillTimer(_hWnd, 1);
+	if (_managerInit)
+	{
+	//	KillTimer(_hWnd, 1);
 
-	KEYMANAGER->release();
-	KEYMANAGER->releaseSingleton();
+		KEYMANAGER->release();
+		KEYMANAGER->releaseSingleton();
 
-	IMAGEMANAGER->release();
-	IMAGEMANAGER->releaseSingleton();
+		IMAGEMANAGER->release();
+		IMAGEMANAGER->releaseSingleton();
+
+		TXTDATA->release();
+		TXTDATA->releaseSingleton();
+
+		TIMEMANAGER->release();
+		TIMEMANAGER->releaseSingleton();
+
+		EFFECTMANAGER->release();
+		EFFECTMANAGER->releaseSingleton();
+
+		SOUNDMANAGER->release();
+		SOUNDMANAGER->releaseSingleton();
+
+		SCENEMANAGER->release();
+		SCENEMANAGER->releaseSingleton();
+
+		CAMERA->release();
+		CAMERA->releaseSingleton();
+	}
+	
+	ReleaseDC(_hWnd, _hdc);
 }
 
 void gameNode::update()
 {
-	InvalidateRect(_hWnd, NULL, false);
+	
 }
 
-void gameNode::render(HDC hdc)
+void gameNode::render()
 {
+
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
@@ -67,18 +97,7 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 	switch (iMessage)
 	{
-		case WM_TIMER:
-			this->update();
-		break;
-		case WM_PAINT:
-		{
-			hdc = BeginPaint(hWnd, &ps);
-
-			this->render(hdc);
-
-			EndPaint(hWnd, &ps);
-		}
-		break;
+	
 		case WM_MOUSEMOVE:
 			_ptMouse.x = static_cast<float>(LOWORD(lParam));
 			_ptMouse.y = static_cast<float>(HIWORD(lParam));

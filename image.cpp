@@ -9,7 +9,7 @@ image::image()
 	: _imageInfo(NULL),
 	_fileName(NULL),
 	_trans(false),
-	_transColor(RGB(0, 0, 0))
+	_transColor(RGB(0,0,0))
 {
 }
 
@@ -81,6 +81,20 @@ HRESULT image::init(const char * fileName, int width, int height, BOOL trans, CO
 		return E_FAIL;
 	}
 
+	_blendFunc.BlendFlags = 0;
+	_blendFunc.AlphaFormat = 0;
+	_blendFunc.BlendOp = AC_SRC_OVER;
+
+	_blendImage = new IMAGE_INFO;
+	_blendImage->loadType = LOAD_EMPTY;
+	_blendImage->resID = 0;
+	_blendImage->hMemDC = CreateCompatibleDC(hdc);
+	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+	_blendImage->width = WINSIZEX;
+	_blendImage->height = WINSIZEY;
+
+
 	ReleaseDC(_hWnd, hdc);
 
 	return S_OK;
@@ -125,6 +139,19 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 		return E_FAIL;
 	}
 
+	_blendFunc.BlendFlags = 0;
+	_blendFunc.AlphaFormat = 0;
+	_blendFunc.BlendOp = AC_SRC_OVER;
+
+	_blendImage = new IMAGE_INFO;
+	_blendImage->loadType = LOAD_EMPTY;
+	_blendImage->resID = 0;
+	_blendImage->hMemDC = CreateCompatibleDC(hdc);
+	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+	_blendImage->width = WINSIZEX;
+	_blendImage->height = WINSIZEY;
+
 	ReleaseDC(_hWnd, hdc);
 
 	return S_OK;
@@ -167,6 +194,19 @@ HRESULT image::init(const char * fileName, int width, int height, int frameX, in
 		return E_FAIL;
 	}
 
+	_blendFunc.BlendFlags = 0;
+	_blendFunc.AlphaFormat = 0;
+	_blendFunc.BlendOp = AC_SRC_OVER;
+
+	_blendImage = new IMAGE_INFO;
+	_blendImage->loadType = LOAD_EMPTY;
+	_blendImage->resID = 0;
+	_blendImage->hMemDC = CreateCompatibleDC(hdc);
+	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+	_blendImage->width = WINSIZEX;
+	_blendImage->height = WINSIZEY;
+
 	ReleaseDC(_hWnd, hdc);
 	return S_OK;
 }
@@ -179,8 +219,13 @@ void image::release()
 		DeleteObject(_imageInfo->hBit);
 		DeleteDC(_imageInfo->hMemDC);
 
+		SelectObject(_blendImage->hMemDC, _blendImage->hOBit);
+		DeleteObject(_blendImage->hBit);
+		DeleteDC(_blendImage->hMemDC);
+
 		SAFE_DELETE(_imageInfo);
 		SAFE_DELETE(_fileName);
+		SAFE_DELETE(_blendImage);
 
 		_trans = false;
 		_transColor = RGB(0, 0, 0);
@@ -251,7 +296,7 @@ void image::render(HDC hdc, int destX, int destY)
 			0, 0,					//복사될 X,Y(left, top)
 			SRCCOPY);				//변형없이 복사하겠다
 	}
-
+	
 
 }
 
@@ -415,4 +460,75 @@ void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 	}
 
 
+}
+
+void image::alphaRender(HDC hdc, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			hdc, 0, 0, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			_imageInfo->hMemDC,
+			0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			_transColor);
+
+		AlphaBlend(hdc, _imageInfo->x, _imageInfo->y,
+			_imageInfo->width, _imageInfo->height,
+			_blendImage->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+
+	}
+	else
+	{
+		AlphaBlend(hdc, _imageInfo->x, _imageInfo->y,
+			_imageInfo->width, _imageInfo->height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+	}
+}
+
+void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			hdc, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			_imageInfo->hMemDC,
+			0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			_transColor);
+
+		AlphaBlend(hdc, destX, destY,
+			_imageInfo->width, _imageInfo->height,
+			_blendImage->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY,
+			_imageInfo->width, _imageInfo->height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+	}
+}
+
+void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
+{
+	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
 }

@@ -179,17 +179,3 @@ void imageManager::render(string strKey, HDC hdc, int destX, int destY, int sour
 
 	if (img) img->render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight);
 }
-
-void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY)
-{
-	image* img = findImage(strKey);
-
-	if (img) img->frameRender(hdc, destX, destY);
-}
-
-void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
-{
-	image* img = findImage(strKey);
-
-	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
-}

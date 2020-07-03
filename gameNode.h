@@ -2,14 +2,14 @@
 #include "image.h"
 #include "camera.h"
 
+static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX * 2, WINSIZEY);
+
 class gameNode
 {
 private:
-	image* _backBuffer;
+	HDC _hdc;
+	bool _managerInit;		//매니저들 초기화할꺼니
 	camera* _camera;
-
-	void setBackBuffer();
-	void setCamera();
 
 public:
 	gameNode();
@@ -19,13 +19,17 @@ public:
 	//S_OK, E_FAIL, SUCCDED 등으로 출력창에 
 	//제대로 초기화가 잘됐는지 아닌지를 보여준다
 	virtual HRESULT init();			//초기화 전용 함수
+	virtual HRESULT init(bool managerInit);
 	virtual void release();			//메모리 해제 전용
 	virtual void update();			//연산 전용
-	virtual void render(HDC hdc);	//그리기 전용
+	virtual void render();			//그리기 전용
 
-	//백버퍼 접근자
-	image* getBackBuffer() { return _backBuffer; }
-	camera* getCamera() { return _camera; }
+	//백버퍼 DC메모리 접근자
+	HDC getMemDC() { return _backBuffer->getMemDC(); }
+	HDC getHDC() { return _hdc; }
+
+	int getMemDCWidth() { return _backBuffer->getWidth(); }
+	int getMemDCHeight() { return _backBuffer->getHeight(); }
 
 	LRESULT MainProc(HWND, UINT, WPARAM, LPARAM);
 };

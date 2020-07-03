@@ -25,6 +25,8 @@ HRESULT camera::init(int width, int height, int backWidth, int backHeight)
 	_cameraInfo->backWidth = backWidth;
 	_cameraInfo->backHeight = backHeight;
 
+	_isShaking = false;
+
 	if (_cameraInfo == NULL)
 	{
 		release();
@@ -66,11 +68,16 @@ bool camera::checkCameraY()
 void camera::render(HDC hdc)
 {
 	BitBlt(hdc,
-		0,
+		0 + _shakeAmount * _flag,
 		0,
 		_cameraInfo->width,
 		_cameraInfo->height,
 		_cameraInfo->hMemDC,
-		getLeft(), getTop(),
+		getLeft() , getTop(),
 		SRCCOPY);
+}
+
+void camera::cameraShake()
+{
+	_flag *= -1;
 }

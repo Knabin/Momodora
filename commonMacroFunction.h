@@ -9,6 +9,13 @@ inline void LineMake(HDC hdc, int startX, int startY, int endX, int endY)
 	MoveToEx(hdc, startX, startY, NULL);
 	LineTo(hdc, endX, endY);
 }
+//매크로 펑션 헤더 파일입니다 요로분!!!
+inline POINT PointMake(int x, int y)
+{
+	POINT pt = { x,y };
+
+	return pt;
+}
 
 //================= 렉트 관련 함수 ===================
 //left, top 기준으로 렉트 탄생(left, top, 가로크기, 세로크기)
