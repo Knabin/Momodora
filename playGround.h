@@ -4,8 +4,6 @@
 #include "pixelCollsion.h"
 
 #include "player.h"
-#include "progressBar.h"
-
 #include "stageManager.h"
 #include "bossStage.h"
 #include "commonStage.h"
@@ -32,8 +30,6 @@ private:
 	player* _player;
 
 	vector<string> _vTest;
-
-	progressBar _pgBar;
 
 	int _playerCount;
 

@@ -532,3 +532,204 @@ void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
 }
+
+void image::aniRedRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
+{
+	alphaRedRender(hdc, destX, destY)
+}
+
+void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			hdc, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0,	// 출력할 DC, 출력할 위치
+			_imageInfo->frameWidth,		// 출력할 길이
+			_imageInfo->frameHeight,
+			_imageInfo->hMemDC,			// 가져올 DC
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,	// 가져올 위치
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,		// 가져올 크기
+			_imageInfo->frameHeight,
+			_transColor);
+
+		AlphaBlend(hdc, destX, destY,	// 출력할 dc, 출력할 위치
+			_imageInfo->frameWidth,		// 출력할 이미지 크기
+			_imageInfo->frameHeight,
+			_blendImage->hMemDC,		// 가져올 dc
+			0, 0,						// 가져올 위치 x,y
+			_imageInfo->frameWidth,		// 가져올 크기
+			_imageInfo->frameHeight,
+			_blendFunc);
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
+			_imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight, _blendFunc);
+	}
+}
+
+void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	if (_trans)
+	{
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			hdc, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0,	// 출력할 DC, 출력할 위치
+			_imageInfo->frameWidth,		// 출력할 길이
+			_imageInfo->frameHeight,
+			_imageInfo->hMemDC,			// 가져올 DC
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,	// 가져올 위치
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,		// 가져올 크기
+			_imageInfo->frameHeight,
+			_transColor);
+
+		AlphaBlend(hdc, destX, destY,	// 출력할 dc, 출력할 위치
+			_imageInfo->frameWidth,		// 출력할 이미지 크기
+			_imageInfo->frameHeight,
+			_blendImage->hMemDC,		// 가져올 dc
+			0, 0,						// 가져올 위치 x,y
+			_imageInfo->frameWidth,		// 가져올 크기
+			_imageInfo->frameHeight,
+			_blendFunc);
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
+			_imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight, _blendFunc);
+	}
+
+}
+
+void image::alphaRedRender(HDC hdc, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+	HDC tempDC = CreateCompatibleDC(_imageInfo->hMemDC);
+	HBITMAP tempBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->width, _imageInfo->height);
+	HBITMAP tempOrigin = static_cast<HBITMAP>(SelectObject(tempDC, tempBitMap));
+
+	HDC redDC = CreateCompatibleDC(_imageInfo->hMemDC);
+	HBITMAP redBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->width, _imageInfo->height);
+	HBITMAP redOrigin = static_cast<HBITMAP>(SelectObject(redDC, redBitMap));
+
+	if (_trans)
+	{
+		// 1. redDC에 빨간색 DC 복사 (bitblt : IMAGE_MANAGER(origin redDC) -> redDC)
+		// 2. tempDC에 빨간색 DC 복사 (bitblt : redDC -> tempDC)
+		// 3. tempDC에 캐릭터 그리기(transparent(RGB(255, 0, 255)) : imageDC -> tempDC)
+		// 4. redDC에 alpharender로 그리기 (alphaBlend : tempDC -> redDC) 
+		// 5. 원래 그리려던 DC에 이미지 그리기(transparent(255, 0, 0) : redDC -> hdc)
+
+		BitBlt(redDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			IMAGEMANAGER->findImage("redDC")->getMemDC(), 0, 0, SRCCOPY);
+
+		BitBlt(tempDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			redDC, 0, 0, SRCCOPY);
+
+		GdiTransparentBlt(tempDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, _transColor);
+
+		AlphaBlend(redDC, 0, 0,
+			_imageInfo->width, _imageInfo->height,
+			tempDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+
+		GdiTransparentBlt(hdc, 0, 0, _imageInfo->width, _imageInfo->height,
+			redDC, 0, 0, _imageInfo->width, _imageInfo->height, RGB(255, 0, 0));
+	}
+	else // 여기는 구현 안했습니다.
+	{
+		AlphaBlend(hdc, _imageInfo->x, _imageInfo->y,
+			_imageInfo->width, _imageInfo->height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+	}
+
+	DeleteObject(tempDC);
+	DeleteObject(tempBitMap);
+	DeleteObject(tempOrigin);
+
+	DeleteObject(redDC);
+	DeleteObject(redBitMap);
+	DeleteObject(redOrigin);
+}
+
+void image::alphaRedFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+	HDC tempDC = CreateCompatibleDC(_imageInfo->hMemDC);
+	HBITMAP tempBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->frameWidth, _imageInfo->frameHeight);
+	HBITMAP tempOrigin = static_cast<HBITMAP>(SelectObject(tempDC, tempBitMap));
+
+	HDC redDC = CreateCompatibleDC(_imageInfo->hMemDC);
+	HBITMAP redBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->frameWidth, _imageInfo->frameHeight);
+	HBITMAP redOrigin = static_cast<HBITMAP>(SelectObject(redDC, redBitMap));
+
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	if (_trans)
+	{
+		// 1. redDC에 빨간색 DC 복사 (bitblt : IMAGE_MANAGER(origin redDC) -> redDC)
+		// 2. tempDC에 빨간색 DC 복사 (bitblt : redDC -> tempDC)
+		// 3. tempDC에 캐릭터 그리기(transparent(RGB(255, 0, 255)) : imageDC -> tempDC)
+		// 4. redDC에 alpharender로 그리기 (alphaBlend : tempDC -> redDC) 
+		// 5. 원래 그리려던 DC에 이미지 그리기(transparent(255, 0, 0) : redDC -> hdc)
+
+		BitBlt(redDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			IMAGEMANAGER->findImage("redDC")->getMemDC(), destX, destY, SRCCOPY);
+
+		BitBlt(tempDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			redDC, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(tempDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			_imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _transColor);
+
+		AlphaBlend(redDC, destX, destY,
+			_imageInfo->frameWidth, _imageInfo->frameHeight,
+			tempDC, 0, 0, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _blendFunc);
+
+		GdiTransparentBlt(hdc, destX, destY, _imageInfo->frameWidth, _imageInfo->frameHeight,
+			redDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, RGB(255, 0, 0));
+	}
+	else // 여기는 구현 안했습니다.
+	{
+		AlphaBlend(hdc, _imageInfo->x, _imageInfo->y,
+			_imageInfo->width, _imageInfo->height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width,
+			_imageInfo->height, _blendFunc);
+	}
+
+	DeleteObject(tempDC);
+	DeleteObject(tempBitMap);
+	DeleteObject(tempOrigin);
+
+	DeleteObject(redDC);
+	DeleteObject(redBitMap);
+	DeleteObject(redOrigin);
+}

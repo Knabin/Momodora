@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "progressBar.h"
 
 class player;
 
@@ -15,6 +16,8 @@ class bossStage : public gameNode
 private:
 	image* _image;
 	image* _pixel;
+
+	progressBar _pgBar;
 
 	player* _player;
 

@@ -33,21 +33,30 @@ void pixelCollsion::update()
 	if (_sm->getIsBossStage()) _pixel = IMAGEMANAGER->findImage(_str[2]);
 	else _pixel = IMAGEMANAGER->findImage(_str[_sm->getCurrentIndex()]);
 
+	for (int i = _player->getProbeY() - 20; i <= _player->getProbeY(); i++)
 	{
-		COLORREF color = GetPixel(_pixel->getMemDC(), _player->getX(), _player->getProbeY());
-
-		int r = GetRValue(color);
-		int g = GetGValue(color);
-		int b = GetBValue(color);
-
-		if ((r == 0 && g == 255 && b == 255) && !_player->getIsOnGround())
+		for (int j = _player->getProbeXL() + 10; j <= _player->getProbeXR() - 10; j++)
 		{
-			cout << " ¤Ð¤Ð¤Ð " << endl;
-			_player->setY(_player->getProbeY() - _player->getHeight() / 2);
-			_player->setIsOnGround(true);
+			COLORREF color = GetPixel(_pixel->getMemDC(), j, i);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 0 && g == 255 && b == 255) && !_player->getIsOnGround() && !_player->isJumping())
+			{
+				_player->setY(i - _player->getHeight() / 2);
+				_player->setIsOnGround(true);
+				break;
+			}
+			else
+			{
+				if (!(_player->isFalling() || _player->isJumping()))_player->setIsOnGround(false);
+			}
 		}
 	}
 
+	for (int i = _player->getProbeY() - _player->getHeight() / 2; i < _player->getProbeY(); ++i)
 	{
 		COLORREF color = GetPixel(_pixel->getMemDC(), _player->isLeft() ? _player->getProbeXL() : _player->getProbeXR(), _player->getY() + _player->getWidth() / 4);
 
@@ -58,11 +67,13 @@ void pixelCollsion::update()
 		if ((r == 0 && g == 255 && b == 255))
 		{
 			_player->isLeft() ? _player->setCanMoveLeft(false) : _player->setCanMoveRight(false);
+			break;
 		}
 		else
 		{
 			_player->isLeft() ? _player->setCanMoveLeft(true) : _player->setCanMoveRight(true);
 		}
+
 	}
 
 	/*{

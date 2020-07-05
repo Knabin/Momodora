@@ -101,7 +101,6 @@ public:
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
-	void loopRender(HDC hdc, const LPRECT drawArea, float offSetX, float offSetY);
 
 	//알파렌더 (뿌려질DC, 알파값(0 ~ 255))
 	void alphaRender(HDC hdc, BYTE alpha);
@@ -110,7 +109,16 @@ public:
 
 	//애니메이션 렌더링용
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
+	void aniRedRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
 
+	//프레임 알파렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top), 알파값(0 ~ 255))
+	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);
+	//프레임 알파렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top), 현재 프레임 가로번호, 현재 프레임 세로번호, 알파값(0 ~ 255))
+	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
+
+	void alphaRedRender(HDC hdc, BYTE alpha);
+	void alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	void alphaRedFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 

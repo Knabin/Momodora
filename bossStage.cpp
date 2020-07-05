@@ -17,6 +17,10 @@ HRESULT bossStage::init(int bossNum)
 		break;
 	}
 
+	CAMERA->setBackWidth(960);
+
+	_pgBar.init(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
+
 	return S_OK;
 }
 
@@ -26,10 +30,12 @@ void bossStage::release()
 
 void bossStage::update()
 {
-	CAMERA->setBackWidth(960);
+
+	_pgBar.update();
 }
 
 void bossStage::render()
 {
 	_image->render(getMemDC());
+	_pgBar.render();
 }

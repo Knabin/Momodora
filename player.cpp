@@ -23,9 +23,7 @@ HRESULT player::init()
 	_hitbox.set(0, 0, 48, 48);
 	_hitbox.setCenterPos(_x, _probeY - _height / 4);
 
-	_canMoveLeft = _canMoveRight = true;
-
-	_count = 0;
+	_canMoveLeft = _canMoveRight =  true;
 
 	{
 		_ani_idle = new animation;
@@ -66,6 +64,8 @@ HRESULT player::init()
 
 	_isOnceAttack = false;
 
+	_attackCount = _attackCount2 = 0;
+
 	return S_OK;
 }
 
@@ -91,8 +91,12 @@ void player::update()
 
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _x - _hitbox.getWidth() / 2 >= 0)
 	{
-		if (isJumping() || isFalling()) { _angle = PI / 5 * 3; }
-		else if (_state != LEFT_IDLE && _isOnGround)
+		if (isJumping())
+		{
+			_angle = PI / 5 * 3;
+			setAnimation(LEFT_JUMP);
+		}
+		else if (_state != LEFT_IDLE && _isOnGround && !isFalling())
 		{
 			_stateBefore = _state;
 			_state = LEFT_MOVE;
@@ -138,8 +142,12 @@ void player::update()
 
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _x + _hitbox.getWidth() / 2) //<= _sm->getCurrentWidth())
 	{
-		if (isJumping() || isFalling()) { _angle = PI / 5*2; }
-		else if (_state != RIGHT_IDLE && _isOnGround)
+		if (isJumping()) 
+		{ 
+			_angle = PI / 5*2; 
+			setAnimation(RIGHT_JUMP);
+		}
+		else if (_state != RIGHT_IDLE && _isOnGround && !isFalling())
 		{
 			_stateBefore = _state;
 			_state = RIGHT_MOVE;
@@ -172,13 +180,13 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyDown('A'))
 	{
+		if (!_canMoveRight) _x -= 2;
+		else if (!_canMoveLeft) _x += 2;
+
 		if ((isMoveLeft() || _state == LEFT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 		{
 			_stateBefore = _state;
-			_state = LEFT_JUMP;
-			_image = IMAGEMANAGER->findImage("jump");
-			_ani_jump->setPlayFrame(0, 1, false, true);
-			_ani_jump->start();
+			setAnimation(LEFT_JUMP);
 			_gravity = 0;
 			_isOnGround = false;
 			_angle = PI / 2;
@@ -186,15 +194,11 @@ void player::update()
 		else if ((isMoveRight() || _state == RIGHT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 		{
 			_stateBefore = _state;
-			_state = RIGHT_JUMP;
-			_image = IMAGEMANAGER->findImage("jump");
-			_ani_jump->setPlayFrame(11, 12, false, true);
-			_ani_jump->start();
+			setAnimation(RIGHT_JUMP);
 			_gravity = 0;
 			_isOnGround = false;
 			_angle = PI / 2;
 		}
-
 	}
 
 	if (KEYMANAGER->isOnceKeyDown('S'))
@@ -243,6 +247,20 @@ void player::update()
 		_isAttacking = true;
 	}
 
+	if (KEYMANAGER->isStayKeyDown('S'))
+	{
+		if (_isAttacking)
+		{
+
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	{
+		//image->alphaRedFrameRender(getMemDC(), _x - _width / 2, _y - _height / 2, 0, 0, 100);
+		//IMAGEMANAGER->findImage("idle")->alphaRedRender(getMemDC(), 122);
+	}
+
 	switch (_state)
 	{
 	case LEFT_IDLE: case RIGHT_IDLE:
@@ -281,7 +299,6 @@ void player::update()
 			_image = IMAGEMANAGER->findImage("jump");
 			_state == LEFT_JUMP ? _ani_jump->setPlayFrame(2, 10, false, false) : _ani_jump->setPlayFrame(13, 21, false, false);
 			_state = _state == LEFT_JUMP ? LEFT_FALL : RIGHT_FALL;
-			_gravity = 0;
 		}
 		break;
 	case LEFT_FALL: case RIGHT_FALL:
@@ -301,9 +318,10 @@ void player::update()
 		_y += -sinf(_angle) * _speed + _gravity;
 		_gravity += 0.09f;
 	}
-	if (!isJumping() && !_isOnGround)
+
+	if (!(isJumping() || isFalling()) && !_isOnGround)
 	{
-		_y += 5;
+		_y += 3;
 	}
 
 	_hitbox.setCenterPos(_x, _probeY - _height / 4);
@@ -321,7 +339,8 @@ void player::render()
 	if (DEBUG)
 	{
 		_hitbox.render(getMemDC());
-		RectangleMakeCenter(getMemDC(), _x, _y, 100, 100);
+		//RectangleMakeCenter(getMemDC(), _x, _y, 100, 100);
+		Rectangle(getMemDC(), _probeXL + 10, _probeY - _height / 2, _probeXR - 10, _probeY);
 		RectangleMakeCenter(getMemDC(), _probeXL, _y + _height / 4, 5, 5);
 		RectangleMakeCenter(getMemDC(), _probeXR, _y + _height / 4, 5, 5);
 	}
@@ -330,6 +349,7 @@ void player::render()
 	{
 	case LEFT_IDLE: case RIGHT_IDLE:
 		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle);
+		//_image->aniFrameRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle, RGB(255, 0, 255));
 		break;
 	case LEFT_MOVE: case RIGHT_MOVE:
 		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_run);
@@ -341,6 +361,10 @@ void player::render()
 		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_jump);
 		break;
 	}
+
+	IMAGEMANAGER->findImage("run")->alphaRedFrameRender(getMemDC(), 0, 0, 0, 1, 122);
+	//IMAGEMANAGER->findImage("run")->alphaRedFrameRender(getMemDC(), 300, 0, 1, 1, 122);
+	//IMAGEMANAGER->findImage("idle")->alphaRedRender(getMemDC(), 122);
 }
 
 void player::setAnimation(PLAYERSTATE state)
@@ -389,8 +413,16 @@ void player::setAnimation(PLAYERSTATE state)
 	case RIGHT_ATTACKC:
 		break;
 	case LEFT_JUMP:
+		_state = LEFT_JUMP;
+		_ani_jump->setPlayFrame(0, 1, false, true);
+		_ani_jump->start();
+		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case RIGHT_JUMP:
+		_state = RIGHT_JUMP;
+		_ani_jump->setPlayFrame(11, 12, false, true);
+		_ani_jump->start();
+		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case LEFT_FALL:
 		break;

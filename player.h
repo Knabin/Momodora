@@ -63,8 +63,6 @@ private:
 	bool _canMoveLeft;
 	bool _canMoveRight;
 
-	int _count;
-
 	PLAYERSTATE _state;
 	PLAYERSTATE _stateBefore;
 
@@ -75,6 +73,9 @@ private:
 	animation* _ani_attack;
 	animation* _ani_jump;
 	animation* _ani_dead;
+
+	int _attackCount;
+	int _attackCount2;
 	
 public:
 	virtual HRESULT init();
@@ -139,9 +140,6 @@ public:
 	bool getIsOnGround() { return _isOnGround; }
 	void setIsOnGround(bool isOnGround) 
 	{
-	//	if(isOnGround) //_state = isMoveLeft() ? LEFT_IDLE : RIGHT_IDLE;
-		_image = IMAGEMANAGER->findImage("idle");
-		_state == LEFT_IDLE ? _ani_idle->setPlayFrame(0, 4, false, true) : _ani_idle->setPlayFrame(5, 9, false, true);
 		_isOnGround = isOnGround; 
 		_gravity = 0;
 	}

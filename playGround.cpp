@@ -22,6 +22,8 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addImage("백3", "image/back3.bmp", 960, 723, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("백4", "image/back4.bmp", 960, 723, false, RGB(255, 0, 255));
 
+		IMAGEMANAGER->addImage("redDC", "image/redDC.bmp", 500, 500, false, NULL);
+
 		IMAGEMANAGER->addImage("배경", "image/background.bmp", 1920, 720, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("배경 픽셀", "image/background_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
 		IMAGEMANAGER->addImage("배경2", "image/background2.bmp", 1920, 720, true, RGB(255, 0, 255));
@@ -36,6 +38,8 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("attack2", "image/momo_attack2.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("run", "image/momo_run.bmp", 768, 192, 8, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("jump", "image/momo_jump.bmp", 1056, 192, 11, 2, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addImage("부적", "image/momo_bullet.bmp", 41, 18, false, RGB(0, 0, 0));
 	}
 	_player = new player;
 	_sm = new stageManager;
@@ -69,8 +73,6 @@ HRESULT playGround::init()
 
 	_shakeCount = 0;
 	_isShaking = false;
-
-	_pgBar.init(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
 
 	EFFECTMANAGER->addEffect("left", "image/momo_effect_left.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("left2", "image/momo_effect_left2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
@@ -113,7 +115,6 @@ void playGround::update()
 	}
 
 	EFFECTMANAGER->update();
-	_pgBar.update();
 
 	// ==========================================
 	// ## 카메라 중점 업데이트 ##
@@ -134,9 +135,6 @@ void playGround::render()
 	_player->render();
 	EFFECTMANAGER->render();
 	TIMEMANAGER->render(getMemDC());
-	_pgBar.render();
-
-
 
 	//=============================================
 	_backBuffer->render(CAMERA->getMemDC(), CAMERA->getLeft(), CAMERA->getTop(),
