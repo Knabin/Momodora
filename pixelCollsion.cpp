@@ -45,13 +45,36 @@ void pixelCollsion::update()
 
 			if ((r == 0 && g == 255 && b == 255) && !_player->getIsOnGround() && !_player->isJumping())
 			{
-				_player->setY(i - _player->getHeight() / 2);
-				_player->setIsOnGround(true);
-				break;
+				if (!_player->getIsOnGround() && !_player->isJumping())
+				{
+					_player->setY(i - _player->getHeight() / 2);
+					_player->setIsOnGround(true);
+					break;
+				}
 			}
 			else
 			{
-				if (!(_player->isFalling() || _player->isJumping()))_player->setIsOnGround(false);
+				if (!(_player->isFalling() || _player->isJumping())) _player->setIsOnGround(false);
+			}
+		}
+	}
+
+	for (int i = _player->getProbeYT(); i <= _player->getProbeYT() + 5; ++i)
+	{
+		for (int j = _player->getProbeXL() + 10; j <= _player->getProbeXR() - 10; j++)
+		{
+			COLORREF color = GetPixel(_pixel->getMemDC(), j, i);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if (r == 0 && g == 255 && b == 255)
+			{
+				_player->setY(i);
+				_player->setAnimation(_player->isLeft() ? LEFT_FALL : RIGHT_FALL);
+				_player->setGravity(_player->getSpeed() + 1);
+				break;
 			}
 		}
 	}
@@ -71,7 +94,8 @@ void pixelCollsion::update()
 		}
 		else
 		{
-			_player->isLeft() ? _player->setCanMoveLeft(true) : _player->setCanMoveRight(true);
+			_player->setCanMoveLeft(true);
+			_player->setCanMoveRight(true);
 		}
 
 	}

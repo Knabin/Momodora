@@ -1,4 +1,44 @@
-﻿  image.cpp
+﻿  stdafx.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.h(48): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(51): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(65): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(69): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camera.h(75): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  animation.cpp
+  bossStage.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  bullets.cpp
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(61): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(147): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(163): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(236): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\bullets.cpp(248): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  camel.cpp
+c:\users\ppoxx\source\repos\moonlighter\camel.cpp(44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\camel.cpp(46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  camera.cpp
+c:\users\ppoxx\source\repos\moonlighter\camera.cpp(71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  collision.cpp
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(167): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(168): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(169): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(170): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+  commonStage.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  effect.cpp
+  effectManager.cpp
+  enemy.cpp
+  enemyManager.cpp
+  gameNode.cpp
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(102): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(103): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(96): warning C4101: 'hdc': unreferenced local variable
+c:\users\ppoxx\source\repos\moonlighter\gamenode.cpp(95): warning C4101: 'ps': unreferenced local variable
+  image.cpp
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(68): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(126): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(181): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
@@ -8,21 +48,73 @@ c:\users\ppoxx\source\repos\moonlighter\image.cpp(262): warning C4244: 'argument
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(261): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(483): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\ppoxx\source\repos\moonlighter\image.cpp(491): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\image.cpp(659): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\image.cpp(717): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(664): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\image.cpp(722): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  imageManager.cpp
+  keyManager.cpp
+  pixelCollsion.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(36): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(38): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(64): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\pixelcollsion.cpp(84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  playGround.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   player.cpp
-c:\users\ppoxx\source\repos\moonlighter\player.h(133): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.h(135): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(216): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(221): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(234): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(239): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(343): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(344): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(345): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(351): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(355): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(358): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\moonlighter\player.cpp(361): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(390): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(391): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(392): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(400): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(403): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(406): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(409): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(418): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(421): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(424): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(427): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(430): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(437): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(481): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(486): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(497): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(502): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(555): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(576): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.cpp(591): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  progressBar.cpp
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\progressbar.cpp(51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  sceneManager.cpp
   Generating Code...
+c:\users\ppoxx\source\repos\moonlighter\collision.cpp(82): warning C4715: 'TTYONE_UTIL::checkPointInCircle': not all control paths return a value
+  Compiling...
+  soundManager.cpp
+  stageManager.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  timeManager.cpp
+c:\users\ppoxx\source\repos\moonlighter\timemanager.cpp(49): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\timemanager.cpp(52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\timemanager.cpp(55): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  timer.cpp
+c:\users\ppoxx\source\repos\moonlighter\timer.cpp(61): warning C4244: '=': conversion from 'float' to 'unsigned long', possible loss of data
+  txtData.cpp
+  utils.cpp
+  windowsAPI.cpp
+c:\users\ppoxx\source\repos\moonlighter\player.h(166): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\player.h(168): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\ppoxx\source\repos\moonlighter\windowsapi.cpp(92): warning C4244: 'return': conversion from 'WPARAM' to 'int', possible loss of data
+  Generating Code...
+c:\users\ppoxx\source\repos\moonlighter\txtdata.cpp(58): warning C4172: returning address of local variable or temporary: str
   windowsAPI.vcxproj -> C:\Users\ppoxx\source\repos\Moonlighter\x64\Debug\windowsAPI.exe

@@ -117,8 +117,7 @@ public:
 	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
 	void alphaRedRender(HDC hdc, BYTE alpha);
-	void alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
-	void alphaRedFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
+	void alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 

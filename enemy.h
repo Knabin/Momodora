@@ -42,3 +42,4 @@ public:
 	//렉트 접근자
 	inline RECT getRect() { return _rc; }
 };
+

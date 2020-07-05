@@ -535,7 +535,7 @@ void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
 
 void image::aniRedRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
 {
-	alphaRedRender(hdc, destX, destY)
+	alphaRedRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
 }
 
 void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
@@ -676,19 +676,16 @@ void image::alphaRedRender(HDC hdc, BYTE alpha)
 	DeleteObject(redOrigin);
 }
 
-void image::alphaRedFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+void image::alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 	HDC tempDC = CreateCompatibleDC(_imageInfo->hMemDC);
-	HBITMAP tempBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->frameWidth, _imageInfo->frameHeight);
+	HBITMAP tempBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, sourWidth, sourHeight);
 	HBITMAP tempOrigin = static_cast<HBITMAP>(SelectObject(tempDC, tempBitMap));
 
 	HDC redDC = CreateCompatibleDC(_imageInfo->hMemDC);
-	HBITMAP redBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, _imageInfo->frameWidth, _imageInfo->frameHeight);
+	HBITMAP redBitMap = CreateCompatibleBitmap(_imageInfo->hMemDC, sourWidth, sourHeight);
 	HBITMAP redOrigin = static_cast<HBITMAP>(SelectObject(redDC, redBitMap));
-
-	_imageInfo->currentFrameX = currentFrameX;
-	_imageInfo->currentFrameY = currentFrameY;
 
 	if (_trans)
 	{
@@ -698,24 +695,27 @@ void image::alphaRedFrameRender(HDC hdc, int destX, int destY, int currentFrameX
 		// 4. redDC에 alpharender로 그리기 (alphaBlend : tempDC -> redDC) 
 		// 5. 원래 그리려던 DC에 이미지 그리기(transparent(255, 0, 0) : redDC -> hdc)
 
-		BitBlt(redDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			IMAGEMANAGER->findImage("redDC")->getMemDC(), destX, destY, SRCCOPY);
+		// redDC의 0,0에 사진 크기만큼 빨간색 사진을 복사한다!
+		BitBlt(redDC, 0, 0, sourWidth, sourHeight,
+			IMAGEMANAGER->findImage("redDC")->getMemDC(), 0, 0, SRCCOPY);
 
-		BitBlt(tempDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			redDC, destX, destY, SRCCOPY);
+		// tempDC의 0,0에 사진 크기만큼 redDC에서 가져온다
+		BitBlt(tempDC, 0, 0, sourWidth, sourHeight,
+			redDC, 0, 0, SRCCOPY);
 
-		GdiTransparentBlt(tempDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			_imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth,
-			_imageInfo->currentFrameY * _imageInfo->frameHeight,
-			_imageInfo->frameWidth, _imageInfo->frameHeight, _transColor);
+		// tempDC의 0,0에 사진 크기만큼 해당 사진을 복사해 온다
+		GdiTransparentBlt(tempDC, 0, 0, sourWidth, sourHeight,
+			_imageInfo->hMemDC, sourX, sourY,
+			sourWidth, sourHeight, _transColor);
 
-		AlphaBlend(redDC, destX, destY,
-			_imageInfo->frameWidth, _imageInfo->frameHeight,
-			tempDC, 0, 0, _imageInfo->frameWidth,
-			_imageInfo->frameHeight, _blendFunc);
+		// redDC에 alpha로 
+		AlphaBlend(redDC, 0, 0,
+			sourWidth, sourHeight,
+			tempDC, 0, 0, sourWidth,
+			sourHeight, _blendFunc);
 
-		GdiTransparentBlt(hdc, destX, destY, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			redDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, RGB(255, 0, 0));
+		GdiTransparentBlt(hdc, destX, destY, sourWidth, sourHeight,
+			redDC, 0, 0, sourWidth, sourHeight, RGB(255, 0, 0));
 	}
 	else // 여기는 구현 안했습니다.
 	{

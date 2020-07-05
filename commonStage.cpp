@@ -59,7 +59,7 @@ void commonStage::update()
 	{
 		++_loopCount;
 
-		if (CAMERA->checkCameraX() && _player->isMoveRight())
+		if (CAMERA->checkCameraX() && _player->isMovingRight())
 		{
 			if (_loopCount > 3)
 			{
@@ -70,7 +70,7 @@ void commonStage::update()
 				_loopCount = 0;
 			}
 		}
-		else if (CAMERA->checkCameraX() && _player->isMoveLeft())
+		else if (CAMERA->checkCameraX() && _player->isMovingLeft())
 		{
 			if (_loopCount > 3)
 			{

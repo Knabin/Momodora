@@ -9,10 +9,12 @@ HRESULT player::init()
 	_width = _height = 96;
 
 	_image = IMAGEMANAGER->findImage("idle");
+	_effect = IMAGEMANAGER->findImage("effect_charge");
 	_isOnGround = false;
 	_state = RIGHT_IDLE;
 
 	_probeY = _y + _height / 2;
+	_probeYT = _y;
 	_probeXL = _x - _width / 2;
 	_probeXR = _x + _width / 2;
 
@@ -57,14 +59,31 @@ HRESULT player::init()
 			IMAGEMANAGER->findImage("jump")->getFrameHeight());
 		_ani_jump->setDefPlayFrame(false, false);
 		_ani_jump->setFPS(1);
+
+		_ani_throw = new animation;
+		_ani_throw->init(IMAGEMANAGER->findImage("throw")->getWidth(),
+			IMAGEMANAGER->findImage("throw")->getHeight(),
+			IMAGEMANAGER->findImage("throw")->getFrameWidth(),
+			IMAGEMANAGER->findImage("throw")->getFrameHeight());
+		_ani_throw->setDefPlayFrame(false, false);
+		_ani_throw->setFPS(1);
+
+		_ani_effect_charge = new animation;
+		_ani_effect_charge->init(_effect->getWidth(),
+			_effect->getHeight(),
+			_effect->getFrameWidth(),
+			_effect->getFrameHeight());
+		_ani_effect_charge->setDefPlayFrame(false, true);
+		_ani_effect_charge->setPlayFrame(0, 10, false, true);
+		_ani_effect_charge->setFPS(1);
 	}
 
-	_ani_idle->setPlayFrame(5, 9, false, true);
+	_ani_idle->setPlayFrame(5, 9, false, false);
 	_ani_idle->start();
 
-	_isOnceAttack = false;
-
 	_attackCount = _attackCount2 = 0;
+	_redAlpha = 0;
+	_isOnceAttack = _charge = _chargeFull = false;
 
 	return S_OK;
 }
@@ -78,14 +97,9 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_state != LEFT_MOVE && !isJumping() && !isFalling())
+		if (_state != LEFT_MOVE && !isJumping() && !isFalling() && !isAttacking())
 		{
-			_stateBefore = _state;
-			_ani_idle->stop();
-			_state = LEFT_MOVE;
-			_image = IMAGEMANAGER->findImage("run");
-			_ani_run->setPlayFrame(0, 7, false, true);
-			_ani_run->start();
+			setAnimation(LEFT_MOVE);
 		}
 	}
 
@@ -96,7 +110,7 @@ void player::update()
 			_angle = PI / 5 * 3;
 			setAnimation(LEFT_JUMP);
 		}
-		else if (_state != LEFT_IDLE && _isOnGround && !isFalling())
+		else if (_state != LEFT_IDLE && _isOnGround && !isFalling() && !isAttacking())
 		{
 			_stateBefore = _state;
 			_state = LEFT_MOVE;
@@ -112,50 +126,50 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
-		if (isJumping() || isFalling())
+		if (_state != LEFT_IDLE)
+		{
+			if (_isOnGround)
+			{
+				setAnimation(LEFT_IDLE);
+			}
+			else if (!(isFalling() || isJumping() || isAttacking()))
+			{
+				setAnimation(LEFT_FALL);
+				_stateBefore = LEFT_IDLE;
+				_angle = PI / 5 * 3;
+				_gravity = _speed + 0.2f;
+			}
+		}
+		if (isJumping() || isFalling() || isAttacking())
 		{
 			_stateBefore = LEFT_IDLE;
-		}
-		if (_state != LEFT_IDLE && _isOnGround)
-		{
-			_ani_run->stop();
-			_stateBefore = _state;
-			_state = LEFT_IDLE;
-			_image = IMAGEMANAGER->findImage("idle");
-			_ani_idle->setPlayFrame(0, 4, false, true);
-			_ani_idle->start();
 		}
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_state != RIGHT_MOVE && !isJumping() && !isFalling())
+		if (_state != RIGHT_MOVE && !isJumping() && !isFalling() && !isAttacking())
 		{
-			_ani_idle->stop();
-			_stateBefore = _state;
-			_state = RIGHT_MOVE;
-			_image = IMAGEMANAGER->findImage("run");
-			_ani_run->setPlayFrame(8, 15, false, true);
-			_ani_run->start();
+			setAnimation(RIGHT_MOVE);
 		}
 	}
 
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _x + _hitbox.getWidth() / 2) //<= _sm->getCurrentWidth())
 	{
-		if (isJumping()) 
-		{ 
-			_angle = PI / 5*2; 
+		if (isJumping())
+		{
+			_angle = PI / 5 * 2;
 			setAnimation(RIGHT_JUMP);
 		}
-		else if (_state != RIGHT_IDLE && _isOnGround && !isFalling())
+		else if (_state != RIGHT_IDLE && _isOnGround && !isFalling() && !isAttacking())
 		{
 			_stateBefore = _state;
 			_state = RIGHT_MOVE;
 			if (!_ani_run->isPlay())
 			{
-			_image = IMAGEMANAGER->findImage("run");
-			_ani_run->setPlayFrame(8, 15, false, true);
-			_ani_run->start();
+				_image = IMAGEMANAGER->findImage("run");
+				_ani_run->setPlayFrame(8, 15, false, true);
+				_ani_run->start();
 			}
 		}
 		if (_state == RIGHT_MOVE && _ani_run->isPlay() && _canMoveRight) _x += 3;
@@ -163,18 +177,29 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
-		if (isJumping() || isFalling())
+		if (_state != RIGHT_IDLE)
+		{
+			if (_isOnGround)
+			{
+				_ani_run->stop();
+				_stateBefore = _state;
+				_state = RIGHT_IDLE;
+				_image = IMAGEMANAGER->findImage("idle");
+				_ani_idle->setPlayFrame(5, 9, false, true);
+				_ani_idle->start();
+			}
+			else if (!(isFalling() || isJumping() || isAttacking()))
+			{
+				_ani_run->stop();
+				setAnimation(RIGHT_FALL);
+				_angle = PI / 5 * 2;
+				_gravity = _speed + 0.2f;
+			}
+		}
+
+		if (isJumping() || isFalling() || isAttacking())
 		{
 			_stateBefore = RIGHT_IDLE;
-		}
-		if (_state != RIGHT_IDLE && _isOnGround)
-		{
-			_ani_run->stop();
-			_stateBefore = _state;
-			_state = RIGHT_IDLE;
-			_image = IMAGEMANAGER->findImage("idle");
-			_ani_idle->setPlayFrame(5, 9, false, true);
-			_ani_idle->start();
 		}
 	}
 
@@ -183,7 +208,7 @@ void player::update()
 		if (!_canMoveRight) _x -= 2;
 		else if (!_canMoveLeft) _x += 2;
 
-		if ((isMoveLeft() || _state == LEFT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
+		if ((isMovingLeft() || _state == LEFT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 		{
 			_stateBefore = _state;
 			setAnimation(LEFT_JUMP);
@@ -191,7 +216,7 @@ void player::update()
 			_isOnGround = false;
 			_angle = PI / 2;
 		}
-		else if ((isMoveRight() || _state == RIGHT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
+		else if ((isMovingRight() || _state == RIGHT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 		{
 			_stateBefore = _state;
 			setAnimation(RIGHT_JUMP);
@@ -205,60 +230,75 @@ void player::update()
 	{
 		if (_state != LEFT_ATTACK && _state != RIGHT_ATTACK)
 		{
-			if (isMoveLeft() || _state == LEFT_IDLE)
+			if (isMovingLeft() || _state == LEFT_IDLE)
 			{
-				_stateBefore = _state;
-				_state = LEFT_ATTACK;
-				_ani_attack->setPlayFrame(0, 3, false, false);
-				if (_isOnceAttack)
-				{
-					_image = IMAGEMANAGER->findImage("attack2");
-					EFFECTMANAGER->play("left2", _x, _y + 10);
-				}
-				else
-				{
-					_image = IMAGEMANAGER->findImage("attack");
-					EFFECTMANAGER->play("left", _x, _y + 10);
-				}
-
+				setAnimation(LEFT_ATTACK);
 			}
 			else
 			{
-				_stateBefore = _state;
-				_state = RIGHT_ATTACK;
-				_ani_attack->setPlayFrame(4, 7, false, false);
-
-				if (_isOnceAttack)
-				{
-					_image = IMAGEMANAGER->findImage("attack2");
-					EFFECTMANAGER->play("right2", _x, _y + 10);
-				}
-				else
-				{
-					_image = IMAGEMANAGER->findImage("attack");
-					EFFECTMANAGER->play("right", _x, _y + 10);
-				}
-
+				setAnimation(RIGHT_ATTACK);
 			}
-			_ani_attack->start();
-
 			_isOnceAttack = !_isOnceAttack;
 		}
-		_isAttacking = true;
+		//TODO: 충돌 시에만
+		_isCameraShaking = true;
 	}
 
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
-		if (_isAttacking)
-		{
+		++_attackCount;
 
+		if (_attackCount >= 30 && !_charge)
+		{
+			_charge = true;
+			cout << "charge on" << endl;
+			_ani_effect_charge->start();
+		}
+
+		if (_charge)
+		{
+			++_attackCount2;
+			if (_chargeFull && _redAlpha <= 250) _redAlpha += 5;
+			if (_redAlpha <= 252) _redAlpha += 3;
+
+			if (_attackCount2 >= 130 && !_chargeFull)
+			{
+				_chargeFull = true;
+				_ani_effect_charge->stop();
+				_redAlpha = 0;
+				cout << "charge full on" << endl;
+			}
+		}
+
+		if (_ani_effect_charge->isPlay())
+		{
+			_ani_effect_charge->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	if (KEYMANAGER->isOnceKeyUp('S'))
 	{
-		//image->alphaRedFrameRender(getMemDC(), _x - _width / 2, _y - _height / 2, 0, 0, 100);
-		//IMAGEMANAGER->findImage("idle")->alphaRedRender(getMemDC(), 122);
+		if (_chargeFull)
+		{
+			// 차지 공격
+			setAnimation(isLeft() ? LEFT_ATTACKC : RIGHT_ATTACKC);
+			cout << "차지 공격" << endl;
+			fireChargeBullet();
+		}
+		else if (_charge)
+		{
+			// 원거리 공격
+			setAnimation(isLeft() ? LEFT_ATTACKC : RIGHT_ATTACKC);
+			cout << "원거리 공격" << endl;
+			fireBullet();
+		}
+
+		_charge = false;
+		_chargeFull = false;
+		_attackCount = 0;
+		_attackCount2 = 0;
+		_redAlpha = 0;
+		_ani_effect_charge->stop();
 	}
 
 	switch (_state)
@@ -273,22 +313,16 @@ void player::update()
 		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 20);
 		if (!_ani_attack->isPlay())
 		{
-			if (_state == LEFT_ATTACK)
-			{
-				_stateBefore = _state;
-				_state = LEFT_IDLE;
-				_image = IMAGEMANAGER->findImage("idle");
-				_ani_idle->setPlayFrame(0, 4, false, true);
-				_ani_idle->start();
-			}
-			else
-			{
-				_stateBefore = _state;
-				_state = RIGHT_IDLE;
-				_image = IMAGEMANAGER->findImage("idle");
-				_ani_idle->setPlayFrame(5, 9, false, true);
-				_ani_idle->start();
-			}
+			if (_state == LEFT_ATTACK) setAnimation(LEFT_IDLE);
+			else setAnimation(RIGHT_IDLE);
+		}
+		break;
+	case LEFT_ATTACKC: case RIGHT_ATTACKC:
+		_ani_throw->frameUpdate(TIMEMANAGER->getElapsedTime() * 15);
+		if (!_ani_throw->isPlay())
+		{
+			if (_state == LEFT_ATTACKC) setAnimation(LEFT_IDLE);
+			else setAnimation(RIGHT_IDLE);
 		}
 		break;
 	case LEFT_JUMP: case RIGHT_JUMP:
@@ -314,9 +348,20 @@ void player::update()
 
 	if ((isJumping() || isFalling()) && !_isOnGround)
 	{
-		_x += cosf(_angle) * _speed;
-		_y += -sinf(_angle) * _speed + _gravity;
-		_gravity += 0.09f;
+		if (isJumping() && !(_angle >= PI / 2 && _canMoveLeft || _angle <= PI / 2 && _canMoveRight))
+		{
+			setAnimation(isLeft() ? LEFT_FALL : RIGHT_FALL);
+		}
+		else if (isFalling() && (!_canMoveLeft || !_canMoveRight))
+		{
+			_y += 5;
+		}
+		else
+		{
+			_x += cosf(_angle) * _speed;
+			_y += -sinf(_angle) * _speed + _gravity;
+			_gravity += 0.09f;
+		}
 	}
 
 	if (!(isJumping() || isFalling()) && !_isOnGround)
@@ -330,6 +375,9 @@ void player::update()
 	_probeXL = _hitbox.left;
 	_probeXR = _hitbox.right;
 	_probeY = _y + _height / 2;
+	_probeYT = _y;
+
+	moveBullet();
 
 	cout << "모모 상태: " << _state << " 이전: " << _stateBefore << endl;
 }
@@ -339,32 +387,58 @@ void player::render()
 	if (DEBUG)
 	{
 		_hitbox.render(getMemDC());
-		//RectangleMakeCenter(getMemDC(), _x, _y, 100, 100);
-		Rectangle(getMemDC(), _probeXL + 10, _probeY - _height / 2, _probeXR - 10, _probeY);
+		Rectangle(getMemDC(), _probeXL + 10, _probeYT, _probeXR - 10, _probeYT + 10);
 		RectangleMakeCenter(getMemDC(), _probeXL, _y + _height / 4, 5, 5);
 		RectangleMakeCenter(getMemDC(), _probeXR, _y + _height / 4, 5, 5);
 	}
 
-	switch (_state)
+	if (_charge)
 	{
-	case LEFT_IDLE: case RIGHT_IDLE:
-		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle);
-		//_image->aniFrameRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle, RGB(255, 0, 255));
-		break;
-	case LEFT_MOVE: case RIGHT_MOVE:
-		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_run);
-		break;
-	case LEFT_ATTACK: case RIGHT_ATTACK:
-		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_attack);
-		break;
-	case LEFT_JUMP: case RIGHT_JUMP: case LEFT_FALL:  case RIGHT_FALL:
-		_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_jump);
-		break;
+		switch (_state)
+		{
+		case LEFT_IDLE: case RIGHT_IDLE:
+			_image->aniRedRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle, _redAlpha);
+			break;
+		case LEFT_MOVE: case RIGHT_MOVE:
+			_image->aniRedRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_run, _redAlpha);
+			break;
+		case LEFT_ATTACK: case RIGHT_ATTACK:
+			_image->aniRedRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_attack, _redAlpha);
+			break;
+		case LEFT_JUMP: case RIGHT_JUMP: case LEFT_FALL:  case RIGHT_FALL:
+			_image->aniRedRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_jump, _redAlpha);
+			break;
+		}
+	}
+	
+	else {
+		switch (_state)
+		{
+		case LEFT_IDLE: case RIGHT_IDLE:
+			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_idle);
+			break;
+		case LEFT_MOVE: case RIGHT_MOVE:
+			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_run);
+			break;
+		case LEFT_ATTACK: case RIGHT_ATTACK:
+			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_attack);
+			break;
+		case LEFT_ATTACKC: case RIGHT_ATTACKC:
+			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_throw);
+			break;
+		case LEFT_JUMP: case RIGHT_JUMP: case LEFT_FALL:  case RIGHT_FALL:
+			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_jump);
+			break;
+		}
 	}
 
-	IMAGEMANAGER->findImage("run")->alphaRedFrameRender(getMemDC(), 0, 0, 0, 1, 122);
-	//IMAGEMANAGER->findImage("run")->alphaRedFrameRender(getMemDC(), 300, 0, 1, 1, 122);
-	//IMAGEMANAGER->findImage("idle")->alphaRedRender(getMemDC(), 122);
+	if (_charge && _ani_effect_charge->isPlay())
+	{
+		_effect->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2 + 20, _ani_effect_charge);
+	}
+
+	renderBullet();
+
 }
 
 void player::setAnimation(PLAYERSTATE state)
@@ -373,64 +447,169 @@ void player::setAnimation(PLAYERSTATE state)
 	_ani_run->stop();
 	_ani_attack->stop();
 	_ani_jump->stop();
+	_ani_throw->stop();
+
+	_state = state;
 
 	switch (state)
 	{
 	case LEFT_IDLE:
-		_state = LEFT_IDLE;
 		_ani_idle->setPlayFrame(0, 4, false, true);
 		_ani_idle->start();
 		_image = IMAGEMANAGER->findImage("idle");
 		break;
 	case RIGHT_IDLE:
-		_state = RIGHT_IDLE;
 		_ani_idle->setPlayFrame(5, 9, false, true);
 		_ani_idle->start();
 		_image = IMAGEMANAGER->findImage("idle");
 		break;
 	case LEFT_MOVE:
-		_state = LEFT_MOVE;
 		_ani_run->setPlayFrame(0, 7, false, true);
 		_ani_run->start();
 		_image = IMAGEMANAGER->findImage("run");
 		break;
 	case RIGHT_MOVE:
-		_state = RIGHT_MOVE;
 		_ani_run->setPlayFrame(8, 15, false, true);
 		_ani_run->start();
 		_image = IMAGEMANAGER->findImage("run");
 		break;
 	case LEFT_ATTACK:
+		_ani_attack->setPlayFrame(0, 3, false, false);
+		if (_isOnceAttack)
+		{
+			_image = IMAGEMANAGER->findImage("attack2");
+			EFFECTMANAGER->play("left2", _x, _y + 10);
+		}
+		else
+		{
+			_image = IMAGEMANAGER->findImage("attack");
+			EFFECTMANAGER->play("left", _x, _y + 10);
+		}
+		_ani_attack->start();
 		break;
 	case RIGHT_ATTACK:
-		break;
-	case LEFT_ATTACKB:
-		break;
-	case RIGHT_ATTACKB:
+		_ani_attack->setPlayFrame(4, 7, false, false);
+
+
+		if (_isOnceAttack)
+		{
+			_image = IMAGEMANAGER->findImage("attack2");
+			EFFECTMANAGER->play("right2", _x, _y + 10);
+		}
+		else
+		{
+			_image = IMAGEMANAGER->findImage("attack");
+			EFFECTMANAGER->play("right", _x, _y + 10);
+		}
+		_ani_attack->start();
 		break;
 	case LEFT_ATTACKC:
+		_ani_throw->setPlayFrame(0, 2, false, false);
+		_ani_throw->start();
+		_image = IMAGEMANAGER->findImage("throw");
 		break;
 	case RIGHT_ATTACKC:
+		_ani_throw->setPlayFrame(3, 5, false, false);
+		_ani_throw->start();
+		_image = IMAGEMANAGER->findImage("throw");
 		break;
 	case LEFT_JUMP:
-		_state = LEFT_JUMP;
 		_ani_jump->setPlayFrame(0, 1, false, true);
 		_ani_jump->start();
 		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case RIGHT_JUMP:
-		_state = RIGHT_JUMP;
 		_ani_jump->setPlayFrame(11, 12, false, true);
 		_ani_jump->start();
 		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case LEFT_FALL:
+		_ani_jump->setPlayFrame(2, 10, false, false);
+		_ani_jump->start();
+		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case RIGHT_FALL:
+		_ani_jump->setPlayFrame(13, 21, false, false);
+		_ani_jump->start();
+		_image = IMAGEMANAGER->findImage("jump");
 		break;
 	case LEFT_DEAD:
 		break;
 	case RIGHT_DEAD:
 		break;
 	}
+}
+
+void player::fireBullet()
+{
+	tagBullet bullet;
+	ZeroMemory(&bullet, sizeof(bullet));
+
+	bullet.image = IMAGEMANAGER->findImage("부적");
+	bullet.speed = 7.0f;
+	bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
+	bullet.y = bullet.fireY = _y + 25;
+	bullet.angle = isLeft() ? PI : 0;
+	bullet.range = 100;
+
+	bullet.rc = RectMakeCenter(bullet.x, bullet.y,
+		bullet.image->getWidth(),
+		bullet.image->getHeight());
+
+	_vBullet.push_back(bullet);
+}
+
+void player::fireChargeBullet()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		tagBullet bullet;
+		ZeroMemory(&bullet, sizeof(bullet));
+
+		bullet.image = IMAGEMANAGER->findImage("부적");
+		bullet.speed = 7.0f;
+		bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
+		bullet.y = bullet.fireY = _y + 25;
+		bullet.angle = (isLeft() ? PI : 0) + (1 - i) * 0.5f;
+		bullet.range = 100;
+
+		bullet.rc = RectMakeCenter(bullet.x, bullet.y,
+			bullet.image->getWidth(),
+			bullet.image->getHeight());
+
+		_vBullet.push_back(bullet);
+	}
+}
+
+void player::moveBullet()
+{
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); )
+	{
+		//_viBullet->x += (_viBullet->angle == PI) ? -_viBullet->speed : _viBullet->speed;
+		_viBullet->x += cosf(_viBullet->angle) * _viBullet->speed;
+		_viBullet->y += -sinf(_viBullet->angle) * _viBullet->speed;
+		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
+			_viBullet->image->getWidth(), _viBullet->image->getHeight());
+
+		if (_viBullet->range < getDistance(_viBullet->x, _viBullet->y,
+			_viBullet->fireX, _viBullet->fireY))
+		{
+			_viBullet = _vBullet.erase(_viBullet);
+		}
+		else ++_viBullet;
+	}
+}
+
+void player::renderBullet()
+{
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
+	{
+		_viBullet->image->render(getMemDC(),
+			_viBullet->rc.left, _viBullet->rc.top);
+	}
+}
+
+void player::removeBullet(int index)
+{
+	_vBullet.erase(_vBullet.begin() + index);
 }

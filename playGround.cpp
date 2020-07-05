@@ -38,6 +38,9 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("attack2", "image/momo_attack2.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("run", "image/momo_run.bmp", 768, 192, 8, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("jump", "image/momo_jump.bmp", 1056, 192, 11, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("throw", "image/momo_throw.bmp", 288, 192, 3, 2, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addFrameImage("effect_charge", "image/momo_effect_charge.bmp", 1056, 100, 11, 1, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("부적", "image/momo_bullet.bmp", 41, 18, false, RGB(0, 0, 0));
 	}
@@ -78,6 +81,7 @@ HRESULT playGround::init()
 	EFFECTMANAGER->addEffect("left2", "image/momo_effect_left2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right", "image/momo_effect_right.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right2", "image/momo_effect_right2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
+	
 
 	// ==========================================
 	// ## 카메라 중점 초기화 ##
@@ -102,7 +106,7 @@ void playGround::update()
 	_pixel->update();
 	_sm->update();
 
-	if (_player->getIsAttacking())
+	if (_player->getIsCameraShaking())
 	{
 		CAMERA->setIsShaking(true);
 		++_shakeCount;
@@ -110,7 +114,7 @@ void playGround::update()
 		{
 			_shakeCount = 0;
 			CAMERA->setIsShaking(false);
-			_player->setIsAttacking(false);
+			_player->setIsCameraShaking(false);
 		}
 	}
 

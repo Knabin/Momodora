@@ -28,7 +28,7 @@ void bullet::render()
 	}
 }
 
-void bullet::fire(float x, float y, float angle, float speed)
+void bullet::fireBullet(float x, float y, float angle, float speed)
 {
 	if (_bulletMax < _vBullet.size()) return;
 
@@ -133,7 +133,7 @@ void missile::render()
 	}
 }
 
-void missile::fire(float x, float y)
+void missile::fireBullet(float x, float y)
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
 	{
@@ -218,7 +218,7 @@ void jumo::render()
 
 }
 
-void jumo::fire(float x, float y)
+void jumo::fireBullet(float x, float y)
 {
 	//총알의 최대갯수보다 더 생성되면 실행하지마라
 	if (_bulletMax < _vBullet.size()) return;

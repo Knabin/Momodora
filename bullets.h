@@ -39,7 +39,7 @@ public:
 	void update();
 	void render();
 
-	void fire(float x, float y, float angle, float speed);
+	void fireBullet(float x, float y, float angle, float speed);
 
 	void move();
 	
@@ -69,7 +69,7 @@ public:
 	void update();
 	void render();
 
-	void fire(float x, float y);
+	void fireBullet(float x, float y);
 
 	void move();
 };
@@ -93,7 +93,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void fire(float x, float y);
+	void fireBullet(float x, float y);
 
 	void move();
 

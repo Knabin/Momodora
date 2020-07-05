@@ -53,7 +53,7 @@ using namespace TTYONE_UTIL;
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
 
-#define DEBUG true
+#define DEBUG false
 
 //====================================
 // ## 20.05.29 ## Extern ##
