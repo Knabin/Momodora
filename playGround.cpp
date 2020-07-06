@@ -49,6 +49,10 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("몬스터1 프레임", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터2", "image/monkey_move.bmp", 576, 192, 6, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터2 공격", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("몬스터3 왼쪽", "image/bakman_left.bmp", 144, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("몬스터3 오른쪽", "image/bakman_right.bmp", 144, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터3 공격", "image/bakman.bmp", 1872, 192, 13, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("몬스터3 블록", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
 	}
 
 	_player = new player;

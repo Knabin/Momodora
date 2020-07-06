@@ -54,6 +54,20 @@ HRESULT stageManager::init()
 	dynamic_cast<oko*>(e)->setObjectRect(_rc2);
 	common2->insertIntoEnemyVector(e);
 
+	enemy* m = new monkey;
+	m->init();
+	common2->insertIntoEnemyVector(m);
+
+	enemy* b = new bakman;
+	b->init({ 470, 428 });
+	b->setPlayerMemoryAddressLink(_player);
+	common2->insertIntoEnemyVector(b);
+
+	enemy* b2 = new bakman;
+	b2->init({ 1000, 480 });
+	b2->setPlayerMemoryAddressLink(_player);
+	common2->insertIntoEnemyVector(b2);
+
 	SCENEMANAGER->addScene(_vStageName[0], common1);
 	SCENEMANAGER->addScene(_vStageName[1], common2);
 	SCENEMANAGER->addScene(_vStageName[2], common3);

@@ -121,7 +121,7 @@ void player::update()
 				_ani_run->start();
 			}
 		}
-		if (_state == LEFT_MOVE && _ani_run->isPlay() && _canMoveLeft) _x -= 3;
+		if (_state == LEFT_MOVE && _ani_run->isPlay() && _canMoveLeft) _x -= 4;
 	}
 
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
@@ -172,7 +172,7 @@ void player::update()
 				_ani_run->start();
 			}
 		}
-		if (_state == RIGHT_MOVE && _ani_run->isPlay() && _canMoveRight) _x += 3;
+		if (_state == RIGHT_MOVE && _ani_run->isPlay() && _canMoveRight) _x += 4;
 	}
 
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
