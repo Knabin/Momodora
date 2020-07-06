@@ -1,8 +1,6 @@
 #pragma once
 #include "gameNode.h"
 
-class player;
-
 enum
 {
 	STAGE1,
@@ -10,9 +8,15 @@ enum
 	STAGE3
 };
 
+class player;
+class enemy;
+
 class commonStage : public gameNode
 {
 private:
+	vector<enemy *> _vEnemy;
+	vector<enemy *>::iterator _viEnemy;
+
 	image* _image;
 	image* _pixel;
 
@@ -31,6 +35,7 @@ private:
 
 
 public:
+
 	// STAGE1 = 0, STAGE2 = 1, STAGE3 = 2
 	virtual HRESULT init(int stageNum);
 	virtual void release();
@@ -38,5 +43,8 @@ public:
 	virtual void render();
 
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
+
+	vector<enemy *>& getEnemyVector() { return _vEnemy; }
+	void insertIntoEnemyVector(enemy * e) { _vEnemy.push_back(e); }
 };
 

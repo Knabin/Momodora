@@ -1,31 +1,30 @@
 #include "stdafx.h"
 #include "commonStage.h"
 #include "player.h"
+#include "enemy.h"
 
 HRESULT commonStage::init(int stageNum)
 {
-	switch (stageNum)
-	{
-	case STAGE1:
-		_image = IMAGEMANAGER->findImage("배경");
-		_pixel = IMAGEMANAGER->findImage("배경 픽셀");
-		_backImg = true;
-		break;
-	case STAGE2:
-		_image = IMAGEMANAGER->findImage("배경2");
-		_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
-		_backImg = true;
-		break;
-	case STAGE3:
-		_image = IMAGEMANAGER->findImage("배경3");
-		_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
-		_backImg = false;
-		break;
-	}
+		switch (stageNum)
+		{
+		case STAGE1:
+			_image = IMAGEMANAGER->findImage("배경");
+			_pixel = IMAGEMANAGER->findImage("배경 픽셀");
+			_backImg = true;
+			break;
+		case STAGE2:
+			_image = IMAGEMANAGER->findImage("배경2");
+			_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
+			_backImg = true;
+			break;
+		case STAGE3:
+			_image = IMAGEMANAGER->findImage("배경3");
+			_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
+			_backImg = false;
+			break;
+		}
 
 	_stageNum = stageNum;
-
-
 	_loopX1 = 0;
 	_loopX2 = 0;
 	_loopX3 = 0;
@@ -82,6 +81,9 @@ void commonStage::update()
 			}
 		}
 	}
+
+	for (int i = 0; i < _vEnemy.size(); ++i)
+		_vEnemy[i]->update();
 }
 
 void commonStage::render()
@@ -95,4 +97,7 @@ void commonStage::render()
 	}
 
 	_image->render(getMemDC());
+
+	for (int i = 0; i < _vEnemy.size(); ++i)
+		_vEnemy[i]->render();
 }

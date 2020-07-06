@@ -1,8 +1,5 @@
 #pragma once
-#include "gameNode.h"
 #include "progressBar.h"
-
-class player;
 
 enum
 {
@@ -11,11 +8,15 @@ enum
 	BOSS3
 };
 
+class player;
+
 class bossStage : public gameNode
 {
 private:
 	image* _image;
 	image* _pixel;
+
+	RECT _rc;
 
 	progressBar _pgBar;
 

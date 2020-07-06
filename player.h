@@ -148,6 +148,9 @@ public:
 		return _state % 2 == 0 ? true : false;
 	}
 
+	void setPointLeftStart();
+	void setPointRightStart();
+
 	float getX() { return _x; }
 	void setX(float x) { _x = x; }
 
@@ -164,8 +167,9 @@ public:
 	void setProbeY(float probeY) { _probeY = probeY; }
 
 	float getWidth() { return _width; }
-
 	float getHeight() { return _height; }
+
+	MYRECT& getHitbox() { return _hitbox; }
 
 	void setGravity(float gravity) { _gravity = gravity; }
 	float getSpeed() { return _speed; }

@@ -154,7 +154,7 @@ void player::update()
 		}
 	}
 
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _x + _hitbox.getWidth() / 2) //<= _sm->getCurrentWidth())
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _x + _hitbox.getWidth() / 2 <= _sm->getCurrentStageSize())
 	{
 		if (isJumping())
 		{
@@ -261,7 +261,7 @@ void player::update()
 			if (_chargeFull && _redAlpha <= 250) _redAlpha += 5;
 			if (_redAlpha <= 252) _redAlpha += 3;
 
-			if (_attackCount2 >= 130 && !_chargeFull)
+			if (_attackCount2 >= 100 && !_chargeFull)
 			{
 				_chargeFull = true;
 				_ani_effect_charge->stop();
@@ -299,6 +299,11 @@ void player::update()
 		_attackCount2 = 0;
 		_redAlpha = 0;
 		_ani_effect_charge->stop();
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		_sm->checkEnterBossStage();
 	}
 
 	switch (_state)
@@ -354,11 +359,11 @@ void player::update()
 		}
 		else if (isFalling() && (!_canMoveLeft || !_canMoveRight))
 		{
-			_y += 5;
+			_y += 3;
 		}
 		else
 		{
-			_x += cosf(_angle) * _speed;
+			if(_x - _hitbox.getWidth() / 2 >= 0 && _x + _hitbox.getWidth() / 2 <= _sm->getCurrentStageSize())_x += cosf(_angle) * _speed;
 			_y += -sinf(_angle) * _speed + _gravity;
 			_gravity += 0.09f;
 		}
@@ -550,7 +555,7 @@ void player::fireBullet()
 	bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 	bullet.y = bullet.fireY = _y + 25;
 	bullet.angle = isLeft() ? PI : 0;
-	bullet.range = 100;
+	bullet.range = 150;
 
 	bullet.rc = RectMakeCenter(bullet.x, bullet.y,
 		bullet.image->getWidth(),
@@ -571,7 +576,7 @@ void player::fireChargeBullet()
 		bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 		bullet.y = bullet.fireY = _y + 25;
 		bullet.angle = (isLeft() ? PI : 0) + (1 - i) * 0.5f;
-		bullet.range = 100;
+		bullet.range = 150;
 
 		bullet.rc = RectMakeCenter(bullet.x, bullet.y,
 			bullet.image->getWidth(),
@@ -585,7 +590,6 @@ void player::moveBullet()
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); )
 	{
-		//_viBullet->x += (_viBullet->angle == PI) ? -_viBullet->speed : _viBullet->speed;
 		_viBullet->x += cosf(_viBullet->angle) * _viBullet->speed;
 		_viBullet->y += -sinf(_viBullet->angle) * _viBullet->speed;
 		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
@@ -612,4 +616,14 @@ void player::renderBullet()
 void player::removeBullet(int index)
 {
 	_vBullet.erase(_vBullet.begin() + index);
+}
+
+void player::setPointLeftStart()
+{
+	_x = 80;
+}
+
+void player::setPointRightStart()
+{
+	_x = _sm->getCurrentStageSize() - 80;
 }

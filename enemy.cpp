@@ -16,21 +16,9 @@ HRESULT enemy::init()
 	return S_OK;
 }
 
-HRESULT enemy::init(const char * imageName, POINT position)
+HRESULT enemy::init(MYPOINT position)
 {
-	_currentFrameX = _currentFrameY = 0;
-	_count = _fireCount = 0;
-
-	//에너미 이미지는 키값으로 넣어주자
-	_imageName = IMAGEMANAGER->findImage(imageName);
-
-	_rndFireCount = RND->getFromIntTo(1, 700);
-
-	_rc = RectMakeCenter(position.x, position.y,
-		_imageName->getFrameWidth(),
-		_imageName->getFrameHeight());
-
-	return S_OK;
+	return E_NOTIMPL;
 }
 
 void enemy::release()
@@ -39,16 +27,6 @@ void enemy::release()
 
 void enemy::update()
 {
-	_count++;
-
-	if (_count % 2 == 0)
-	{
-		if (_currentFrameX >= _imageName->getMaxFrameX()) _currentFrameX = 0;
-		_imageName->setFrameX(_currentFrameX);
-		_currentFrameX++;
-		_count = 0;
-	}
-
 }
 
 void enemy::render()
@@ -56,41 +34,150 @@ void enemy::render()
 	draw();
 }
 
+void enemy::attack()
+{
+}
+
+void enemy::checkPlayer()
+{
+}
+
 void enemy::move()
 {
-	switch (_direction)
-	{
-	case SIDE:
-		break;
-	case UPDOWN:
-		break;
-	case FREE:
-		break;
-	
-	}
+
 }
 
 void enemy::draw()
 {
-	//이미지는 1장인데 렉트 위치가 서로 다르게 위치해있으면
-	//렉트를 기반으로 그리기 때문에 1장가지고 충분히 사용가능하다
 
-	_imageName->frameRender(getMemDC(), _rc.left, _rc.top,
-		_currentFrameX, _currentFrameY);
 }
 
-bool enemy::bulletCountFire()
+HRESULT oko::init()
 {
-	_fireCount++;
+	_image = IMAGEMANAGER->findImage("몬스터1");
+	_imageRound = IMAGEMANAGER->findImage("몬스터1 프레임");
 
-	if (_fireCount % _rndFireCount == 0)
+	_ani_round = new animation;
+
+	return S_OK;
+}
+
+HRESULT oko::init(MYPOINT position)
+{
+	_image = IMAGEMANAGER->findImage("몬스터1");
+	_imageRound = IMAGEMANAGER->findImage("몬스터1 프레임");
+
+	_x = position.x - _image->getWidth();
+	_y = position.y - _image->getHeight();
+
+	_rc.set(_x, _y, _x + _image->getWidth(), _y + _image->getHeight());
+
+	_ani_round = new animation;
+	_ani_round->init(_imageRound->getWidth(),
+		_imageRound->getHeight(),
+		_imageRound->getFrameWidth(),
+		_imageRound->getFrameHeight());
+	_ani_round->setDefPlayFrame(false, true);
+	_ani_round->setPlayFrame(0, 15, false, true);
+	_ani_round->setFPS(1);
+	_ani_round->start();
+	return S_OK;
+}
+
+void oko::release()
+{
+}
+
+void oko::update()
+{
+	move();
+	draw();
+
+	if(_ani_round->isPlay())
+		_ani_round->frameUpdate(TIMEMANAGER->getElapsedTime() * 30);
+}
+
+void oko::render()
+{
+	if (DEBUG)_objectRc.render(getMemDC());
+	if(DEBUG) _rc.render(getMemDC());
+	_imageRound->aniRender(getMemDC(), _rc.left - _rc.getWidth() + 10, _rc.top - _rc.getHeight() + 10, _ani_round);
+	_image->render(getMemDC(), _rc.left, _rc.top);
+}
+
+void oko::attack()
+{
+}
+
+void oko::checkPlayer()
+{
+}
+
+void oko::move()
+{
+	
+	if (_rc.bottom <= _objectRc.top && _rc.left < _objectRc.right)
 	{
-		_rndFireCount = RND->getFromIntTo(1, 700);
-		_fireCount = 0;
-
-		return true;
+		_rc.move(4, 0);
+		if (_rc.left > _objectRc.right) _rc.setLeftTopPos(_objectRc.right, _rc.top);
 	}
+	else if (_rc.top < _objectRc.bottom && _rc.left >= _objectRc.right)
+	{
+		_rc.move(0, 4);
+		if (_rc.top > _objectRc.bottom) _rc.setLeftTopPos(_objectRc.right, _objectRc.bottom);
+	}
+	else if (_rc.top >= _objectRc.bottom && _rc.right > _objectRc.left)
+	{
+		_rc.move(-4, 0);
+		if (_rc.right < _objectRc.left) _rc.setLeftTopPos(_objectRc.left - _rc.getWidth(), _objectRc.bottom);
+	}
+	else
+	{
+		_rc.move(0, -4);
+		if (_rc.bottom < _objectRc.top) _rc.setLeftTopPos(_objectRc.left - _rc.getWidth(), _objectRc.top - _rc.getHeight());
+	}
+	_x = _rc.right - _rc.getWidth() / 2;
+	_y = _rc.bottom - _rc.getHeight() / 2;
+}
 
+void oko::draw()
+{
+}
 
-	return false;
+HRESULT monkey::init()
+{
+	return E_NOTIMPL;
+}
+
+HRESULT monkey::init(MYPOINT position)
+{
+	return E_NOTIMPL;
+}
+
+void monkey::release()
+{
+}
+
+void monkey::update()
+{
+}
+
+void monkey::render()
+{
+}
+
+void monkey::attack()
+{
+}
+
+void monkey::checkPlayer()
+{
+}
+
+void monkey::move()
+{
+}
+
+void monkey::draw()
+{
 }

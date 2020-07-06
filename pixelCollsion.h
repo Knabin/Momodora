@@ -9,7 +9,7 @@ class pixelCollsion : public gameNode
 {
 private:
 	image* _pixel;
-	string _str[3];
+	string _str[4];
 
 	stageManager* _sm;
 	player* _player;

@@ -4,7 +4,6 @@
 
 playGround::playGround()
 {
-
 }
 
 
@@ -30,6 +29,7 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addImage("배경2 픽셀", "image/background2_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
 		IMAGEMANAGER->addImage("배경3", "image/background3.bmp", 960, 720, false, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("배경3 픽셀", "image/background3_pixel.bmp", 960, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("배경3 픽셀 보스", "image/background3_pixel_b.bmp", 960, 720, false, RGB(0, 0, 0));
 
 		IMAGEMANAGER->addImage("보스 배경", "image/background4.bmp", 960, 720, false, RGB(0, 0, 0));
 
@@ -42,8 +42,15 @@ HRESULT playGround::init()
 
 		IMAGEMANAGER->addFrameImage("effect_charge", "image/momo_effect_charge.bmp", 1056, 100, 11, 1, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("부적", "image/momo_bullet.bmp", 41, 18, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("부적", "image/momo_bullet.bmp", 35, 15, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("보스 블록", "image/block_boss.bmp", 48, 144, false, RGB(0, 0, 0));
+
+		IMAGEMANAGER->addImage("몬스터1", "image/oko.bmp", 39, 39, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터1 프레임", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터2", "image/monkey_move.bmp", 576, 192, 6, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터2 공격", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
 	}
+
 	_player = new player;
 	_sm = new stageManager;
 
@@ -141,8 +148,8 @@ void playGround::render()
 	TIMEMANAGER->render(getMemDC());
 
 	//=============================================
-	_backBuffer->render(CAMERA->getMemDC(), CAMERA->getLeft(), CAMERA->getTop(),
+	_backBuffer->render(getHDC(), 0, 0,
 		CAMERA->getLeft(), CAMERA->getTop(),
 		CAMERA->getWidth(), CAMERA->getHeight());
-	CAMERA->render(getHDC());
+	//CAMERA->render(getHDC());
 }

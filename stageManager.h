@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
-#include <list>
+#include <string>
 #include "gameNode.h"
 
 class player;
+class enemy;
 
 class stageManager : public gameNode
 {
@@ -12,11 +13,15 @@ private:
 
 	// 0 ~ 2: commonStage, 3 ~ 5: bossStage
 	int _currentIdx;
+	vector<string> _vStageName;
+
+	MYRECT _rc[3];
+	MYRECT _rc2;
 
 	/* 
 	stageManager에서 해야 할 것
-	파일 읽어 와야 함 (맵 이름, 배경 이미지(key값), 픽셀 이미지(key값), 타입(common, boss), 타입 인덱스(몇 번째 맵인지))
-	생성할 때 팩토리 패턴은 어떨지 고민해 보기
+
+	인덱스 2번째 스테이지에서 rect로 충돌 체크(해당 방으로 이동)
 	enemyManager 쪽으로 각 stage 안에 있는 enemy vector 넘겨서 enemy 받아오기
 	*/
 	
@@ -27,13 +32,24 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void moveNextStage();
+	void movePrevStage();
+	void moveBossStage(int index);
+
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
 
+	void checkEnterBossStage();
+	bool isAliveBoss();
+
+
+	int getCurrentStageSize();
 	int getCurrentIndex() { return _currentIdx; }
+
 	bool getIsBossStage() 
 	{
 		if (_currentIdx > 2) return true; 
 		return false; 
 	}
+
 };
 

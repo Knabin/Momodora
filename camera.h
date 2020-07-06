@@ -5,10 +5,6 @@ class camera : public singletonBase<camera>
 {
 	typedef struct tagCameraInfo
 	{
-		HDC hMemDC;
-		HBITMAP hBit;
-		HBITMAP hOBit;
-
 		float x;
 		float y;
 
@@ -34,12 +30,8 @@ public:
 
 	void release();
 
-	inline HDC getMemDC() { return _cameraInfo->hMemDC; }
-
 	bool checkCameraX();
 	bool checkCameraY();
-
-	void render(HDC hdc);
 
 	void cameraShake();
 
