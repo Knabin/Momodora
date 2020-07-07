@@ -9,6 +9,7 @@ enum
 };
 
 class player;
+class enemy;
 
 class bossStage : public gameNode
 {
@@ -21,6 +22,7 @@ private:
 	progressBar _pgBar;
 
 	player* _player;
+	enemy* _boss;
 
 public:
 	virtual HRESULT init(int bossNum);
@@ -29,5 +31,8 @@ public:
 	virtual void render();
 
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
+
+	enemy* getBossPointer() { return _boss; }
+	void setBossPointer(enemy* boss) { _boss = boss; }
 };
 

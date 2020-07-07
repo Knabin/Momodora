@@ -21,7 +21,7 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addImage("백3", "image/back3.bmp", 960, 723, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("백4", "image/back4.bmp", 960, 723, false, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("redDC", "image/redDC.bmp", 500, 500, false, NULL);
+		IMAGEMANAGER->addImage("redDC", "image/redDC.bmp", 600, 600, false, NULL);
 
 		IMAGEMANAGER->addImage("배경", "image/background.bmp", 1920, 720, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("배경 픽셀", "image/background_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
@@ -47,12 +47,29 @@ HRESULT playGround::init()
 
 		IMAGEMANAGER->addImage("몬스터1", "image/oko.bmp", 39, 39, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터1 프레임", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("몬스터2", "image/monkey_move.bmp", 576, 192, 6, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터2", "image/monkey_move.bmp", 1152, 192, 6, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터2 공격", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("몬스터3 왼쪽", "image/bakman_left.bmp", 144, 96, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("몬스터3 오른쪽", "image/bakman_right.bmp", 144, 96, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터3 공격", "image/bakman.bmp", 1872, 192, 13, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("몬스터3 블록", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addImage("보스1 왼쪽", "image/prim_left.bmp", 144, 144, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스1 오른쪽", "image/prim_right.bmp", 144, 144, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 이동", "image/prim_move.bmp", 1536, 288, 8, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 화남", "image/prim_angry.bmp", 2160, 288, 15, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 공격", "image/prim_attack.bmp", 8400, 288, 20, 2, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addFrameImage("보스2 왼쪽", "image/witchd_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스2 왼쪽 공격", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스2 오른쪽", "image/witchl_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스2 오른쪽 공격", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스2 왼쪽 불렛", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스2 왼쪽 불렛2", "image/witchd_bullet2.bmp", 9, 9, true, RGB(0, 255, 255));
+
+		IMAGEMANAGER->addFrameImage("보스3 등장", "image/rell_appear.bmp", 576, 96, 6, 1, true, RGB(255, 0, 255));
+
+
 	}
 
 	_player = new player;
@@ -64,11 +81,8 @@ HRESULT playGround::init()
 	_player->init();
 	_sm->init();
 
-
-
 	_pixel = new pixelCollsion;
 	_pixel->init();
-
 
 
 	_pixel->setStageManagerMemoryAddressLink(_sm);
@@ -77,10 +91,6 @@ HRESULT playGround::init()
 	_background = IMAGEMANAGER->findImage("배경");
 	_backgroundPixel = IMAGEMANAGER->findImage("배경 픽셀");
 
-	//_vTest.push_back("테스트1");
-	//_vTest.push_back("테스트2");
-	////TXTDATA->txtSave("test.data", _vTest);
-	
 	vector<string> _vTest = TXTDATA->txtLoad("test.data");
 	cout << _vTest[0] << endl;
 	cout << _vTest[1] << endl;
@@ -142,18 +152,15 @@ void playGround::update()
 void playGround::render()
 {	
 	PatBlt(getMemDC(), 0, 0, getMemDCWidth(), getMemDCHeight(), WHITENESS);
-	//PatBlt(CAMERA->getMemDC(), 0, 0, getMemDCWidth(), getMemDCHeight(), WHITENESS);
 	//=================================================
 	
 	_sm->render();
-	//IMAGEMANAGER->findImage("배경2 픽셀")->render(getMemDC());
 	_player->render();
 	EFFECTMANAGER->render();
 	TIMEMANAGER->render(getMemDC());
 
 	//=============================================
-	_backBuffer->render(getHDC(), 0, 0,
+	_backBuffer->render(getHDC(), 0 + CAMERA->getShakeNumber(), 0,
 		CAMERA->getLeft(), CAMERA->getTop(),
 		CAMERA->getWidth(), CAMERA->getHeight());
-	//CAMERA->render(getHDC());
 }

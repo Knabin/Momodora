@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "bossStage.h"
 #include "player.h"
+#include "enemy.h"
 
 HRESULT bossStage::init(int bossNum)
 {
@@ -39,6 +40,8 @@ void bossStage::update()
 	{
 
 	}
+
+	_boss->update();
 }
 
 void bossStage::render()
@@ -46,4 +49,6 @@ void bossStage::render()
 	_image->render(getMemDC());
 	_pgBar.render();
 	IMAGEMANAGER->findImage("보스 블록")->render(getMemDC(), _rc.left, _rc.top);
+
+	_boss->render();
 }

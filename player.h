@@ -56,7 +56,8 @@ private:
 	float _x, _y;
 	float _centerY;
 	float _angle;
-	float _speed;
+	float _speedX;
+	float _speedY;
 	float _gravity;
 	int _width;
 	int _height;
@@ -172,7 +173,11 @@ public:
 	MYRECT& getHitbox() { return _hitbox; }
 
 	void setGravity(float gravity) { _gravity = gravity; }
-	float getSpeed() { return _speed; }
+
+	float getSpeedX() { return _speedX; }
+	float getSpeedY() { return _speedY; }
+
+	void setAngle(float angle) { _angle = angle; }
 
 	bool getIsCameraShaking() { return _isCameraShaking; }
 	void setIsCameraShaking(bool att) { _isCameraShaking = att; }

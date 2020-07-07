@@ -73,7 +73,8 @@ void pixelCollsion::update()
 			{
 				_player->setY(i);
 				_player->setAnimation(_player->isLeft() ? LEFT_FALL : RIGHT_FALL);
-				_player->setGravity(_player->getSpeed() + 1);
+				_player->setGravity(_player->getSpeedY() + 1);
+				_player->setAngle(PI / 2);
 				break;
 			}
 		}

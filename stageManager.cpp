@@ -34,8 +34,8 @@ HRESULT stageManager::init()
 	_vStageName.push_back("boss2");
 
 	bossStage * boss3 = new bossStage();
-	boss1->init(2);
-	boss1->setPlayerMemoryAddressLink(_player);
+	boss3->init(2);
+	boss3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss3");
 
 	_rc[0].set(0, 0, 75, 96);
@@ -49,31 +49,17 @@ HRESULT stageManager::init()
 	_rc2.set(0, 0, 48, 48);
 	_rc2.setCenterPos(744, 552);
 
-	enemy* e = new oko;
-	e->init({ _rc2.left, _rc2.top });
-	dynamic_cast<oko*>(e)->setObjectRect(_rc2);
-	common2->insertIntoEnemyVector(e);
-
-	enemy* m = new monkey;
-	m->init();
-	common2->insertIntoEnemyVector(m);
-
-	enemy* b = new bakman;
-	b->init({ 470, 428 });
-	b->setPlayerMemoryAddressLink(_player);
-	common2->insertIntoEnemyVector(b);
-
-	enemy* b2 = new bakman;
-	b2->init({ 1000, 480 });
-	b2->setPlayerMemoryAddressLink(_player);
-	common2->insertIntoEnemyVector(b2);
+	parsingEnemyData("stage/stage1.data", common2->getEnemyVector());
+	boss1->setBossPointer(parsingEnemyData("stage/boss1.data"));
+	boss2->setBossPointer(parsingEnemyData("stage/boss2.data"));
+	boss3->setBossPointer(parsingEnemyData("stage/boss3.data"));
 
 	SCENEMANAGER->addScene(_vStageName[0], common1);
 	SCENEMANAGER->addScene(_vStageName[1], common2);
 	SCENEMANAGER->addScene(_vStageName[2], common3);
-	SCENEMANAGER->addScene(_vStageName[3], boss2);
+	SCENEMANAGER->addScene(_vStageName[3], boss1);
 	SCENEMANAGER->addScene(_vStageName[4], boss2);
-	SCENEMANAGER->addScene(_vStageName[5], boss2);
+	SCENEMANAGER->addScene(_vStageName[5], boss3);
 
 	_currentIdx = 0;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
@@ -160,6 +146,93 @@ void stageManager::moveBossStage(int index)
 	_player->setPointLeftStart();
 	_currentIdx = index;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
+}
+void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy)
+{
+	_vFileData.clear();
+	_vFileData = TXTDATA->txtLoad(loadFileName);
+
+	for (int i = 0; i < _vFileData.size(); i+=3)
+	{
+		int type = stoi(_vFileData[i], nullptr, 10);
+		float x = stof(_vFileData[i + 1], nullptr);
+		float y = stof(_vFileData[i + 2], nullptr);
+		enemy * e = nullptr;
+
+		switch (type)
+		{
+		case 0:
+			e = new oko;
+			dynamic_cast<oko*>(e)->setObjectRect(_rc2);
+			break;
+		case 1:
+			e = new monkey;
+			break;
+		case 2:
+			e = new bakman;
+			break;
+		case 3:
+			e = new prim;
+			break;
+		case 4:
+			e = new witch;
+			break;
+		case 5:
+			e = new rell;
+			break;
+		}
+
+		if (e != nullptr)
+		{
+			e->init({ x,y });
+			e->setPlayerMemoryAddressLink(_player);
+			vEnemy.push_back(e);
+		}
+	}
+}
+
+enemy * stageManager::parsingEnemyData(const char * loadFileName)
+{
+	_vFileData.clear();
+	_vFileData = TXTDATA->txtLoad(loadFileName);
+
+	if (_vFileData.size() <= 0) return nullptr;
+
+	int type = stoi(_vFileData[0], nullptr, 10);
+	float x = stof(_vFileData[1], nullptr);
+	float y = stof(_vFileData[2], nullptr);
+	enemy * e = nullptr;
+
+	switch (type)
+	{
+	case 0:
+		e = new oko;
+		dynamic_cast<oko*>(e)->setObjectRect(_rc2);
+		break;
+	case 1:
+		e = new monkey;
+		break;
+	case 2:
+		e = new bakman;
+		break;
+	case 3:
+		e = new prim;
+		break;
+	case 4:
+		e = new witch;
+		break;
+	case 5:
+		e = new rell;
+		break;
+	}
+
+	if (e != nullptr)
+	{
+		e->init({ x,y });
+		e->setPlayerMemoryAddressLink(_player);
+	}
+
+	return e;
 }
 
 void stageManager::checkEnterBossStage()

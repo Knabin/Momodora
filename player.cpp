@@ -18,7 +18,8 @@ HRESULT player::init()
 	_probeXL = _x - _width / 2;
 	_probeXR = _x + _width / 2;
 
-	_speed = 5.0f;
+	_speedX = 8.0f;
+	_speedY = 6.0f;
 	_gravity = 0;
 	_angle = PI / 2;
 
@@ -137,7 +138,7 @@ void player::update()
 				setAnimation(LEFT_FALL);
 				_stateBefore = LEFT_IDLE;
 				_angle = PI / 5 * 3;
-				_gravity = _speed + 0.2f;
+				_gravity = _speedY + 0.2f;
 			}
 		}
 		if (isJumping() || isFalling() || isAttacking())
@@ -193,7 +194,7 @@ void player::update()
 				_ani_run->stop();
 				setAnimation(RIGHT_FALL);
 				_angle = PI / 5 * 2;
-				_gravity = _speed + 0.2f;
+				_gravity = _speedY + 0.2f;
 			}
 		}
 
@@ -333,7 +334,7 @@ void player::update()
 	case LEFT_JUMP: case RIGHT_JUMP:
 		_ani_jump->frameUpdate(TIMEMANAGER->getElapsedTime() * 2);
 
-		if (_gravity > _speed)
+		if (_gravity > _speedY)
 		{
 			_image = IMAGEMANAGER->findImage("jump");
 			_state == LEFT_JUMP ? _ani_jump->setPlayFrame(2, 10, false, false) : _ani_jump->setPlayFrame(13, 21, false, false);
@@ -363,9 +364,10 @@ void player::update()
 		}
 		else
 		{
-			if(_x - _hitbox.getWidth() / 2 >= 0 && _x + _hitbox.getWidth() / 2 <= _sm->getCurrentStageSize())_x += cosf(_angle) * _speed;
-			_y += -sinf(_angle) * _speed + _gravity;
-			_gravity += 0.09f;
+			if (_x - _hitbox.getWidth() / 2 >= 0 && _x + _hitbox.getWidth() / 2 <= _sm->getCurrentStageSize())
+				_x += cosf(_angle) * _speedX;
+			_y += -sinf(_angle) * _speedY + _gravity;
+			_gravity += 0.15f;
 		}
 	}
 

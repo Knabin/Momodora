@@ -35,6 +35,8 @@ public:
 
 	void cameraShake();
 
+	inline float getShakeNumber() { return _shakeAmount * _flag; }
+
 	inline void setPosition(float x, float y) { _cameraInfo->x = x; _cameraInfo->y = y; }
 
 	inline void setX(int x) { _cameraInfo->x = x; }

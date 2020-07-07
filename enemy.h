@@ -3,10 +3,20 @@
 
 class player;
 
-enum ENEMYDIRECTION
+enum class ENEMYDIRECTION
 {
-	IDLE,
-	MOVE
+	LEFT_IDLE,
+	RIGHT_IDLE,
+
+	LEFT_MOVE,
+	RIGHT_MOVE,
+
+	LEFT_ATTACK,
+	RIGHT_ATTACK,
+
+	// prim
+	LEFT_ACTION,
+	RIGHT_ACTION,
 };
 
 class enemy : public gameNode
@@ -15,6 +25,8 @@ protected:
 	image* _image;
 	float _x;
 	float _y;
+	int _width;
+	int _height;
 	bool _isAlive;
 
 	MYRECT _rc;			// 충돌 처리용
@@ -28,7 +40,6 @@ public:
 	enemy();
 	~enemy();
 
-	virtual HRESULT init();
 	virtual HRESULT init(MYPOINT position);
 	virtual void release();
 	virtual void update();
@@ -40,7 +51,7 @@ public:
 	virtual void draw();
 
 	void enemyDirection(int num) { _direction = (ENEMYDIRECTION)num; }
-	inline MYRECT getRect() { return _rc; }
+	inline MYRECT& getRect() { return _rc; }
 
 	void setPlayerMemoryAddressLink(player * p) { _player = p; }
 };
@@ -53,7 +64,6 @@ private:
 	MYRECT _objectRc;
 
 public:
-	HRESULT init();
 	HRESULT init(MYPOINT position);
 	void release();
 	void update();
@@ -73,8 +83,42 @@ private:
 	animation* _ani_run;
 	animation* _ani_attack;
 
+	MYRECT _rcAttack;
+
+	float _probeY;
+	float _probeXL;
+	float _probeXR;
+
+	bool _isOnGround;
+
 public:
-	HRESULT init();
+	HRESULT init(MYPOINT position);
+	void release();
+	void update();
+	void render();
+
+	virtual void attack();
+	virtual void checkPlayer();
+	virtual void move();
+	virtual void draw();
+
+	void pixelCollision();
+};
+
+class bakman : public enemy
+{
+private:
+	image* _bullet;
+	animation* _ani_attack;
+
+	float _bulletX, _bulletY;
+	float _angle;
+	float _gravity;
+	int _count;
+
+	bool _isFire;
+
+public:
 	HRESULT init(MYPOINT position);
 	void release();
 	void update();
@@ -86,22 +130,72 @@ public:
 	virtual void draw();
 };
 
-class bakman : public enemy
+// ===================================================
+// ## 보스 몬스터 클래스 ##
+
+class prim : public enemy
 {
-private:
-	image* _bullet;
+	animation* _ani_idle;
+	animation* _ani_run;
+	animation* _ani_angry;
 	animation* _ani_attack;
 
-	float _x, _y;
-	float _bulletX, _bulletY;
-	float _angle;
-	float _gravity;
-	int _count;
+public:
+	HRESULT init(MYPOINT position);
+	void release();
+	void update();
+	void render();
 
-	bool _isFire;
+	virtual void attack();
+	virtual void checkPlayer();
+	virtual void move();
+	virtual void draw();
+};
+
+class witch : public enemy
+{
+	image* _imageRight;
+	image* _bulletLeft;
+	image* _bulletRight;
+
+	animation* _ani_idle_left;
+	animation* _ani_idle_right;
+	animation* _ani_attack_left;
+	animation* _ani_attack_right;
+
+	float _xRight, _yRight;
 
 public:
-	HRESULT init();
+	HRESULT init(MYPOINT position);
+	void release();
+	void update();
+	void render();
+
+	virtual void attack();
+	virtual void checkPlayer();
+	virtual void move();
+	virtual void draw();
+};
+
+class rell : public enemy
+{
+	enum RELLSTATE
+	{
+
+	};
+
+	image* _bullet;
+	image* _snow;
+	image* _snow2;
+
+	animation* _ani_appear;
+	animation* _ani_idle;
+	animation* _ani_idle2;
+	animation* _ani_attack;
+	animation* _ani_ground;
+	animation* _ani_fire;
+
+public:
 	HRESULT init(MYPOINT position);
 	void release();
 	void update();

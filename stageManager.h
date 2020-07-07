@@ -14,6 +14,7 @@ private:
 	// 0 ~ 2: commonStage, 3 ~ 5: bossStage
 	int _currentIdx;
 	vector<string> _vStageName;
+	vector<string> _vFileData;
 
 	MYRECT _rc[3];
 	MYRECT _rc2;
@@ -38,12 +39,16 @@ public:
 
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
 
+	void parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy);
+	enemy* parsingEnemyData(const char * loadFileName);
+
 	void checkEnterBossStage();
 	bool isAliveBoss();
 
-
 	int getCurrentStageSize();
 	int getCurrentIndex() { return _currentIdx; }
+
+	//vector<enemy *>& getCurrentStageEnemyVector { _v}
 
 	bool getIsBossStage() 
 	{
