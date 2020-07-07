@@ -174,7 +174,8 @@ HRESULT monkey::init(MYPOINT position)
 	_ani_attack->setFPS(1);
 	_ani_attack->setPlayFrame(0, 10, false, false);
 
-	_isOnGround = true;
+	_isOnGround = false;
+	_canMoveLeft = _canMoveRight = true;
 
 	return S_OK;
 }
@@ -197,8 +198,8 @@ void monkey::update()
 	{
 		_rcAttack.setLeftTopPos(_x + _width / 2 + 30, _y + 20);
 	}
-	pixelCollision();
 	checkPlayer();
+	pixelCollision();
 	move();
 
 	switch (_direction)
@@ -225,8 +226,8 @@ void monkey::update()
 
 void monkey::render()
 {
-	_rc.render(getMemDC());
-	_rcAttack.render(getMemDC());
+	//_rc.render(getMemDC());
+	//_rcAttack.render(getMemDC());
 	switch (_direction)
 	{
 	case ENEMYDIRECTION::LEFT_IDLE:
@@ -282,7 +283,7 @@ void monkey::checkPlayer()
 	}
 	else if (isCollision(_rcCheck, _player->getHitbox()))
 	{
-		if (_player->getX() <= _x + _width / 2)
+	if (_player->getHitbox().left < _x + _width / 2)
 		{
 			if (_direction != ENEMYDIRECTION::LEFT_MOVE)
 			{
@@ -292,7 +293,7 @@ void monkey::checkPlayer()
 				_ani_run->start();
 			}
 		}
-		else
+		else if (_player->getHitbox().right > _x - _width / 2)
 		{
 			if (_direction != ENEMYDIRECTION::RIGHT_MOVE)
 			{
@@ -311,11 +312,11 @@ void monkey::checkPlayer()
 
 void monkey::move()
 {
-	if (_direction == ENEMYDIRECTION::LEFT_MOVE)
+	if (_direction == ENEMYDIRECTION::LEFT_MOVE && _canMoveLeft)
 	{
 		_x -= 3;
 	}
-	if (_direction == ENEMYDIRECTION::RIGHT_MOVE)
+	if (_direction == ENEMYDIRECTION::RIGHT_MOVE && _canMoveRight)
 	{
 		_x += 3;
 	}
@@ -327,7 +328,7 @@ void monkey::move()
 
 	_probeXL = _x + 70;
 	_probeXR = _x + _width - 70;
-	_probeY = _y + _height;
+	_probeY = _y + _height / 2;
 
 	_rc.setCenterPos(_x + _width / 2, _y + _height / 2);
 	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
@@ -340,29 +341,53 @@ void monkey::draw()
 
 void monkey::pixelCollision()
 {
-	for (int i = _probeXL; i <= _probeXR; ++i)
-	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), i, _probeY);
+	int i = 0;
+	int dest = 0;
 
-		int r = GetRValue(color);
-		int g = GetGValue(color);
-		int b = GetBValue(color);
-		
-		if (r == 0 && g == 255 && b == 255 && !_isOnGround)
+	switch (_direction)	
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::LEFT_MOVE:
+		i = _rc.left + 15;
+		dest = _x + _width / 2;
+		break;
+	case ENEMYDIRECTION::RIGHT_IDLE:
+	case ENEMYDIRECTION::RIGHT_MOVE:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		i = _x + _width / 2;
+		dest = _rc.right - 15;
+		break;
+
+	}
+
+	//for (int i = _rc.left; i <= _rc.right; ++i)
+	for(; i<= dest; ++i)
+	{
+		for (int j = _rc.bottom - 5; j < _rc.bottom; ++j)
 		{
-			_isOnGround = true;
-			_y = _probeY - _height;
-			break;
-		}
-		else
-		{
-			_isOnGround = false;
+			COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), i, j);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if (!_isOnGround && r == 0 && g == 255 && b == 255)
+			{
+				_y = j - _height;
+				_isOnGround = true;
+				break;
+			}
+			else
+			{
+				_isOnGround = false;
+			}
 		}
 	}
 
 	if (_direction == ENEMYDIRECTION::LEFT_MOVE)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _probeXL, _y);
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _rc.left, _rc.bottom - 5);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -370,12 +395,14 @@ void monkey::pixelCollision()
 
 		if (r == 0 && g == 255 && b == 255)
 		{
-			_x = _probeXL - 70;
+			//_x = _rc.left;
+			_canMoveLeft = false;
 		}
+		else _canMoveLeft = true;
 	}
 	else if (_direction == ENEMYDIRECTION::RIGHT_MOVE)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _probeXR, _probeY);
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _rc.right, _rc.bottom - 50);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -383,8 +410,10 @@ void monkey::pixelCollision()
 
 		if (r == 0 && g == 255 && b == 255)
 		{
-			_x = _probeXR - _width + 70;
+			//_x = _rc.right - 70;
+			_canMoveRight = false;
 		}
+		else _canMoveRight = true;
 	}
 }
 
@@ -392,15 +421,19 @@ HRESULT bakman::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("몬스터3 공격");
 	_bullet = IMAGEMANAGER->findImage("몬스터3 블록");
-	_angle = PI * 0.7;
-	_gravity = 0.08f;
+
 	_isFire = false;
+
+	_direction = ENEMYDIRECTION::LEFT_IDLE;
 
 	_x = position.x;
 	_y = position.y;
 
 	_width = _image->getFrameWidth();
 	_height = _image->getFrameHeight();
+
+	_rc.set(0, 0, 70, 80);
+	_rc.setCenterPos(_x + _width / 2, _y + _height / 2);
 
 	_rcCheck.set(0, 0, 600, 300);
 	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
@@ -410,10 +443,16 @@ HRESULT bakman::init(MYPOINT position)
 		IMAGEMANAGER->findImage("몬스터3 공격")->getHeight(),
 		IMAGEMANAGER->findImage("몬스터3 공격")->getFrameWidth(),
 		IMAGEMANAGER->findImage("몬스터3 공격")->getFrameHeight());
-	_ani_attack->setDefPlayFrame(false, true);
+	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack->setFPS(1);
-	_ani_attack->setPlayFrame(0, 12, false, true);
-	_ani_attack->start();
+
+	_ani_attack2 = new animation;
+	_ani_attack2->init(IMAGEMANAGER->findImage("몬스터3 공격2")->getWidth(),
+		IMAGEMANAGER->findImage("몬스터3 공격2")->getHeight(),
+		IMAGEMANAGER->findImage("몬스터3 공격2")->getFrameWidth(),
+		IMAGEMANAGER->findImage("몬스터3 공격2")->getFrameHeight());
+	_ani_attack->setDefPlayFrame(false, false);
+	_ani_attack2->setFPS(1);
 
 	return S_OK;
 }
@@ -426,30 +465,97 @@ void bakman::release()
 
 void bakman::update()
 {
-	if (isCollision(_rcCheck, _player->getHitbox()))
+	checkPlayer();
+	attack();
+
+	if (_ani_attack->isPlay())
+		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+
+	if (_ani_attack2->isPlay())
+		_ani_attack2->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+
+	move();
+}
+
+void bakman::render()
+{
+	draw();
+}
+
+void bakman::attack()
+{
+
+	if ((_direction == ENEMYDIRECTION::LEFT_ATTACK ||
+		_direction == ENEMYDIRECTION::RIGHT_ATTACK) && !_ani_attack->isPlay() && !_isFire)
 	{
-		if (!_ani_attack->isPlay()) 
+		_image = IMAGEMANAGER->findImage("몬스터3 공격2");
+		if (_direction == ENEMYDIRECTION::LEFT_ATTACK)
 		{
-			_image = IMAGEMANAGER->findImage("몬스터3 공격");
-			_ani_attack->start();
-		}
-		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 8);
-		_count++;
-		if (_count >= 45 && !_isFire)
-		{
-			_isFire = true;
+			_direction = ENEMYDIRECTION::LEFT_ACTION;
+			_ani_attack2->setPlayFrame(0, 5, false, false);
+
 			_bulletX = _x + 20;
 			_bulletY = _y;
-			_gravity = 0.08f;
+			_angle = PI * 0.7;
+		}
+		else
+		{
+			_direction = ENEMYDIRECTION::RIGHT_ACTION;
+			_ani_attack2->setPlayFrame(6, 11, false, false);
+
+			_bulletX = _x + 20;
+			_bulletY = _y;
+			_angle = PI * 0.3;
+		}
+		_ani_attack2->start();
+
+
+		_gravity = 0.08f;
+		_isFire = true;
+	}
+}
+
+void bakman::checkPlayer()
+{
+	if (isCollision(_rcCheck, _player->getHitbox()))
+	{
+		if (_direction != ENEMYDIRECTION::LEFT_ATTACK &&
+			_direction != ENEMYDIRECTION::RIGHT_ATTACK)
+		{
+			_image = IMAGEMANAGER->findImage("몬스터3 공격");
+			if (_player->getX() < _rc.right - _rc.getWidth() / 2)
+			{
+				_direction = ENEMYDIRECTION::LEFT_ATTACK;
+				_ani_attack->setPlayFrame(0, 5, false, false);
+			}
+			else
+			{
+				_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+				_ani_attack->setPlayFrame(7, 13, false, false);
+			}
+			_ani_attack->start();
 		}
 	}
 	else
 	{
 		_ani_attack->stop();
-		_image = IMAGEMANAGER->findImage("몬스터3 왼쪽");
-		_count = 0;
-	}
+		_ani_attack2->stop();
 
+		if (_player->getX() < _rc.right - _rc.getWidth() / 2)
+		{
+			_direction = ENEMYDIRECTION::LEFT_IDLE;
+			_image = IMAGEMANAGER->findImage("몬스터3 왼쪽");
+		}
+		else
+		{
+			_direction = ENEMYDIRECTION::RIGHT_IDLE;
+			_image = IMAGEMANAGER->findImage("몬스터3 오른쪽");
+		}
+	}
+}
+
+void bakman::move()
+{
 	if (_isFire)
 	{
 		_bulletX += cosf(_angle) * 7.0f;
@@ -458,41 +564,36 @@ void bakman::update()
 
 		if (_bulletY >= WINSIZEY)
 		{
-			_count = 23;
 			_bulletX = _x + 20;
 			_bulletY = _y;
 			_gravity = 0.08f;
-			_isFire = 0;
+			_isFire = false;
 		}
 	}
 }
 
-void bakman::render()
+void bakman::draw()
 {
-	if(_ani_attack->isPlay())
-		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
-	else 
+	switch (_direction)
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::RIGHT_IDLE:
 		_image->render(getMemDC(), _x, _y);
+		break;
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
+		break;
+	case ENEMYDIRECTION::LEFT_ACTION:
+	case ENEMYDIRECTION::RIGHT_ACTION:
+		_image->aniRender(getMemDC(), _x, _y, _ani_attack2);
+		break;
+	}
+
 	if (_isFire)
 	{
 		_bullet->render(getMemDC(), _bulletX, _bulletY);
 	}
-}
-
-void bakman::attack()
-{
-}
-
-void bakman::checkPlayer()
-{
-}
-
-void bakman::move()
-{
-}
-
-void bakman::draw()
-{
 }
 
 

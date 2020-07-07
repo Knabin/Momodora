@@ -90,6 +90,8 @@ private:
 	float _probeXR;
 
 	bool _isOnGround;
+	bool _canMoveLeft;
+	bool _canMoveRight;
 
 public:
 	HRESULT init(MYPOINT position);
@@ -110,6 +112,7 @@ class bakman : public enemy
 private:
 	image* _bullet;
 	animation* _ani_attack;
+	animation* _ani_attack2;
 
 	float _bulletX, _bulletY;
 	float _angle;

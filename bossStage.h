@@ -17,12 +17,17 @@ private:
 	image* _image;
 	image* _pixel;
 
+	image* _block;
+	animation* _ani_block;
+
 	RECT _rc;
 
 	progressBar _pgBar;
 
 	player* _player;
 	enemy* _boss;
+
+	bool _isStart;
 
 public:
 	virtual HRESULT init(int bossNum);

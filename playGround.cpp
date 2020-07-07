@@ -43,15 +43,18 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("effect_charge", "image/momo_effect_charge.bmp", 1056, 100, 11, 1, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("부적", "image/momo_bullet.bmp", 35, 15, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("보스 블록", "image/block_boss.bmp", 48, 144, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addFrameImage("보스 블록", "image/block_boss.bmp", 1152, 144, 24, 1, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("몬스터1", "image/oko.bmp", 39, 39, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터1 프레임", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
+
 		IMAGEMANAGER->addFrameImage("몬스터2", "image/monkey_move.bmp", 1152, 192, 6, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("몬스터2 공격", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("몬스터3 왼쪽", "image/bakman_left.bmp", 144, 96, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("몬스터3 오른쪽", "image/bakman_right.bmp", 144, 96, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("몬스터3 공격", "image/bakman.bmp", 1872, 192, 13, 2, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addImage("몬스터3 왼쪽", "image/bakman_left.bmp", 132, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("몬스터3 오른쪽", "image/bakman_right.bmp", 132, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터3 공격", "image/bakman_attack.bmp", 924, 192, 7, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("몬스터3 공격2", "image/bakman_attack2.bmp", 792, 192, 6, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("몬스터3 블록", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("보스1 왼쪽", "image/prim_left.bmp", 144, 144, true, RGB(255, 0, 255));

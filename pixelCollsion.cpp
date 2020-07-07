@@ -43,7 +43,7 @@ void pixelCollsion::update()
 			int g = GetGValue(color);
 			int b = GetBValue(color);
 
-			if ((r == 0 && g == 255 && b == 255) && !_player->getIsOnGround() && !_player->isJumping())
+			if ((r == 0 && g == 255 && b == 255))
 			{
 				if (!_player->getIsOnGround() && !_player->isJumping())
 				{
