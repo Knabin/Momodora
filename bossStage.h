@@ -41,5 +41,7 @@ public:
 
 	enemy* getBossPointer() { return _boss; }
 	void setBossPointer(enemy* boss) { _boss = boss; }
+
+
 };
 

@@ -4,6 +4,7 @@
 #include "bossStage.h"
 #include "commonStage.h"
 #include "enemy.h"
+#include "enemyManager.h"
 
 HRESULT stageManager::init()
 {
@@ -55,6 +56,13 @@ HRESULT stageManager::init()
 	boss2->setBossPointer(parsingEnemyData("stage/boss2.data"));
 	boss3->setBossPointer(parsingEnemyData("stage/boss3.data"));
 
+	_vEnemy.push_back(common1->getEnemyVector());
+	_vEnemy.push_back(common2->getEnemyVector());
+	_vEnemy.push_back(common3->getEnemyVector());
+	_vBoss.push_back(boss1->getBossPointer());
+	_vBoss.push_back(boss2->getBossPointer());
+	_vBoss.push_back(boss3->getBossPointer());
+
 	SCENEMANAGER->addScene(_vStageName[0], common1);
 	SCENEMANAGER->addScene(_vStageName[1], common2);
 	SCENEMANAGER->addScene(_vStageName[2], common3);
@@ -79,31 +87,37 @@ void stageManager::update()
 	{
 		SCENEMANAGER->changeScene(_vStageName[0]);
 		_currentIdx = 0;
+		_em->setEnemyVector(getCurrentEnemyVector());
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		SCENEMANAGER->changeScene(_vStageName[1]);
 		_currentIdx = 1;
+		_em->setEnemyVector(getCurrentEnemyVector());
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 	{
 		SCENEMANAGER->changeScene(_vStageName[2]);
 		_currentIdx = 2;
+		_em->setEnemyVector(getCurrentEnemyVector());
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F4))
 	{
 		SCENEMANAGER->changeScene(_vStageName[3]);
 		_currentIdx = 3;
+		_em->setBoss(getCurrentBossPointer());
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F5))
 	{
 		SCENEMANAGER->changeScene(_vStageName[4]);
 		_currentIdx = 4;
+		_em->setBoss(getCurrentBossPointer());
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F6))
 	{
 		SCENEMANAGER->changeScene(_vStageName[5]);
 		_currentIdx = 5;
+		_em->setBoss(getCurrentBossPointer());
 	}
 
 	SCENEMANAGER->update();	
@@ -132,6 +146,7 @@ void stageManager::moveNextStage()
 	if (getIsBossStage()) return;
 	++_currentIdx;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
+	_em->setEnemyVector(getCurrentEnemyVector());
 }
 
 void stageManager::movePrevStage()
@@ -140,6 +155,7 @@ void stageManager::movePrevStage()
 	if (getIsBossStage()) _currentIdx = 2;
 	else --_currentIdx;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
+	_em->setEnemyVector(getCurrentEnemyVector());
 }
 
 void stageManager::moveBossStage(int index)
@@ -147,7 +163,9 @@ void stageManager::moveBossStage(int index)
 	_player->setPointLeftStart();
 	_currentIdx = index;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
+	_em->setBoss(getCurrentBossPointer());
 }
+
 void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy)
 {
 	_vFileData.clear();
@@ -276,4 +294,14 @@ int stageManager::getCurrentStageSize()
 	case 5:
 		return 960;
 	}
+}
+
+vector<enemy*>& stageManager::getCurrentEnemyVector()
+{
+	return _vEnemy[_currentIdx];
+}
+
+enemy * stageManager::getCurrentBossPointer()
+{
+	return _vBoss[_currentIdx - _vEnemy.size()];
 }

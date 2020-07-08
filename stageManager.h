@@ -5,6 +5,7 @@
 
 class player;
 class enemy;
+class enemyManager;
 
 class stageManager : public gameNode
 {
@@ -16,8 +17,14 @@ private:
 	vector<string> _vStageName;
 	vector<string> _vFileData;
 
+	vector <vector<enemy *>> _vEnemy;
+	vector <enemy *> _vBoss;
+
+
 	MYRECT _rc[3];
 	MYRECT _rc2;
+
+	enemyManager* _em;
 
 	/* 
 	stageManager에서 해야 할 것
@@ -38,6 +45,7 @@ public:
 	void moveBossStage(int index);
 
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
+	void setEnemyManagerMemoryAddressLink(enemyManager *em) { _em = em; }
 
 	void parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy);
 	enemy* parsingEnemyData(const char * loadFileName);
@@ -48,7 +56,8 @@ public:
 	int getCurrentStageSize();
 	int getCurrentIndex() { return _currentIdx; }
 
-	//vector<enemy *>& getCurrentStageEnemyVector { _v}
+	vector<enemy *>& getCurrentEnemyVector();
+	enemy * getCurrentBossPointer();
 
 	bool getIsBossStage() 
 	{

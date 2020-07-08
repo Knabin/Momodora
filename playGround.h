@@ -5,6 +5,7 @@
 
 #include "player.h"
 #include "stageManager.h"
+#include "enemyManager.h"
 #include "bossStage.h"
 #include "commonStage.h"
 
@@ -24,6 +25,7 @@ private:
 	image* _backgroundPixel;
 
 	stageManager* _sm;
+	enemyManager* _em;
 
 	pixelCollsion* _pixel;
 

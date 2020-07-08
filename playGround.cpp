@@ -84,16 +84,21 @@ HRESULT playGround::init()
 
 	_player = new player;
 	_sm = new stageManager;
+	_em = new enemyManager;
 
 	_player->setStageManagerMemoryAddressLink(_sm);
 	_sm->setPlayerMemoryAddressLink(_player);
 
+	_sm->setEnemyManagerMemoryAddressLink(_em);
+	_em->setStageManagerMemoryAddressLink(_sm);
+
+
 	_player->init();
 	_sm->init();
+	_em->init();
 
 	_pixel = new pixelCollsion;
 	_pixel->init();
-
 
 	_pixel->setStageManagerMemoryAddressLink(_sm);
 	_pixel->setPlayerMemoryAddressLink(_player);
@@ -136,6 +141,7 @@ void playGround::update()
 	_player->update();
 	_pixel->update();
 	_sm->update();
+	_em->update();
 
 	if (_player->getIsCameraShaking())
 	{

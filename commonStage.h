@@ -45,7 +45,9 @@ public:
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
 
 	vector<enemy *>& getEnemyVector() { return _vEnemy; }
+
 	void setEnemyVector(vector<enemy *>& vEnemy) { _vEnemy = vEnemy; }
 	void insertIntoEnemyVector(enemy * e) { _vEnemy.push_back(e); }
+
 };
 
