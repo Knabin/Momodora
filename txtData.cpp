@@ -54,7 +54,6 @@ char* txtData::vectorArrayCombine(vector<string> vArray)
 		if (i + 1 < vArray.size()) strcat_s(str, ",");
 	}
 
-
 	return str;
 }
 

@@ -1,26 +1,39 @@
-﻿  enemy.cpp
-c:\users\ppoxx\source\repos\momodora\player.h(170): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\source\repos\momodora\player.h(171): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(92): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(93): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(237): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(241): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(352): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(353): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(358): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(359): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(367): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(377): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(390): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(405): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(499): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(508): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(581): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(585): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(589): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(595): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(619): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(677): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(678): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ppoxx\source\repos\momodora\enemy.cpp(727): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  windowsAPI.vcxproj -> C:\Users\ppoxx\source\repos\Momodora\x64\Debug\windowsAPI.exe
+﻿  bossStage.cpp
+c:\users\kga_21\desktop\momodora3\momodora\bossstage.cpp(90): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  commonStage.cpp
+  enemy.cpp
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(92): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(93): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(237): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(241): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(352): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(353): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(358): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(359): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(367): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(377): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(390): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(405): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(499): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(508): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(581): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(585): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(589): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(595): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(653): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(657): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(661): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(665): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(714): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(936): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(937): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(943): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(946): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(949): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kga_21\desktop\momodora3\momodora\enemy.cpp(952): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  playGround.cpp
+c:\users\kga_21\desktop\momodora3\momodora\playground.cpp(173): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  stageManager.cpp
+  코드를 생성하고 있습니다...
+c:\users\kga_21\desktop\momodora3\momodora\stagemanager.cpp(279): warning C4715: 'stageManager::getCurrentStageSize': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  windowsAPI.vcxproj -> C:\Users\KGA_21\Desktop\Momodora3\Momodora\x64\Debug\windowsAPI.exe

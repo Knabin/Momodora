@@ -138,10 +138,12 @@ public:
 
 class prim : public enemy
 {
-	animation* _ani_idle;
+	animation* _ani_start;
 	animation* _ani_run;
 	animation* _ani_angry;
 	animation* _ani_attack;
+
+	bool _isStart;
 
 public:
 	HRESULT init(MYPOINT position);
@@ -153,6 +155,8 @@ public:
 	virtual void checkPlayer();
 	virtual void move();
 	virtual void draw();
+
+	void start();
 };
 
 class witch : public enemy
@@ -168,6 +172,10 @@ class witch : public enemy
 
 	float _xRight, _yRight;
 
+	int _attackCount;
+
+	bool _isStart;
+
 public:
 	HRESULT init(MYPOINT position);
 	void release();
@@ -178,26 +186,64 @@ public:
 	virtual void checkPlayer();
 	virtual void move();
 	virtual void draw();
+
+	void start();
 };
 
 class rell : public enemy
 {
-	enum RELLSTATE
-	{
+	float _xLarge, _yLarge;	// 3페이즈용
 
+	enum class RELLSTATE
+	{
+		LEFT_IDLE,
+		RIGHT_IDLE,
+
+		LEFT_MOVE,	// 1, 텔레포트
+		RIGHT_MOVE,
+
+		LEFT_GROUND,
+		RIGHT_GROUND,
+
+		LEFT_ATTACK,
+		RIGHT_ATTACK,
+
+		PRAY,	// 1
+		AIR,	// 2, 떠 있는 상태
+		DEAD,
 	};
+
+	enum class RELLMODE
+	{
+		MODE1,
+		MODE2,
+		MODE3,
+	};
+	
+	image* _image;
 
 	image* _bullet;
 	image* _snow;
 	image* _snow2;
 
-	animation* _ani_appear;
-	animation* _ani_idle;
-	animation* _ani_idle2;
-	animation* _ani_attack;
-	animation* _ani_ground;
-	animation* _ani_fire;
+	// 1페이즈
+	animation* _ani_idle1;
+	animation* _ani_ground1;
+	animation* _ani_attack1;
+	animation* _ani_pray;
 
+	//2
+	animation* _ani_attack2;
+
+	//3
+	animation* _ani_idle3;
+	animation* _ani_ground3;
+	animation* _ani_attack3;
+
+	RELLSTATE _state;
+	RELLMODE _mode;
+
+	bool _isStart;
 public:
 	HRESULT init(MYPOINT position);
 	void release();
@@ -208,4 +254,6 @@ public:
 	virtual void checkPlayer();
 	virtual void move();
 	virtual void draw();
+
+	void start();
 };

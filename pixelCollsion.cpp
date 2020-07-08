@@ -19,7 +19,6 @@ HRESULT pixelCollsion::init()
 	_str[0] = "¹è°æ ÇÈ¼¿";
 	_str[1] = "¹è°æ2 ÇÈ¼¿";
 	_str[2] = "¹è°æ3 ÇÈ¼¿";
-	_str[3] = "¹è°æ3 ÇÈ¼¿ º¸½º";
 
 	return S_OK;
 }
@@ -30,7 +29,7 @@ void pixelCollsion::release()
 
 void pixelCollsion::update()
 {
-	if (_sm->getIsBossStage()) _pixel = _sm->isAliveBoss() ? IMAGEMANAGER->findImage(_str[3]) : IMAGEMANAGER->findImage(_str[2]);
+	if (_sm->getIsBossStage()) _pixel = IMAGEMANAGER->findImage(_str[2]);
 	else _pixel = IMAGEMANAGER->findImage(_str[_sm->getCurrentIndex()]);
 
 	for (int i = _player->getProbeY() - 20; i <= _player->getProbeY(); i++)

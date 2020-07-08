@@ -7,7 +7,6 @@ HRESULT bossStage::init(int bossNum)
 {
 
 	_image = IMAGEMANAGER->findImage("보스 배경");
-	_pixel = IMAGEMANAGER->findImage("배경3 픽셀 보스");
 
 	_block = IMAGEMANAGER->findImage("보스 블록");
 
@@ -16,6 +15,8 @@ HRESULT bossStage::init(int bossNum)
 		_block->getHeight(),
 		_block->getFrameWidth(),
 		_block->getFrameHeight());
+	_ani_block->setFPS(1);
+	_ani_block->setDefPlayFrame(false, false);
 	
 	switch (bossNum)
 	{
@@ -27,44 +28,66 @@ HRESULT bossStage::init(int bossNum)
 		break;
 	}
 
-	_rc = RectMake(0, 428, 48, 144);
-	
+	_rc.set(0, 144, 48, 428);
+	_rcCol.set(0, 0, 50, 150);
+	_rcCol.setLeftTopPos(0, _rc.bottom);
 
 	_pgBar.init(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
+
+	_isStart = _isDead = false;
+	
+
 
 	return S_OK;
 }
 
 void bossStage::release()
 {
+	_isStart = false;
+	_isDead = false;
 }
 
 void bossStage::update()
 {
-	CAMERA->setBackWidth(960);
-	_pgBar.update();
-
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && !_isStart)
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && !_isStart)
 	{
 		_isStart = true;
+		_ani_block->setPlayFrame(0, 23, false);
+		_ani_block->start();
+		CAMERA->setBackWidth(960);
 	}
 
-	if (KEYMANAGER->isToggleKey(VK_TAB))
+	if (_ani_block->isPlay())
 	{
-
+		_ani_block->frameUpdate(TIMEMANAGER->getElapsedTime() * 30);
 	}
 
-	_boss->update();
+	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+	{
+		_isStart = false;
+		_isDead = true;
+	}
+
+	if (checkPointInRect(_rcCol, _player->getProbeXL(), _player->getY()) && _isStart && !_isDead)
+	{
+		_player->setCanMoveLeft(false);
+	}
+
+	if (_isStart)
+	{
+		_boss->update();
+	}
+	_pgBar.update();
 }
 
 void bossStage::render()
 {
 	_image->render(getMemDC());
 	
-		_pgBar.render();
-		IMAGEMANAGER->findImage("보스 블록")->render(getMemDC(), _rc.left, _rc.top);
 	if (_isStart)
 	{
+		_pgBar.render();
+		_block->aniRender(getMemDC(), _rc.left, _rc.bottom, _ani_block);
 	}
 
 	_boss->render();

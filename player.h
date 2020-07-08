@@ -167,8 +167,8 @@ public:
 	float getProbeY() { return _probeY; }
 	void setProbeY(float probeY) { _probeY = probeY; }
 
-	float getWidth() { return _width; }
-	float getHeight() { return _height; }
+	int getWidth() { return _width; }
+	int getHeight() { return _height; }
 
 	MYRECT& getHitbox() { return _hitbox; }
 

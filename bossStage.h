@@ -15,12 +15,12 @@ class bossStage : public gameNode
 {
 private:
 	image* _image;
-	image* _pixel;
 
 	image* _block;
 	animation* _ani_block;
 
-	RECT _rc;
+	MYRECT _rc;
+	MYRECT _rcCol;
 
 	progressBar _pgBar;
 
@@ -28,6 +28,8 @@ private:
 	enemy* _boss;
 
 	bool _isStart;
+	// TODO: isDead를 boss 클래스에서 받아오기
+	bool _isDead;
 
 public:
 	virtual HRESULT init(int bossNum);

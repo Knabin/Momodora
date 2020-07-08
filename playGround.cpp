@@ -57,21 +57,28 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("몬스터3 공격2", "image/bakman_attack2.bmp", 792, 192, 6, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("몬스터3 블록", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("보스1 왼쪽", "image/prim_left.bmp", 144, 144, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("보스1 오른쪽", "image/prim_right.bmp", 144, 144, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("보스1 이동", "image/prim_move.bmp", 1536, 288, 8, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("보스1 화남", "image/prim_angry.bmp", 2160, 288, 15, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 시작", "image/prim_startled.bmp", 4200, 144, 10, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 이동", "image/prim_move.bmp", 3360, 288, 8, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스1 화남", "image/prim_angry.bmp", 6300, 288, 15, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스1 공격", "image/prim_attack.bmp", 8400, 288, 20, 2, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("보스2 왼쪽", "image/witchd_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스2 왼쪽 공격", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("보스2 오른쪽", "image/witchl_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스2 오른쪽", "image/witchl_idle.bmp", 720, 144, 5, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스2 오른쪽 공격", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("보스2 왼쪽 불렛", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("보스2 왼쪽 불렛2", "image/witchd_bullet2.bmp", 9, 9, true, RGB(0, 255, 255));
 
-		IMAGEMANAGER->addFrameImage("보스3 등장", "image/rell_appear.bmp", 576, 96, 6, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-1 기본", "image/rell1_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-1 땅", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-1 공격", "image/rell1_fire.bmp", 960, 192, 10, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-1 기도", "image/rell1_pray.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
 
+		IMAGEMANAGER->addFrameImage("보스3-2", "image/rell2_appear.bmp", 576, 96, 5, 1, true, RGB(255, 0, 255));
+
+		IMAGEMANAGER->addFrameImage("보스3-3 기본", "image/rell3_idle.bmp", 1800, 480, 5, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-3 땅", "image/rell3_ground.bmp", 4320, 480, 12, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("보스3-3 공격", "image/rell3_idle.bmp", 2520, 480, 7, 2, true, RGB(255, 0, 255));
 
 	}
 

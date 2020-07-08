@@ -283,7 +283,7 @@ void monkey::checkPlayer()
 	}
 	else if (isCollision(_rcCheck, _player->getHitbox()))
 	{
-	if (_player->getHitbox().left < _x + _width / 2)
+		if (_player->getHitbox().right < _x)
 		{
 			if (_direction != ENEMYDIRECTION::LEFT_MOVE)
 			{
@@ -293,7 +293,7 @@ void monkey::checkPlayer()
 				_ani_run->start();
 			}
 		}
-		else if (_player->getHitbox().right > _x - _width / 2)
+		else if (_player->getHitbox().left > _x + _width)
 		{
 			if (_direction != ENEMYDIRECTION::RIGHT_MOVE)
 			{
@@ -362,7 +362,7 @@ void monkey::pixelCollision()
 	}
 
 	//for (int i = _rc.left; i <= _rc.right; ++i)
-	for(; i<= dest; ++i)
+	for ( ; i<= dest; ++i)
 	{
 		for (int j = _rc.bottom - 5; j < _rc.bottom; ++j)
 		{
@@ -599,9 +599,36 @@ void bakman::draw()
 
 HRESULT prim::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("보스1 왼쪽");
+	_image = IMAGEMANAGER->findImage("보스1 시작");
+	
+	_ani_start = new animation;
+	_ani_start->init(_image->getWidth(), _image->getHeight(),
+		_image->getFrameWidth(), _image->getFrameHeight());
+	_ani_start->setFPS(1);
+	_ani_start->setDefPlayFrame(false, false);
+
+	_ani_attack = new animation;
+	_ani_attack->init(IMAGEMANAGER->findImage("보스1 공격")->getWidth(), IMAGEMANAGER->findImage("보스1 공격")->getHeight(),
+		_image->getFrameWidth(), _image->getFrameHeight());
+	_ani_attack->setFPS(1);
+	_ani_attack->setDefPlayFrame(false, false);
+
+	_ani_run = new animation;
+	_ani_run->init(IMAGEMANAGER->findImage("보스1 이동")->getWidth(), IMAGEMANAGER->findImage("보스1 이동")->getHeight(),
+		_image->getFrameWidth(), _image->getFrameHeight());
+	_ani_run->setFPS(1);
+	_ani_run->setDefPlayFrame(false, false);
+
+	_ani_angry = new animation;
+	_ani_angry->init(IMAGEMANAGER->findImage("보스1 화남")->getWidth(), IMAGEMANAGER->findImage("보스1 화남")->getHeight(),
+		_image->getFrameWidth(), _image->getFrameHeight());
+	_ani_angry->setFPS(1);
+	_ani_angry->setDefPlayFrame(false, false);
+
 	_x = position.x;
 	_y = position.y;
+
+	_isStart = false;
 
 	return S_OK;
 }
@@ -612,11 +639,33 @@ void prim::release()
 
 void prim::update()
 {
+	start();
+	move();
+	draw();
 }
 
 void prim::render()
 {
-	_image->render(getMemDC(), _x, _y);
+	switch (_direction)
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::RIGHT_IDLE:
+		_image->aniRender(getMemDC(), _x, _y, _ani_start);
+		break;
+	case ENEMYDIRECTION::LEFT_MOVE:
+	case ENEMYDIRECTION::RIGHT_MOVE:
+		_image->aniRender(getMemDC(), _x, _y, _ani_run);
+		break;
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
+		break;
+	case ENEMYDIRECTION::LEFT_ACTION:
+	case ENEMYDIRECTION::RIGHT_ACTION:
+		_image->aniRender(getMemDC(), _x, _y, _ani_angry);
+		break;
+	}
+
 }
 
 void prim::attack()
@@ -625,14 +674,128 @@ void prim::attack()
 
 void prim::checkPlayer()
 {
+	if (_direction != ENEMYDIRECTION::LEFT_ATTACK && _direction != ENEMYDIRECTION::RIGHT_ATTACK && _direction != ENEMYDIRECTION::LEFT_ACTION && _direction != ENEMYDIRECTION::RIGHT_ACTION)
+	{
+		if (getDistance(_player->getX(), 0, _x + _image->getFrameWidth() / 2, 0) <= 50)
+		{
+			_direction = static_cast<int>(_direction) % 2 == 0 ? ENEMYDIRECTION::LEFT_ATTACK : ENEMYDIRECTION::RIGHT_ATTACK;
+			_image = IMAGEMANAGER->findImage("보스1 공격");
+
+			if (static_cast<int>(_direction) % 2 == 0) _ani_attack->setPlayFrame(0, 19, false);
+			else _ani_attack->setPlayFrame(20, 39, false);
+
+			_ani_attack->start();
+		}
+
+	}
 }
 
 void prim::move()
 {
+	if (_direction == ENEMYDIRECTION::LEFT_MOVE || _direction == ENEMYDIRECTION::RIGHT_MOVE)
+	{
+		if (_player->getX() < _x + _image->getFrameWidth() / 2)
+		{
+			_x -= 6;
+		}
+		else
+		{
+			_x += 6;
+		}
+	}
 }
 
 void prim::draw()
 {
+	switch (_direction)
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::RIGHT_IDLE:
+		_ani_start->frameUpdate(TIMEMANAGER->getElapsedTime() * 0.5);
+
+		if (!_ani_start->isPlay())
+		{
+			_image = IMAGEMANAGER->findImage("보스1 이동");
+			if (_player->getX() < _x + _image->getFrameWidth() / 2)
+			{
+				_direction = ENEMYDIRECTION::LEFT_MOVE;
+				_ani_run->setPlayFrame(0, 7, true);
+			}
+			else
+			{
+				_direction = ENEMYDIRECTION::RIGHT_MOVE;
+				_ani_run->setPlayFrame(8, 15, true);
+			}
+			_ani_run->start();
+		}
+		break;
+	case ENEMYDIRECTION::LEFT_MOVE:
+	case ENEMYDIRECTION::RIGHT_MOVE:
+		_ani_run->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		break;
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+
+		if (!_ani_attack->isPlay())
+		{
+			_image = IMAGEMANAGER->findImage("보스1 화남");
+			if (static_cast<int>(_direction) % 2 == 0) 
+			{
+				_direction = ENEMYDIRECTION::LEFT_ACTION;
+				_ani_angry->setPlayFrame(0, 14, false);
+			}
+			else
+			{
+				_direction = ENEMYDIRECTION::RIGHT_ACTION;
+				_ani_angry->setPlayFrame(15, 29, false);
+			}
+			_ani_angry->start();
+		}
+		break;
+	case ENEMYDIRECTION::LEFT_ACTION:
+	case ENEMYDIRECTION::RIGHT_ACTION:
+		_ani_angry->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+
+		if (!_ani_angry->isPlay())
+		{
+			_image = IMAGEMANAGER->findImage("보스1 이동");
+			if (_player->getX() < _x + _image->getFrameWidth() / 2)
+			{
+				_direction = ENEMYDIRECTION::LEFT_MOVE;
+				_ani_run->setPlayFrame(0, 7, true);
+			}
+			else
+			{
+				_direction = ENEMYDIRECTION::RIGHT_MOVE;
+				_ani_run->setPlayFrame(8, 15, true);
+			}
+			_ani_run->start();
+		}
+		break;
+	}
+}
+
+void prim::start()
+{
+	if (!_isStart)
+	{
+		_ani_start->setPlayFrame(0, 9, false);
+		_ani_start->start();
+		_isStart = true;
+	}
+	else
+	{
+
+		if (_ani_start->isPlay())
+		{
+			_ani_start->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		}
+		else
+		{
+			checkPlayer();
+		}
+	}
 }
 
 HRESULT witch::init(MYPOINT position)
@@ -640,8 +803,9 @@ HRESULT witch::init(MYPOINT position)
 	_image = IMAGEMANAGER->findImage("보스2 왼쪽");
 	_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽");
 	_x = position.x;
-	_y = _yRight = position.y;
-	_xRight = _x + 100;
+	_xRight = WINSIZEX - _x - 100;
+	_y = position.y;
+	_yRight = _y - 24;
 
 	_ani_idle_left = new animation;
 	_ani_idle_left->init(_image->getWidth(), _image->getHeight(),
@@ -651,6 +815,14 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_left->setPlayFrame(0, 4, false, true);
 	_ani_idle_left->start();
 
+	_ani_attack_left = new animation;
+	_ani_attack_left->init(IMAGEMANAGER->findImage("보스2 왼쪽 공격")->getWidth(),
+		IMAGEMANAGER->findImage("보스2 왼쪽 공격")->getHeight(),
+		_image->getFrameWidth(), _image->getFrameHeight());
+	_ani_attack_left->setFPS(1);
+	_ani_attack_left->setDefPlayFrame(false, false);
+	_ani_attack_left->setPlayFrame(0, 9, false, false);
+
 	_ani_idle_right = new animation;
 	_ani_idle_right->init(_imageRight->getWidth(), _imageRight->getHeight(),
 		_imageRight->getFrameWidth(), _imageRight->getFrameHeight());
@@ -658,6 +830,19 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_right->setDefPlayFrame(false, true);
 	_ani_idle_right->setPlayFrame(0, 4, false, true);
 	_ani_idle_right->start();
+
+	_ani_attack_right = new animation;
+	_ani_attack_right->init(IMAGEMANAGER->findImage("보스2 오른쪽 공격")->getWidth(),
+		IMAGEMANAGER->findImage("보스2 오른쪽 공격")->getHeight(),
+		_imageRight->getFrameWidth(), _imageRight->getFrameHeight());
+	_ani_attack_right->setFPS(1);
+	_ani_attack_right->setDefPlayFrame(false, false);
+	_ani_attack_right->setPlayFrame(0, 17, false, false);
+
+	_isStart = false;
+	_attackCount = 0;
+
+	_direction = ENEMYDIRECTION::LEFT_IDLE;
 
 	return S_OK;
 }
@@ -668,18 +853,57 @@ void witch::release()
 
 void witch::update()
 {
-	_ani_idle_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	_ani_idle_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	start();
+	move();
+	attack();
 }
 
 void witch::render()
 {
-	_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
-	_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
+	draw();
 }
 
 void witch::attack()
 {
+	++_attackCount;
+
+	if (_attackCount > 300)
+	{
+		switch (_direction)
+		{
+		case ENEMYDIRECTION::LEFT_IDLE:
+			_image = IMAGEMANAGER->findImage("보스2 왼쪽 공격");
+			_ani_idle_left->stop();
+			_ani_attack_left->start();
+			_direction = ENEMYDIRECTION::LEFT_ATTACK;
+			break;
+		case ENEMYDIRECTION::RIGHT_IDLE:
+			_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽 공격");
+			_ani_idle_right->stop();
+			_ani_attack_right->start();
+			_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+			break;
+		case ENEMYDIRECTION::LEFT_ATTACK:
+			if (!_ani_attack_left->isPlay())
+			{
+				_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽");
+				_ani_idle_right->start();
+
+				_direction = ENEMYDIRECTION::RIGHT_IDLE;
+			}
+			break;
+		case ENEMYDIRECTION::RIGHT_ATTACK:
+			if (!_ani_attack_right->isPlay())
+			{
+				_image = IMAGEMANAGER->findImage("보스2 왼쪽");
+				_ani_idle_left->start();
+
+				_direction = ENEMYDIRECTION::LEFT_IDLE;
+			}
+			break;
+		}
+		_attackCount = 0;
+	}
 }
 
 void witch::checkPlayer()
@@ -688,23 +912,132 @@ void witch::checkPlayer()
 
 void witch::move()
 {
+	switch (_direction)
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::RIGHT_IDLE:
+		_ani_idle_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		_ani_idle_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		break;
+
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		_ani_attack_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		_ani_attack_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		break;
+
+	}
 }
 
 void witch::draw()
 {
+	if (!_isStart)
+	{
+		_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
+		_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
+	}
+	else {
+		switch (_direction)
+		{
+		case ENEMYDIRECTION::LEFT_IDLE:
+			_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
+			break;
+		case ENEMYDIRECTION::RIGHT_IDLE:
+			_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
+			break;
+		case ENEMYDIRECTION::LEFT_ATTACK:
+			_image->aniRender(getMemDC(), _x, _y, _ani_attack_left);
+			break;
+		case ENEMYDIRECTION::RIGHT_ATTACK:
+			_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_attack_right);
+			break;
+		}
+	}
+}
+
+void witch::start()
+{
+	if (!_isStart)
+	{
+		_attackCount++;
+		if (_attackCount >= 150)
+		{
+			_isStart = true;
+			_attackCount = 0;
+		}
+	}
 }
 
 
 HRESULT rell::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("보스3 등장");
-	_ani_appear = new animation;
-	_ani_appear->init(_image->getWidth(), _image->getHeight(),
-		_image->getFrameWidth(), _image->getFrameHeight());
-	_ani_appear->setFPS(1);
-	_ani_appear->setDefPlayFrame(0, 1);
-	_ani_appear->setPlayFrame(0, 5, false, true);
-	_ani_appear->start();
+	_image = IMAGEMANAGER->findImage("보스3-1 기본");
+
+	{
+		_ani_idle1 = new animation;
+		_ani_idle1->init(_image->getWidth(), _image->getHeight(),
+			_image->getFrameWidth(), _image->getFrameHeight());
+		_ani_idle1->setFPS(1);
+		_ani_idle1->setDefPlayFrame(false, true);
+		_ani_idle1->start();
+
+		_ani_ground1 = new animation;
+		_ani_ground1->init(IMAGEMANAGER->findImage("보스3-1 땅")->getWidth(), 
+			IMAGEMANAGER->findImage("보스3-1 땅")->getHeight(),
+			_image->getFrameWidth(), _image->getFrameHeight());
+		_ani_ground1->setFPS(1);
+		_ani_ground1->setDefPlayFrame(false, false);
+
+		_ani_attack1 = new animation;
+		_ani_attack1->init(IMAGEMANAGER->findImage("보스3-1 공격")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-1 공격")->getHeight(),
+			_image->getFrameWidth(), _image->getFrameHeight());
+		_ani_attack1->setFPS(1);
+		_ani_attack1->setDefPlayFrame(false, false);
+
+		_ani_pray = new animation;
+		_ani_pray->init(IMAGEMANAGER->findImage("보스3-1 공격")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-1 공격")->getHeight(),
+			_image->getFrameWidth(), _image->getFrameHeight());
+		_ani_pray->setFPS(1);
+		_ani_attack1->setDefPlayFrame(false, false);
+
+
+		_ani_attack2 = new animation;
+		_ani_attack2->init(IMAGEMANAGER->findImage("보스3-2")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-2")->getHeight(),
+			_image->getFrameWidth(), _image->getFrameHeight());
+		_ani_attack2->setFPS(1);
+		_ani_attack2->setDefPlayFrame(false, false);
+
+
+		_ani_idle3 = new animation;
+		_ani_idle3->init(IMAGEMANAGER->findImage("보스3-3 기본")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-3 기본")->getHeight(),
+			IMAGEMANAGER->findImage("보스3-3 기본")->getFrameWidth(),
+			IMAGEMANAGER->findImage("보스3-3 기본")->getFrameHeight());
+		_ani_idle3->setFPS(1);
+		_ani_idle3->setDefPlayFrame(false, true);
+
+		_ani_ground3 = new animation;
+		_ani_ground3->init(IMAGEMANAGER->findImage("보스3-3 땅")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-3 땅")->getHeight(),
+			IMAGEMANAGER->findImage("보스3-3 땅")->getFrameWidth(),
+			IMAGEMANAGER->findImage("보스3-3 땅")->getFrameHeight());
+		_ani_ground3->setFPS(1);
+		_ani_ground3->setDefPlayFrame(false, false);
+
+		_ani_attack3 = new animation;
+		_ani_attack3->init(IMAGEMANAGER->findImage("보스3-3 공격")->getWidth(),
+			IMAGEMANAGER->findImage("보스3-3 공격")->getHeight(),
+			IMAGEMANAGER->findImage("보스3-3 공격")->getFrameWidth(),
+			IMAGEMANAGER->findImage("보스3-3 공격")->getFrameHeight());
+		_ani_attack3->setFPS(1);
+		_ani_attack3->setDefPlayFrame(false, false);
+	}
+
+	_state = RELLSTATE::LEFT_IDLE;
+	_mode = RELLMODE::MODE1;
 
 	_x = position.x;
 	_y = position.y;
@@ -718,13 +1051,11 @@ void rell::release()
 
 void rell::update()
 {
-	_ani_appear->frameUpdate(TIMEMANAGER->getElapsedTime() * 8);
 }
 
 void rell::render()
 {
-//	_image->render(getMemDC(), _x, _y);
-	_image->aniRender(getMemDC(), _x, _y, _ani_appear);
+	draw();
 }
 
 void rell::attack()
@@ -741,4 +1072,5 @@ void rell::move()
 
 void rell::draw()
 {
+	
 }

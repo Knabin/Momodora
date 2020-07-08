@@ -7,6 +7,7 @@
 
 HRESULT stageManager::init()
 {
+	// TODO: enemy 추가하는 걸 ENEMYMANAGER로 옮김, signleton으로 변경
 	commonStage * common1 = new commonStage();
 	common1->init(0);
 	common1->setPlayerMemoryAddressLink(_player);
@@ -257,7 +258,8 @@ bool stageManager::isAliveBoss()
 {
 	if (!getIsBossStage()) return false;
 
-	//TODO: 보스 enemy 가져와서 살아 잇는지 체크 필요
+
+
 	return true;
 }
 

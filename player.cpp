@@ -231,7 +231,7 @@ void player::update()
 	{
 		if (_state != LEFT_ATTACK && _state != RIGHT_ATTACK)
 		{
-			if (isMovingLeft() || _state == LEFT_IDLE)
+			if (isMovingLeft() || _state == LEFT_IDLE || _state == LEFT_JUMP)
 			{
 				setAnimation(LEFT_ATTACK);
 			}
@@ -386,7 +386,7 @@ void player::update()
 
 	moveBullet();
 
-	cout << "모모 상태: " << _state << " 이전: " << _stateBefore << endl;
+	//cout << "모모 상태: " << _state << " 이전: " << _stateBefore << endl;
 }
 
 void player::render()
