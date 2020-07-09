@@ -48,6 +48,10 @@ void enemy::draw()
 
 }
 
+void enemy::checkCollision()
+{
+}
+
 HRESULT oko::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("몬스터1");
@@ -67,6 +71,10 @@ HRESULT oko::init(MYPOINT position)
 	_ani_round->setPlayFrame(0, 15, false, true);
 	_ani_round->setFPS(1);
 	_ani_round->start();
+
+	_isOnceAttacked = false;
+
+	_hp = 2;
 	return S_OK;
 }
 
@@ -78,8 +86,10 @@ void oko::release()
 
 void oko::update()
 {
+	if (_hp <= 0) return;
 	move();
 	draw();
+	checkCollision();
 
 	if(_ani_round->isPlay())
 		_ani_round->frameUpdate(TIMEMANAGER->getElapsedTime() * 30);
@@ -87,10 +97,10 @@ void oko::update()
 
 void oko::render()
 {
-	if (DEBUG)_objectRc.render(getMemDC());
+	if (_hp <= 0) return;
 	if(DEBUG) _rc.render(getMemDC());
 	_imageRound->aniRender(getMemDC(), _rc.left - _rc.getWidth() + 10, _rc.top - _rc.getHeight() + 10, _ani_round);
-	_image->render(getMemDC(), _rc.left, _rc.top);
+	if(!_isOnceAttacked) _image->render(getMemDC(), _rc.left, _rc.top);
 }
 
 void oko::attack()
@@ -132,6 +142,32 @@ void oko::draw()
 {
 }
 
+void oko::checkCollision()
+{
+	// 플레이어를 공격함
+	// oko는 본체 충돌처리만 진행
+	if (!_player->getIsAttacked() && isCollision(_player->getHitbox(), _rc))
+	{
+		cout << "충돌" << endl;
+		_player->setIsAttacked(true);
+		_player->setHP(_player->getHP() - 1);
+	}
+
+	// 플레이어에게 공격당함
+	// 플레이어 공격 범위에 들어오면 하나 까이고
+
+	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
+	{
+		_player->setIsCheckAttack(true);
+		_hp -= 1;
+		cout << "공격, " << _hp << endl;
+		if (_hp == 1)
+		{
+			_isOnceAttacked = true;
+		}
+	}
+}
+
 HRESULT monkey::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("몬스터2");
@@ -150,10 +186,12 @@ HRESULT monkey::init(MYPOINT position)
 	_rc.set(0, 0, 70, 100);
 	_rc.setCenterPos(_x + _width / 2 , _y + _height / 2);
 
+	_rcHit.set(0, 0, 50, 50);
+
 	_rcCheck.set(0, 0, 500, 250);
 	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
 
-	_rcAttack.set(0, 0, 30, 80);
+	_rcAttack.set(0, 0, 20, 40);
 
 	_ani_run = new animation;
 	_ani_run->init(_image->getWidth(),
@@ -177,6 +215,8 @@ HRESULT monkey::init(MYPOINT position)
 	_isOnGround = false;
 	_canMoveLeft = _canMoveRight = true;
 
+	_hp = 3;
+
 	return S_OK;
 }
 
@@ -190,44 +230,44 @@ void monkey::release()
 
 void monkey::update()
 {
+	if (_hp <= 0) return;
 	if (_player->getX() <= _x + _width / 2)
 	{
-		_rcAttack.setLeftTopPos(_x + 40, _y + 20);
+		_rcAttack.setLeftTopPos(_x + 60, _y + 60);
 	}
 	else
 	{
-		_rcAttack.setLeftTopPos(_x + _width / 2 + 30, _y + 20);
+		_rcAttack.setLeftTopPos(_x + _width / 2 + 20, _y + 60);
 	}
+	_rcHit.setCenterPos(_x + _width / 2, _y + _height / 2 + 25);
 	checkPlayer();
 	pixelCollision();
 	move();
+	checkCollision();
+
 
 	switch (_direction)
 	{
 	case ENEMYDIRECTION::LEFT_IDLE:
-		break;
 	case ENEMYDIRECTION::RIGHT_IDLE:
-		break;
 	case ENEMYDIRECTION::LEFT_MOVE:
-		break;
 	case ENEMYDIRECTION::RIGHT_MOVE:
+		if (_ani_run->isPlay()) _ani_run->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
 	case ENEMYDIRECTION::LEFT_ATTACK:
-		if(_ani_attack->isPlay()) _ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		break;
 	case ENEMYDIRECTION::RIGHT_ATTACK:
 		if (_ani_attack->isPlay()) _ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
 	}
-
-	if (_ani_run->isPlay())
-		_ani_run->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		
 }
 
 void monkey::render()
 {
 	//_rc.render(getMemDC());
-	//_rcAttack.render(getMemDC());
+	_rcHit.render(getMemDC());
+	_rcAttack.render(getMemDC());
+	if (_hp <= 0) return;
 	switch (_direction)
 	{
 	case ENEMYDIRECTION::LEFT_IDLE:
@@ -252,7 +292,7 @@ void monkey::checkPlayer()
 	if (isCollision(_rcAttack, _player->getHitbox()))
 	{
 		_ani_run->stop();
-		if (_player->getX() < _x + _width / 2)
+		if (_player->getX() < _x + 50)
 		{
 			if (_direction != ENEMYDIRECTION::LEFT_ATTACK)
 			{
@@ -306,6 +346,7 @@ void monkey::checkPlayer()
 	}
 	else
 	{
+		_ani_attack->stop();
 		_direction = (_direction == ENEMYDIRECTION::LEFT_MOVE || _direction == ENEMYDIRECTION::LEFT_ATTACK || _direction == ENEMYDIRECTION::LEFT_IDLE) ? ENEMYDIRECTION::LEFT_IDLE : ENEMYDIRECTION::RIGHT_IDLE;
 	}
 }
@@ -338,6 +379,32 @@ void monkey::move()
 void monkey::draw()
 {
 }
+
+void monkey::checkCollision()
+{
+	// 플레이어를 공격함
+	// monkey 본체 충돌처리
+	// monkey 공격 rect와 충돌처리
+	if (!_player->getIsAttacked())
+	{
+		if (isCollision(_player->getHitbox(), _rcAttack) || isCollision(_player->getHitbox(), _rcHit))
+		{
+			cout << "충돌" << endl;
+			_player->setIsAttacked(true);
+			_player->setHP(_player->getHP() - 1);
+		}
+	} 
+
+	// 플레이어에게 공격당함
+	// 플레이어 공격 범위에 들어오면 하나 까임
+	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
+	{
+		_player->setIsCheckAttack(true);
+		_hp -= 1;
+		cout << "공격, " << _hp << endl;
+	}
+}
+
 
 void monkey::pixelCollision()
 {
@@ -417,6 +484,7 @@ void monkey::pixelCollision()
 	}
 }
 
+
 HRESULT bakman::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("몬스터3 공격");
@@ -432,11 +500,13 @@ HRESULT bakman::init(MYPOINT position)
 	_width = _image->getFrameWidth();
 	_height = _image->getFrameHeight();
 
-	_rc.set(0, 0, 70, 80);
-	_rc.setCenterPos(_x + _width / 2, _y + _height / 2);
+	_rc.set(0, 0, 50, 60);
+	_rc.setCenterPos(_x + _width / 2, _y + _height / 2 + 20);
 
 	_rcCheck.set(0, 0, 600, 300);
 	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
+
+	_rcBullet.set(0, 0, _bullet->getWidth(), _bullet->getHeight());
 
 	_ani_attack = new animation;
 	_ani_attack->init(IMAGEMANAGER->findImage("몬스터3 공격")->getWidth(),
@@ -454,6 +524,8 @@ HRESULT bakman::init(MYPOINT position)
 	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack2->setFPS(1);
 
+	_hp = 3;
+
 	return S_OK;
 }
 
@@ -465,8 +537,11 @@ void bakman::release()
 
 void bakman::update()
 {
+	move();
+	if (_hp <= 0) return;
 	checkPlayer();
 	attack();
+	checkCollision();
 
 	if (_ani_attack->isPlay())
 		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
@@ -474,7 +549,6 @@ void bakman::update()
 	if (_ani_attack2->isPlay())
 		_ani_attack2->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 
-	move();
 }
 
 void bakman::render()
@@ -569,11 +643,21 @@ void bakman::move()
 			_gravity = 0.08f;
 			_isFire = false;
 		}
+
+		_rcBullet.setLeftTopPos(_bulletX, _bulletY);
 	}
 }
 
 void bakman::draw()
 {
+	if (_isFire)
+	{
+		_rcBullet.render(getMemDC());
+		_bullet->render(getMemDC(), _bulletX, _bulletY);
+	}
+
+	if (_hp <= 0) return;
+	_rc.render(getMemDC());
 	switch (_direction)
 	{
 	case ENEMYDIRECTION::LEFT_IDLE:
@@ -590,12 +674,35 @@ void bakman::draw()
 		break;
 	}
 
-	if (_isFire)
+
+}
+
+void bakman::checkCollision()
+{
+	// 플레이어를 공격
+	// 본체 충돌
+	// 던지는거
+	if (!_player->getIsAttacked())
 	{
-		_bullet->render(getMemDC(), _bulletX, _bulletY);
+		if (isCollision(_player->getHitbox(), _rc) || isCollision(_player->getHitbox(), _rcBullet))
+		{
+			cout << "충돌" << endl;
+			_player->setIsAttacked(true);
+			_player->setHP(_player->getHP() - 1);
+		}
+	}
+
+	// 공격당함
+	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
+	{
+		_player->setIsCheckAttack(true);
+		_hp -= 1;
+		cout << "공격, " << _hp << endl;
 	}
 }
 
+
+// ===============================================================
 
 HRESULT prim::init(MYPOINT position)
 {
@@ -625,8 +732,14 @@ HRESULT prim::init(MYPOINT position)
 	_ani_angry->setFPS(1);
 	_ani_angry->setDefPlayFrame(false, false);
 
+	_rc.set(0, 0, 60, 45);
+	_rcAttack.set(0, 0, 140, 60);
+
 	_x = position.x;
 	_y = position.y;
+
+	_maxHp = 30;
+	_hp = _maxHp;
 
 	_isStart = false;
 
@@ -639,33 +752,46 @@ void prim::release()
 
 void prim::update()
 {
+	if (_hp <= 0) return;
 	start();
 	move();
+	checkCollision();
 	draw();
+
+	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 25);
 }
 
 void prim::render()
 {
-	switch (_direction)
-	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
-		_image->aniRender(getMemDC(), _x, _y, _ani_start);
-		break;
-	case ENEMYDIRECTION::LEFT_MOVE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
-		_image->aniRender(getMemDC(), _x, _y, _ani_run);
-		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
-		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
-		break;
-	case ENEMYDIRECTION::LEFT_ACTION:
-	case ENEMYDIRECTION::RIGHT_ACTION:
-		_image->aniRender(getMemDC(), _x, _y, _ani_angry);
-		break;
-	}
+	_rc.render(getMemDC());
+	_rcAttack.render(getMemDC());
 
+	if (_hp <= 0)
+	{
+		IMAGEMANAGER->findImage("보스1 패배")->render(getMemDC(), _x, _y);
+	}
+	else
+	{
+		switch (_direction)
+		{
+		case ENEMYDIRECTION::LEFT_IDLE:
+		case ENEMYDIRECTION::RIGHT_IDLE:
+			_image->aniRender(getMemDC(), _x, _y, _ani_start);
+			break;
+		case ENEMYDIRECTION::LEFT_MOVE:
+		case ENEMYDIRECTION::RIGHT_MOVE:
+			_image->aniRender(getMemDC(), _x, _y, _ani_run);
+			break;
+		case ENEMYDIRECTION::LEFT_ATTACK:
+		case ENEMYDIRECTION::RIGHT_ATTACK:
+			_image->aniRender(getMemDC(), _x, _y, _ani_attack);
+			break;
+		case ENEMYDIRECTION::LEFT_ACTION:
+		case ENEMYDIRECTION::RIGHT_ACTION:
+			_image->aniRender(getMemDC(), _x, _y, _ani_angry);
+			break;
+		}
+	}
 }
 
 void prim::attack()
@@ -681,8 +807,16 @@ void prim::checkPlayer()
 			_direction = static_cast<int>(_direction) % 2 == 0 ? ENEMYDIRECTION::LEFT_ATTACK : ENEMYDIRECTION::RIGHT_ATTACK;
 			_image = IMAGEMANAGER->findImage("보스1 공격");
 
-			if (static_cast<int>(_direction) % 2 == 0) _ani_attack->setPlayFrame(0, 19, false);
-			else _ani_attack->setPlayFrame(20, 39, false);
+			if (static_cast<int>(_direction) % 2 == 0)
+			{
+				_ani_attack->setPlayFrame(0, 19, false);
+				_rcAttack.setLeftTopPos(_x + 30, _y + 80);
+			}
+			else
+			{
+				_ani_attack->setPlayFrame(20, 39, false);
+				_rcAttack.setLeftTopPos(_x + _image->getFrameWidth() / 2 + 40 , _y + 80);
+			}
 
 			_ani_attack->start();
 		}
@@ -696,7 +830,7 @@ void prim::move()
 	{
 		if (_player->getX() < _x + _image->getFrameWidth() / 2)
 		{
-			_x -= 6;
+			_x -= 6; 
 		}
 		else
 		{
@@ -776,6 +910,27 @@ void prim::draw()
 	}
 }
 
+void prim::checkCollision()
+{
+	if (!_player->getIsAttacked())
+	{
+		if (isCollision(_player->getHitbox(), _rc) || 
+			(isCollision(_player->getHitbox(), _rcAttack) && (_direction == ENEMYDIRECTION::LEFT_ATTACK ||
+				_direction == ENEMYDIRECTION::RIGHT_ATTACK)))
+		{
+			cout << "충돌" << endl;
+			_player->setIsAttacked(true);
+			_player->setHP(_player->getHP() - 1);
+		}
+	}
+	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
+	{
+		_player->setIsCheckAttack(true);
+		_hp -= 1;
+		cout << "공격, " << _hp << endl;
+	}
+}
+
 void prim::start()
 {
 	if (!_isStart)
@@ -806,6 +961,19 @@ HRESULT witch::init(MYPOINT position)
 	_xRight = WINSIZEX - _x - 100;
 	_y = position.y;
 	_yRight = _y - 24;
+
+	_leftBullet1.image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛");
+	_leftBullet1.fireX = _leftBullet1.x = _x + 20;
+	_leftBullet1.fireY = _leftBullet1.y = _y;
+	_leftBullet1.range = 500;
+	_leftBullet1.speed = 1.5f;
+	_leftBullet1.isFire = false;
+	//_leftBullet2.image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛2");
+
+	_rc.set(0, 0, 40, 60);
+	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
+	_rcRight.set(0, 0, 40, 60);
+	_rcRight.setCenterPos(_xRight + _imageRight->getFrameWidth() / 2, _yRight + _imageRight->getFrameHeight() / 2);
 
 	_ani_idle_left = new animation;
 	_ani_idle_left->init(_image->getWidth(), _image->getHeight(),
@@ -839,10 +1007,15 @@ HRESULT witch::init(MYPOINT position)
 	_ani_attack_right->setDefPlayFrame(false, false);
 	_ani_attack_right->setPlayFrame(0, 17, false, false);
 
-	_isStart = false;
+	_isStart = _attackVer = false;
 	_attackCount = 0;
 
 	_direction = ENEMYDIRECTION::LEFT_IDLE;
+
+	_maxHp = 40;
+	_hp = _maxHp;
+
+	_alpha = 255;
 
 	return S_OK;
 }
@@ -854,12 +1027,15 @@ void witch::release()
 void witch::update()
 {
 	start();
-	move();
 	attack();
+	move();
+	checkCollision();
 }
 
 void witch::render()
 {
+	_rc.render(getMemDC());
+	_rcRight.render(getMemDC());
 	draw();
 }
 
@@ -876,12 +1052,34 @@ void witch::attack()
 			_ani_idle_left->stop();
 			_ani_attack_left->start();
 			_direction = ENEMYDIRECTION::LEFT_ATTACK;
+			if (!_attackVer)
+			{
+				cout << "공격" << endl;
+				_leftBullet1.x = _leftBullet1.fireX;
+				_leftBullet1.y = _leftBullet1.fireY;
+				_leftBullet1.angle = getAngle(_leftBullet1.x, _leftBullet2.y, _player->getX(), _player->getY());
+				_leftBullet1.isFire = true;
+			}
+			else
+			{
+				cout << "두 번째 공격" << endl;
+			}
 			break;
 		case ENEMYDIRECTION::RIGHT_IDLE:
 			_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽 공격");
 			_ani_idle_right->stop();
 			_ani_attack_right->start();
 			_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+			if (!_attackVer)
+			{
+				cout << "공격" << endl;
+				_attackVer = !_attackVer;
+			}
+			else
+			{
+				cout << "두 번째 공격" << endl;
+				_attackVer = !_attackVer;
+			}
 			break;
 		case ENEMYDIRECTION::LEFT_ATTACK:
 			if (!_ani_attack_left->isPlay())
@@ -925,7 +1123,17 @@ void witch::move()
 		_ani_attack_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		_ani_attack_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
+	}
 
+	if (_leftBullet1.isFire)
+	{
+		_leftBullet1.angle -= 0.2f;
+		_leftBullet1.x += 3;
+		_leftBullet1.y += -sinf(_leftBullet1.angle) * _leftBullet1.speed;
+		if (_leftBullet1.range <= getDistance(_leftBullet1.fireX, _leftBullet1.fireY, _leftBullet1.x, _leftBullet1.y))
+		{
+			_leftBullet1.isFire = false;
+		}
 	}
 }
 
@@ -937,20 +1145,74 @@ void witch::draw()
 		_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
 	}
 	else {
-		switch (_direction)
+		if (_hp <= 0)
 		{
-		case ENEMYDIRECTION::LEFT_IDLE:
-			_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
-			break;
-		case ENEMYDIRECTION::RIGHT_IDLE:
-			_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
-			break;
-		case ENEMYDIRECTION::LEFT_ATTACK:
-			_image->aniRender(getMemDC(), _x, _y, _ani_attack_left);
-			break;
-		case ENEMYDIRECTION::RIGHT_ATTACK:
-			_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_attack_right);
-			break;
+			if (_alpha > 0) _alpha -= 5;
+			switch (_direction)
+			{
+			case ENEMYDIRECTION::LEFT_IDLE:
+			case ENEMYDIRECTION::LEFT_ATTACK:
+				if (_ani_idle_left->isPlay()) _ani_idle_left->stop();
+				if (_ani_attack_left->isPlay()) _ani_attack_left->stop();
+				_image = IMAGEMANAGER->findImage("보스2 왼쪽");
+				_image->alphaFrameRender(getMemDC(), _x, _y, 0, 0, _alpha);
+				break;
+			case ENEMYDIRECTION::RIGHT_IDLE:
+			case ENEMYDIRECTION::RIGHT_ATTACK:
+				if (_ani_idle_right->isPlay()) _ani_idle_right->stop();
+				if (_ani_attack_right->isPlay()) _ani_attack_right->stop();
+				_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽");
+				_imageRight->alphaFrameRender(getMemDC(), _xRight, _yRight, 0, 0, _alpha);
+				break;
+			}
+		}
+		else 
+		{
+			switch (_direction)
+			{
+			case ENEMYDIRECTION::LEFT_IDLE:
+				_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
+				break;
+			case ENEMYDIRECTION::RIGHT_IDLE:
+				_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
+				break;
+			case ENEMYDIRECTION::LEFT_ATTACK:
+				_image->aniRender(getMemDC(), _x, _y, _ani_attack_left);
+				break;
+			case ENEMYDIRECTION::RIGHT_ATTACK:
+				_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_attack_right);
+				break;
+			}
+		}
+
+		if (_leftBullet1.isFire)
+		{
+			_leftBullet1.image->render(getMemDC(), _leftBullet1.x, _leftBullet1.y);
+		}
+	}
+}
+
+void witch::checkCollision()
+{
+	if (_player->isAttacking() && !_player->getIsCheckAttack())
+	{
+		if (static_cast<int>(_direction) % 2 == 0)
+		{
+			if (isCollision(_player->getAttackRc(), _rc))
+			{
+				_player->setIsCheckAttack(true);
+				_hp -= 10;
+				cout << "공격, " << _hp << endl;
+			}
+		}
+		else
+		{
+			if (isCollision(_player->getAttackRc(), _rcRight))
+			{
+				_player->setIsCheckAttack(true);
+				_hp -= 10;
+				cout << "공격, " << _hp << endl;
+			}
 		}
 	}
 }
@@ -979,6 +1241,7 @@ HRESULT rell::init(MYPOINT position)
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_idle1->setFPS(1);
 		_ani_idle1->setDefPlayFrame(false, true);
+		_ani_idle1->setPlayFrame(0, 4, false, true);
 		_ani_idle1->start();
 
 		_ani_ground1 = new animation;
@@ -1051,6 +1314,7 @@ void rell::release()
 
 void rell::update()
 {
+	_ani_idle1->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 }
 
 void rell::render()
@@ -1072,5 +1336,9 @@ void rell::move()
 
 void rell::draw()
 {
-	
+	_image->aniRender(getMemDC(), _x, _y, _ani_idle1);
+}
+
+void rell::checkCollision()
+{
 }

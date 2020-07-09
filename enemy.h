@@ -19,6 +19,17 @@ enum class ENEMYDIRECTION
 	RIGHT_ACTION,
 };
 
+struct tagBulletEnemy
+{
+	image* image;
+	float x, y;
+	float fireX, fireY;
+	float angle;
+	float speed;
+	float range;
+	bool isFire;
+};
+
 class enemy : public gameNode
 {
 protected:
@@ -28,6 +39,9 @@ protected:
 	int _width;
 	int _height;
 	bool _isAlive;
+	
+	int _hp;
+	int _maxHp;
 
 	MYRECT _rc;			// 충돌 처리용
 	MYRECT _rcCheck;	// 플레이어 체크용
@@ -50,6 +64,11 @@ public:
 	virtual void move();
 	virtual void draw();
 
+	virtual void checkCollision();
+
+	virtual int getHP() { return _hp; }
+	virtual int getMaxHP() { return _maxHp; }
+
 	void enemyDirection(int num) { _direction = (ENEMYDIRECTION)num; }
 	inline MYRECT& getRect() { return _rc; }
 
@@ -61,7 +80,9 @@ class oko : public enemy
 private:
 	image* _imageRound;
 	animation* _ani_round;
-	MYRECT _objectRc;
+	RECT _objectRc;
+
+	bool _isOnceAttacked;
 
 public:
 	HRESULT init(MYPOINT position);
@@ -74,7 +95,10 @@ public:
 	virtual void move();
 	virtual void draw();
 
-	void setObjectRect(MYRECT& rc) { _objectRc = rc; }
+	virtual void checkCollision();
+
+	//void setObjectRect(MYRECT& rc) { _objectRc = rc; }
+	void setObjectRect(RECT& rc) { _objectRc = rc; }
 };
 
 class monkey : public enemy
@@ -83,6 +107,7 @@ private:
 	animation* _ani_run;
 	animation* _ani_attack;
 
+	MYRECT _rcHit;
 	MYRECT _rcAttack;
 
 	float _probeY;
@@ -104,6 +129,7 @@ public:
 	virtual void move();
 	virtual void draw();
 
+	virtual void checkCollision();
 	void pixelCollision();
 };
 
@@ -113,6 +139,8 @@ private:
 	image* _bullet;
 	animation* _ani_attack;
 	animation* _ani_attack2;
+
+	MYRECT _rcBullet;
 
 	float _bulletX, _bulletY;
 	float _angle;
@@ -131,6 +159,8 @@ public:
 	virtual void checkPlayer();
 	virtual void move();
 	virtual void draw();
+
+	virtual void checkCollision();
 };
 
 // ===================================================
@@ -143,6 +173,8 @@ class prim : public enemy
 	animation* _ani_angry;
 	animation* _ani_attack;
 
+	MYRECT _rcAttack;
+
 	bool _isStart;
 
 public:
@@ -156,25 +188,33 @@ public:
 	virtual void move();
 	virtual void draw();
 
+	virtual void checkCollision();
 	void start();
 };
 
 class witch : public enemy
 {
 	image* _imageRight;
-	image* _bulletLeft;
-	image* _bulletRight;
+
+	tagBulletEnemy _leftBullet1;
+	tagBulletEnemy _leftBullet2;
+	tagBulletEnemy _rightBullet1;
+	tagBulletEnemy _rightBullet2;
 
 	animation* _ani_idle_left;
 	animation* _ani_idle_right;
 	animation* _ani_attack_left;
 	animation* _ani_attack_right;
 
+	MYRECT _rcRight;
+
 	float _xRight, _yRight;
 
 	int _attackCount;
+	int _alpha;
 
 	bool _isStart;
+	bool _attackVer;
 
 public:
 	HRESULT init(MYPOINT position);
@@ -187,6 +227,7 @@ public:
 	virtual void move();
 	virtual void draw();
 
+	virtual void checkCollision();
 	void start();
 };
 
@@ -198,9 +239,6 @@ class rell : public enemy
 	{
 		LEFT_IDLE,
 		RIGHT_IDLE,
-
-		LEFT_MOVE,	// 1, 텔레포트
-		RIGHT_MOVE,
 
 		LEFT_GROUND,
 		RIGHT_GROUND,
@@ -255,5 +293,6 @@ public:
 	virtual void move();
 	virtual void draw();
 
+	virtual void checkCollision();
 	void start();
 };

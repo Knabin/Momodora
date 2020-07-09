@@ -52,6 +52,7 @@ private:
 	image* _effect;
 
 	MYRECT _hitbox;
+	MYRECT _attackRc;
 
 	float _x, _y;
 	float _centerY;
@@ -62,6 +63,8 @@ private:
 	int _width;
 	int _height;
 
+	int _hp;
+
 	float _probeXL;
 	float _probeXR;
 	float _probeY;
@@ -70,6 +73,9 @@ private:
 	bool _isOnGround;
 	bool _isCameraShaking;
 	bool _isOnceAttack;
+	bool _isAttacked;
+	bool _isCheckAttack;
+
 	bool _canMoveLeft;
 	bool _canMoveRight;
 
@@ -91,6 +97,7 @@ private:
 	int _attackCount;
 	int _attackCount2;
 	int _redAlpha;
+	int _attackedCount;
 
 	vector<tagBullet> _vBullet;
 	vector<tagBullet>::iterator _viBullet;
@@ -158,6 +165,9 @@ public:
 	float getY() { return _y; }
 	void setY(float y) { _y = y; }
 
+	int getHP() { return _hp; }
+	void setHP(int hp) { _hp = hp; }
+
 	float getCenterY() { return _centerY; }
 
 	float getProbeXL() { return _probeXL; }
@@ -171,6 +181,7 @@ public:
 	int getHeight() { return _height; }
 
 	MYRECT& getHitbox() { return _hitbox; }
+	MYRECT& getAttackRc() { return _attackRc; }
 
 	void setGravity(float gravity) { _gravity = gravity; }
 
@@ -188,6 +199,12 @@ public:
 		_isOnGround = isOnGround; 
 		_gravity = 0;
 	}
+
+	bool getIsAttacked() { return _isAttacked; }
+	void setIsAttacked(bool isAttacked) { _isAttacked = isAttacked; }
+
+	bool getIsCheckAttack() { return _isCheckAttack; }
+	void setIsCheckAttack(bool check) { _isCheckAttack = check; }
 
 	bool getCanMoveLeft() { return _canMoveLeft; }
 	void setCanMoveLeft(bool canMoveLeft) { _canMoveLeft = canMoveLeft; }

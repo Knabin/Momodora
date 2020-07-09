@@ -17,6 +17,8 @@ private:
 	vector<enemy *> _vEnemy;
 	vector<enemy *>::iterator _viEnemy;
 
+	const char * _fileName;
+
 	image* _image;
 	image* _pixel;
 
@@ -35,9 +37,11 @@ private:
 
 
 public:
+	commonStage();
+	commonStage(int stageNum, const char * fileName);
 
 	// STAGE1 = 0, STAGE2 = 1, STAGE3 = 2
-	virtual HRESULT init(int stageNum);
+	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();

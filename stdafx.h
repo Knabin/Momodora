@@ -26,6 +26,7 @@ using namespace std;
 #include "sceneManager.h"
 #include "txtData.h"
 #include "camera.h"
+#include "stageEnemyManager.h"
 
 using namespace TTYONE_UTIL;
 
@@ -34,7 +35,7 @@ using namespace TTYONE_UTIL;
 
 
 // 여기서 프로그램에 필요한 추가 헤더를 참조합니다.
-#define WINNAME (LPCTSTR)(TEXT("뜨웨니 원~"))
+#define WINNAME (LPCTSTR)(TEXT("Momodora 3"))
 #define WINSTARTX	200
 #define WINSTARTY	50
 #define WINSIZEX	960		
@@ -50,6 +51,7 @@ using namespace TTYONE_UTIL;
 #define SCENEMANAGER sceneManager::getSingleton()
 #define TXTDATA txtData::getSingleton()
 #define CAMERA camera::getSingleton()
+#define STAGEENEMYMANAGER stageEnemyManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
 

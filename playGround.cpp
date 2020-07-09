@@ -33,6 +33,8 @@ HRESULT playGround::init()
 
 		IMAGEMANAGER->addImage("보스 배경", "image/background4.bmp", 960, 720, false, RGB(0, 0, 0));
 
+		IMAGEMANAGER->addImage("목숨", "image/heart.bmp", 30, 23, true, RGB(255, 0, 255));
+
 		IMAGEMANAGER->addFrameImage("idle", "image/momo_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("attack", "image/momo_attack.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("attack2", "image/momo_attack2.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
@@ -61,13 +63,14 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("보스1 이동", "image/prim_move.bmp", 3360, 288, 8, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스1 화남", "image/prim_angry.bmp", 6300, 288, 15, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스1 공격", "image/prim_attack.bmp", 8400, 288, 20, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스1 패배", "image/prim_defeated.bmp", 420, 144, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("보스2 왼쪽", "image/witchd_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스2 왼쪽 공격", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스2 오른쪽", "image/witchl_idle.bmp", 720, 144, 5, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스2 오른쪽 공격", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("보스2 왼쪽 불렛", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("보스2 왼쪽 불렛2", "image/witchd_bullet2.bmp", 9, 9, true, RGB(0, 255, 255));
+		IMAGEMANAGER->addImage("보스2 왼쪽 불렛", "image/witchd_bullet2.bmp", 9, 9, true, RGB(0, 255, 255));
+		IMAGEMANAGER->addImage("보스2 왼쪽 불렛2", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("보스3-1 기본", "image/rell1_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스3-1 땅", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));
@@ -141,7 +144,7 @@ void playGround::update()
 	{
 		CAMERA->setIsShaking(true);
 		++_shakeCount;
-		if (_shakeCount > 5)
+		if (_shakeCount > 10)
 		{
 			_shakeCount = 0;
 			CAMERA->setIsShaking(false);
@@ -168,6 +171,11 @@ void playGround::render()
 	_player->render();
 	EFFECTMANAGER->render();
 	TIMEMANAGER->render(getMemDC());
+
+	for (int i = 0; i < _player->getHP(); i++)
+	{
+		IMAGEMANAGER->findImage("목숨")->render(getMemDC(), CAMERA->getLeft() + 35 * (i + 1), 30);
+	}
 
 	//=============================================
 	_backBuffer->render(getHDC(), 0 + CAMERA->getShakeNumber(), 0,

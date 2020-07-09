@@ -3,28 +3,43 @@
 #include "player.h"
 #include "enemy.h"
 
-HRESULT commonStage::init(int stageNum)
+commonStage::commonStage()
 {
-		switch (stageNum)
-		{
-		case STAGE1:
-			_image = IMAGEMANAGER->findImage("배경");
-			_pixel = IMAGEMANAGER->findImage("배경 픽셀");
-			_backImg = true;
-			break;
-		case STAGE2:
-			_image = IMAGEMANAGER->findImage("배경2");
-			_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
-			_backImg = true;
-			break;
-		case STAGE3:
-			_image = IMAGEMANAGER->findImage("배경3");
-			_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
-			_backImg = false;
-			break;
-		}
+}
 
+commonStage::commonStage(int stageNum, const char * stageName)
+{
+	switch (stageNum)
+	{
+	case STAGE1:
+		_image = IMAGEMANAGER->findImage("배경");
+		_pixel = IMAGEMANAGER->findImage("배경 픽셀");
+		_backImg = true;
+		break;
+	case STAGE2:
+		_image = IMAGEMANAGER->findImage("배경2");
+		_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
+		_backImg = true;
+		break;
+	case STAGE3:
+		_image = IMAGEMANAGER->findImage("배경3");
+		_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
+		_backImg = false;
+		break;
+	}
+	_fileName = stageName;
 	_stageNum = stageNum;
+}
+
+HRESULT commonStage::init()
+{
+	_vEnemy.clear();
+	if (_fileName != nullptr)
+		STAGEENEMYMANAGER->parsingEnemyData(_fileName, _vEnemy);
+
+	for (int i = 0; i < _vEnemy.size(); ++i)
+		_vEnemy[i]->setPlayerMemoryAddressLink(_player);
+
 	_loopX1 = 0;
 	_loopX2 = 0;
 	_loopX3 = 0;
@@ -37,6 +52,7 @@ HRESULT commonStage::init(int stageNum)
 
 void commonStage::release()
 {
+	_vEnemy.clear();
 }
 
 void commonStage::update()

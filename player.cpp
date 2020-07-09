@@ -25,6 +25,7 @@ HRESULT player::init()
 
 	_hitbox.set(0, 0, 48, 48);
 	_hitbox.setCenterPos(_x, _probeY - _height / 4);
+	_attackRc.set(0, 0, 70, 60);
 
 	_canMoveLeft = _canMoveRight =  true;
 
@@ -84,7 +85,9 @@ HRESULT player::init()
 
 	_attackCount = _attackCount2 = 0;
 	_redAlpha = 0;
-	_isOnceAttack = _charge = _chargeFull = false;
+	_isOnceAttack = _charge = _chargeFull = _isAttacked = _isCheckAttack = false;
+
+	_hp = 5;
 
 	return S_OK;
 }
@@ -229,20 +232,21 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
+		_isCheckAttack = false;
 		if (_state != LEFT_ATTACK && _state != RIGHT_ATTACK)
 		{
 			if (isMovingLeft() || _state == LEFT_IDLE || _state == LEFT_JUMP)
 			{
 				setAnimation(LEFT_ATTACK);
+				_attackRc.setLeftTopPos(_hitbox.left - _hitbox.getWidth() - 10, _hitbox.top - 10);
 			}
 			else
 			{
 				setAnimation(RIGHT_ATTACK);
+				_attackRc.setLeftTopPos(_hitbox.right - 10, _hitbox.top - 10);
 			}
 			_isOnceAttack = !_isOnceAttack;
 		}
-		//TODO: 충돌 시에만
-		_isCameraShaking = true;
 	}
 
 	if (KEYMANAGER->isStayKeyDown('S'))
@@ -305,6 +309,22 @@ void player::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
 		_sm->checkEnterBossStage();
+	}
+
+	if (_isAttacked)
+	{
+		if (_attackedCount == 0)
+		{
+			_isCameraShaking = true;
+		}
+
+		_attackedCount++;
+
+		if (_attackedCount > 150)
+		{
+			_isAttacked = false;
+			_attackedCount = 0;
+		}
 	}
 
 	switch (_state)
@@ -391,6 +411,7 @@ void player::update()
 
 void player::render()
 {
+	if(isAttacking() && !getIsCheckAttack()) _attackRc.render(getMemDC());
 	if (DEBUG)
 	{
 		_hitbox.render(getMemDC());

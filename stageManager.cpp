@@ -8,34 +8,34 @@
 HRESULT stageManager::init()
 {
 	// TODO: enemy 추가하는 걸 ENEMYMANAGER로 옮김, signleton으로 변경
-	commonStage * common1 = new commonStage();
-	common1->init(0);
+	commonStage * common1 = new commonStage(0, nullptr);
+	common1->init();
 	common1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common1");
 
-	commonStage * common2 = new commonStage();
-	common2->init(1);
+	commonStage * common2 = new commonStage(1, "stage/stage1.data");
+	common2->init();
 	common2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common2");
 
-	commonStage * common3 = new commonStage();
-	common3->init(2);
+	commonStage * common3 = new commonStage(2, nullptr);
+	common3->init();
 	common3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common3");
 
 
-	bossStage * boss1 = new bossStage();
-	boss1->init(0);
+	bossStage * boss1 = new bossStage(0, "stage/boss1.data");
+	boss1->init();
 	boss1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss1");
 	
-	bossStage * boss2 = new bossStage();
-	boss2->init(1);
+	bossStage * boss2 = new bossStage(1, "stage/boss2.data");
+	boss2->init();
 	boss2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss2");
 
-	bossStage * boss3 = new bossStage();
-	boss3->init(2);
+	bossStage * boss3 = new bossStage(2, "stage/boss3.data");
+	boss3->init();
 	boss3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss3");
 
@@ -47,13 +47,7 @@ HRESULT stageManager::init()
 	_rc[1].setCenterPos(480, 524);
 	_rc[2].setCenterPos(670, 524);
 
-	_rc2.set(0, 0, 48, 48);
-	_rc2.setCenterPos(744, 552);
-
-	parsingEnemyData("stage/stage1.data", common2->getEnemyVector());
-	boss1->setBossPointer(parsingEnemyData("stage/boss1.data"));
-	boss2->setBossPointer(parsingEnemyData("stage/boss2.data"));
-	boss3->setBossPointer(parsingEnemyData("stage/boss3.data"));
+	_rc2 = RectMakeCenter(744, 552, 48, 48);
 
 	SCENEMANAGER->addScene(_vStageName[0], common1);
 	SCENEMANAGER->addScene(_vStageName[1], common2);
@@ -121,10 +115,8 @@ void stageManager::render()
 	}
 	if (_currentIdx == 1 && DEBUG)
 	{
-		_rc2.render(getMemDC());
+		//_rc2.render(getMemDC());
 	}
-
-	cout << _currentIdx << endl;
 }
 
 void stageManager::moveNextStage()
@@ -190,50 +182,6 @@ void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& v
 			vEnemy.push_back(e);
 		}
 	}
-}
-
-enemy * stageManager::parsingEnemyData(const char * loadFileName)
-{
-	_vFileData.clear();
-	_vFileData = TXTDATA->txtLoad(loadFileName);
-
-	if (_vFileData.size() <= 0) return nullptr;
-
-	int type = stoi(_vFileData[0], nullptr, 10);
-	float x = stof(_vFileData[1], nullptr);
-	float y = stof(_vFileData[2], nullptr);
-	enemy * e = nullptr;
-
-	switch (type)
-	{
-	case 0:
-		e = new oko;
-		dynamic_cast<oko*>(e)->setObjectRect(_rc2);
-		break;
-	case 1:
-		e = new monkey;
-		break;
-	case 2:
-		e = new bakman;
-		break;
-	case 3:
-		e = new prim;
-		break;
-	case 4:
-		e = new witch;
-		break;
-	case 5:
-		e = new rell;
-		break;
-	}
-
-	if (e != nullptr)
-	{
-		e->init({ x,y });
-		e->setPlayerMemoryAddressLink(_player);
-	}
-
-	return e;
 }
 
 void stageManager::checkEnterBossStage()

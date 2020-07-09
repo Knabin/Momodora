@@ -17,7 +17,7 @@ private:
 	vector<string> _vFileData;
 
 	MYRECT _rc[3];
-	MYRECT _rc2;
+	RECT _rc2;
 
 	/* 
 	stageManager에서 해야 할 것
@@ -40,7 +40,6 @@ public:
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
 
 	void parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy);
-	enemy* parsingEnemyData(const char * loadFileName);
 
 	void checkEnterBossStage();
 	bool isAliveBoss();

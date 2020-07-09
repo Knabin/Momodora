@@ -25,21 +25,25 @@ private:
 	progressBar _pgBar;
 
 	player* _player;
-	enemy* _boss;
+	//enemy* _boss;
+
+	const char * _fileName;
+	vector<enemy*> _vBoss;
 
 	bool _isStart;
 	// TODO: isDead를 boss 클래스에서 받아오기
 	bool _isDead;
 
 public:
-	virtual HRESULT init(int bossNum);
+	bossStage(int bossNum, const char * fileName);
+	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();
 
 	void setPlayerMemoryAddressLink(player *p) { _player = p; }
 
-	enemy* getBossPointer() { return _boss; }
-	void setBossPointer(enemy* boss) { _boss = boss; }
+	/*enemy* getBossPointer() { return _boss; }
+	void setBossPointer(enemy* boss) { _boss = boss; }*/
 };
 

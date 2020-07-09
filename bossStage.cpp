@@ -3,9 +3,8 @@
 #include "player.h"
 #include "enemy.h"
 
-HRESULT bossStage::init(int bossNum)
+bossStage::bossStage(int bossNum, const char * fileName)
 {
-
 	_image = IMAGEMANAGER->findImage("보스 배경");
 
 	_block = IMAGEMANAGER->findImage("보스 블록");
@@ -17,7 +16,7 @@ HRESULT bossStage::init(int bossNum)
 		_block->getFrameHeight());
 	_ani_block->setFPS(1);
 	_ani_block->setDefPlayFrame(false, false);
-	
+
 	switch (bossNum)
 	{
 	case BOSS1:
@@ -28,23 +27,33 @@ HRESULT bossStage::init(int bossNum)
 		break;
 	}
 
+	_fileName = fileName;
+}
+
+HRESULT bossStage::init()
+{
 	_rc.set(0, 144, 48, 428);
 	_rcCol.set(0, 0, 50, 150);
 	_rcCol.setLeftTopPos(0, _rc.bottom);
 
 	_pgBar.init(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
+	_vBoss.clear();
+	if(_fileName != nullptr) STAGEENEMYMANAGER->parsingEnemyData(_fileName, _vBoss);
+	
+	for(int i = 0; i < _vBoss.size(); ++i)
+		_vBoss[i]->setPlayerMemoryAddressLink(_player);
 
 	_isStart = _isDead = false;
-	
-
 
 	return S_OK;
 }
 
+
+
 void bossStage::release()
 {
-	_isStart = false;
-	_isDead = false;
+	SAFE_DELETE(_vBoss[0]);
+	_vBoss.clear();
 }
 
 void bossStage::update()
@@ -75,8 +84,13 @@ void bossStage::update()
 
 	if (_isStart)
 	{
-		_boss->update();
+		for (int i = 0; i < _vBoss.size(); ++i)
+			_vBoss[i]->update();
 	}
+
+	if (_vBoss[0]->getHP() <= 0) _isDead = true;
+
+	_pgBar.setGauge(_vBoss[0]->getHP(), _vBoss[0]->getMaxHP());
 	_pgBar.update();
 }
 
@@ -84,11 +98,12 @@ void bossStage::render()
 {
 	_image->render(getMemDC());
 	
-	if (_isStart)
+	if (_isStart && !_isDead)
 	{
 		_pgBar.render();
 		_block->aniRender(getMemDC(), _rc.left, _rc.bottom, _ani_block);
 	}
 
-	_boss->render();
+	for (int i = 0; i < _vBoss.size(); ++i)
+		_vBoss[i]->render();
 }

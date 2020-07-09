@@ -63,7 +63,7 @@ public:
 		return _cameraInfo->y - _cameraInfo->height / 2;
 	}
 
-	inline void setIsShaking(bool isShaking) { _isShaking = isShaking; _shakeAmount = _isShaking ? 5.0f : 0; }
+	inline void setIsShaking(bool isShaking) { _isShaking = isShaking; _shakeAmount = _isShaking ? 6.0f : 0; }
 	inline bool getIsShaking() { return _isShaking; }
 
 	inline RECT getRect() { return RectMakeCenter(_cameraInfo->x, _cameraInfo->y, _cameraInfo->width, _cameraInfo->height); }

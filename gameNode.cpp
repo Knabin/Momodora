@@ -36,6 +36,7 @@ HRESULT gameNode::init(bool managerInit)
 		SCENEMANAGER->init();
 		TXTDATA->init();
 		CAMERA->init(WINSIZEX, WINSIZEY, WINSIZEX * 2, WINSIZEY);
+		STAGEENEMYMANAGER->init();
 	}
 
 	return S_OK;
@@ -70,6 +71,10 @@ void gameNode::release()
 
 		CAMERA->release();
 		CAMERA->releaseSingleton();
+
+		STAGEENEMYMANAGER->release();
+		STAGEENEMYMANAGER->releaseSingleton();
+
 	}
 	
 	ReleaseDC(_hWnd, _hdc);
