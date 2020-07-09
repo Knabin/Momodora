@@ -69,8 +69,9 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("º¸½º2 ¿ÞÂÊ °ø°Ý", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("º¸½º2 ¿À¸¥ÂÊ", "image/witchl_idle.bmp", 720, 144, 5, 1, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("º¸½º2 ¿À¸¥ÂÊ °ø°Ý", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿", "image/witchd_bullet2.bmp", 9, 9, true, RGB(0, 255, 255));
+		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿", "image/witchd_bullet2.bmp", 18, 18, true, RGB(0, 255, 255));
 		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2 ¹è°æ", "image/witchd_bullet_back.bmp", 150, 480, false, RGB(0, 0, 0));
 
 		IMAGEMANAGER->addFrameImage("º¸½º3-1 ±âº»", "image/rell1_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("º¸½º3-1 ¶¥", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));

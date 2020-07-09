@@ -957,18 +957,36 @@ HRESULT witch::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ");
 	_imageRight = IMAGEMANAGER->findImage("º¸½º2 ¿À¸¥ÂÊ");
+	_imageLeftAttackBack = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2 ¹è°æ");
+
 	_x = position.x;
 	_xRight = WINSIZEX - _x - 100;
 	_y = position.y;
 	_yRight = _y - 24;
+	
+	{
+		_leftBullet1[0].image = _leftBullet1[1].image = _leftBullet1[2].image = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ ºÒ·¿");
+		_leftBullet1[0].fireX = _leftBullet1[0].x = _leftBullet1[1].fireX = _leftBullet1[1].x = _x + 50;
+		_leftBullet1[0].fireY = _leftBullet1[0].y = _leftBullet1[1].fireY = _leftBullet1[1].y = _y;
+		_leftBullet1[0].range = _leftBullet1[1].range = 700;
+		_leftBullet1[0].isFire = _leftBullet1[1].isFire = false;
+		_leftBullet1[0].count = _leftBullet1[1].count = 0.0f;
+	}
 
-	_leftBullet1.image = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ ºÒ·¿");
-	_leftBullet1.fireX = _leftBullet1.x = _x + 20;
-	_leftBullet1.fireY = _leftBullet1.y = _y;
-	_leftBullet1.range = 500;
-	_leftBullet1.speed = 1.5f;
-	_leftBullet1.isFire = false;
-	//_leftBullet2.image = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2");
+	for (int i = 0; i < 10; ++i)
+	{
+		_leftBullet2[i].image = IMAGEMANAGER->findImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2");
+		_leftBullet2[i].isFire = false;
+		_leftBullet2[i].range = 500;
+	}
+	
+	{
+		_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
+		_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
+		_rightBullet1.range = 1000;
+		_rightBullet1.isFire = false;
+		_rightBullet1.count = 0;
+	}
 
 	_rc.set(0, 0, 40, 60);
 	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
@@ -1008,7 +1026,7 @@ HRESULT witch::init(MYPOINT position)
 	_ani_attack_right->setPlayFrame(0, 17, false, false);
 
 	_isStart = _attackVer = false;
-	_attackCount = 0;
+	_attackCount = _leftAttack2Count = 0;
 
 	_direction = ENEMYDIRECTION::LEFT_IDLE;
 
@@ -1043,7 +1061,7 @@ void witch::attack()
 {
 	++_attackCount;
 
-	if (_attackCount > 300)
+	if (_attackCount > 290)
 	{
 		switch (_direction)
 		{
@@ -1055,14 +1073,21 @@ void witch::attack()
 			if (!_attackVer)
 			{
 				cout << "°ø°Ý" << endl;
-				_leftBullet1.x = _leftBullet1.fireX;
-				_leftBullet1.y = _leftBullet1.fireY;
-				_leftBullet1.angle = getAngle(_leftBullet1.x, _leftBullet2.y, _player->getX(), _player->getY());
-				_leftBullet1.isFire = true;
+				attackWithLeftBullet(0);
 			}
 			else
 			{
 				cout << "µÎ ¹øÂ° °ø°Ý" << endl;
+				_leftAttack2Count = 0;
+				_leftAttackX = _player->getX() - _imageLeftAttackBack->getWidth() / 2;
+
+				for (int i = 0; i < 10; ++i)
+				{
+					_leftBullet2[i].x = _leftBullet2[i].fireX = _leftAttackX + 40;
+					_leftBullet2[i].y = _leftBullet2[i].fireY = 100 + _imageLeftAttackBack->getHeight();
+					_leftBullet2[i].angle = PI * 0.5 + RND->getFromFloatTo(-0.5, 0.5);
+					_leftBullet2[i].speed = RND->getFromIntTo(2, 7);
+				}
 			}
 			break;
 		case ENEMYDIRECTION::RIGHT_IDLE:
@@ -1073,6 +1098,12 @@ void witch::attack()
 			if (!_attackVer)
 			{
 				cout << "°ø°Ý" << endl;
+				_rightBullet1.count = 0;
+				_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
+				_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
+				_rightBullet1.isFire = true;
+				_rightBullet1.angle = getAngle(_rightBullet1.fireX, _rightBullet1.fireY, _player->getX(), _player->getY());
+
 				_attackVer = !_attackVer;
 			}
 			else
@@ -1125,14 +1156,61 @@ void witch::move()
 		break;
 	}
 
-	if (_leftBullet1.isFire)
+	if (_leftBullet1[0].isFire)
 	{
-		_leftBullet1.angle -= 0.2f;
-		_leftBullet1.x += 3;
-		_leftBullet1.y += -sinf(_leftBullet1.angle) * _leftBullet1.speed;
-		if (_leftBullet1.range <= getDistance(_leftBullet1.fireX, _leftBullet1.fireY, _leftBullet1.x, _leftBullet1.y))
+		_leftBullet1[0].count += 0.01f;
+		_leftBullet1[0].x = CalculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).x;
+		_leftBullet1[0].y = CalculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).y;
+		if (_leftBullet1[0].range <= getDistance(_leftBullet1[0].fireX, _leftBullet1[0].fireY, _leftBullet1[0].x, _leftBullet1[0].y))
 		{
-			_leftBullet1.isFire = false;
+			_leftBullet1[0].isFire = false;
+			_leftBullet1[0].count = 0;
+		}
+
+		if (_leftBullet1[0].count >= 0.2f && !_leftBullet1[1].isFire)
+		{
+			attackWithLeftBullet(1);
+		}
+	}
+	
+	if (_leftBullet1[1].isFire)
+	{
+		_leftBullet1[1].count += 0.005f;
+		_leftBullet1[1].x = CalculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).x;
+		_leftBullet1[1].y = CalculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).y;
+		if (_leftBullet1[1].range <= getDistance(_leftBullet1[1].fireX, _leftBullet1[1].fireY, _leftBullet1[1].x, _leftBullet1[1].y))
+		{
+			_leftBullet1[1].isFire = false;
+			_leftBullet1[1].count = 0;
+		}
+	}
+
+	for (int i = 0; i < 10; ++i)
+	{
+		if (_leftBullet2[i].isFire)
+		{
+			_leftBullet2[i].x += cosf(_leftBullet2[i].angle) * _leftBullet2[i].speed;
+			_leftBullet2[i].y += -sinf(_leftBullet2[i].angle) * _leftBullet2[i].speed;
+			if (getDistance(_leftBullet2[i].x, _leftBullet2[i].y, _leftBullet2[i].fireX, _leftBullet2[i].fireY)
+				>= _leftBullet2[i].range)
+			{
+				_leftBullet2[i].isFire = false;
+			}
+		}
+	}
+
+	if (_rightBullet1.isFire)
+	{
+		++_rightBullet1.count;
+		if (_rightBullet1.count > 80)
+		{
+			_rightBullet1.x += cosf(_rightBullet1.angle) * 13.0f;
+			_rightBullet1.y += -sinf(_rightBullet1.angle) * 13.0f;
+			if (getDistance(_rightBullet1.x, _rightBullet1.y, _rightBullet1.fireX, _rightBullet1.fireY)
+				>= _rightBullet1.range)
+			{
+				_rightBullet1.isFire = false;
+			}
 		}
 	}
 }
@@ -1178,17 +1256,39 @@ void witch::draw()
 				break;
 			case ENEMYDIRECTION::LEFT_ATTACK:
 				_image->aniRender(getMemDC(), _x, _y, _ani_attack_left);
+				if (_attackVer)
+				{
+					++_leftAttack2Count;
+					if (_leftAttack2Count > 100)
+					{
+						for (int i = 0; i < 10; ++i)
+						{
+							_leftBullet2[i].isFire = true;
+						}
+					}
+					else
+						_imageLeftAttackBack->alphaRender(getMemDC(), _leftAttackX, 100, 122);
+				}
 				break;
 			case ENEMYDIRECTION::RIGHT_ATTACK:
 				_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_attack_right);
 				break;
 			}
 		}
-
-		if (_leftBullet1.isFire)
+		for (int i = 0; i < 2; ++i)
 		{
-			_leftBullet1.image->render(getMemDC(), _leftBullet1.x, _leftBullet1.y);
+			if (_leftBullet1[i].isFire)
+				_leftBullet1[i].image->render(getMemDC(), _leftBullet1[i].x, _leftBullet1[i].y);
 		}
+
+		for (int i = 0; i < 10; ++i)
+		{
+			if (_leftBullet2[i].isFire)
+				_leftBullet2[i].image->render(getMemDC(), _leftBullet2[i].x, _leftBullet2[i].y);
+		}
+
+		if (_rightBullet1.isFire)
+			EllipseMake(getMemDC(), _rightBullet1.x, _rightBullet1.y, 40, 40);
 	}
 }
 
@@ -1201,7 +1301,7 @@ void witch::checkCollision()
 			if (isCollision(_player->getAttackRc(), _rc))
 			{
 				_player->setIsCheckAttack(true);
-				_hp -= 10;
+				_hp -= 1;
 				cout << "°ø°Ý, " << _hp << endl;
 			}
 		}
@@ -1210,7 +1310,7 @@ void witch::checkCollision()
 			if (isCollision(_player->getAttackRc(), _rcRight))
 			{
 				_player->setIsCheckAttack(true);
-				_hp -= 10;
+				_hp -= 1;
 				cout << "°ø°Ý, " << _hp << endl;
 			}
 		}
@@ -1228,6 +1328,17 @@ void witch::start()
 			_attackCount = 0;
 		}
 	}
+}
+
+void witch::attackWithLeftBullet(int i)
+{
+	_leftBullet1[i].x = _leftBullet1[i].fireX;
+	_leftBullet1[i].y = _leftBullet1[i].fireY;
+	_pts[0 + i*4] = { static_cast<long>(_x), static_cast<long>(_y) };
+	_pts[1 + i*4] = { static_cast<long>((_player->getX() + _x) * 0.3), static_cast<long>(_y + 300) };
+	_pts[2 + i*4] = { static_cast<long>((_player->getX() + _x) * 0.7), static_cast<long>(_player->getY() - 300) };
+	_pts[3 + i*4] = { static_cast<long>(_player->getX()), static_cast<long>(_player->getY()) };
+	_leftBullet1[i].isFire = true;
 }
 
 

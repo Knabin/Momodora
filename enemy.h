@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "gameNode.h"
 
 class player;
@@ -27,6 +27,8 @@ struct tagBulletEnemy
 	float angle;
 	float speed;
 	float range;
+	float count;
+
 	bool isFire;
 };
 
@@ -43,8 +45,8 @@ protected:
 	int _hp;
 	int _maxHp;
 
-	MYRECT _rc;			// Ãæµ¹ Ã³¸®¿ë
-	MYRECT _rcCheck;	// ÇÃ·¹ÀÌ¾î Ã¼Å©¿ë
+	MYRECT _rc;			// ì¶©ëŒ ì²˜ë¦¬ìš©
+	MYRECT _rcCheck;	// í”Œë ˆì´ì–´ ì²´í¬ìš©
 
 	player* _player;
 
@@ -164,7 +166,7 @@ public:
 };
 
 // ===================================================
-// ## º¸½º ¸ó½ºÅÍ Å¬·¡½º ##
+// ## ë³´ìŠ¤ ëª¬ìŠ¤í„° í´ë˜ìŠ¤ ##
 
 class prim : public enemy
 {
@@ -195,9 +197,10 @@ public:
 class witch : public enemy
 {
 	image* _imageRight;
+	image* _imageLeftAttackBack;
 
-	tagBulletEnemy _leftBullet1;
-	tagBulletEnemy _leftBullet2;
+	tagBulletEnemy _leftBullet1[3];
+	tagBulletEnemy _leftBullet2[10];
 	tagBulletEnemy _rightBullet1;
 	tagBulletEnemy _rightBullet2;
 
@@ -207,11 +210,15 @@ class witch : public enemy
 	animation* _ani_attack_right;
 
 	MYRECT _rcRight;
+	POINT _pts[8];
 
 	float _xRight, _yRight;
 
 	int _attackCount;
+	int _leftAttack2Count;
 	int _alpha;
+
+	float _leftAttackX;
 
 	bool _isStart;
 	bool _attackVer;
@@ -229,11 +236,32 @@ public:
 
 	virtual void checkCollision();
 	void start();
+
+	POINT CalculateBezierPoint(float t, POINT s, POINT c1, POINT c2, POINT e)
+	{
+		float u = 1 - t;
+		float tt = t * t;
+		float uu = u * u;
+		float uuu = uu * u;
+		float ttt = tt * t;
+
+		POINT p = { s.x * uuu, s.y * uuu };
+		p.x += 3 * uu * t * c1.x;
+		p.y += 3 * uu * t * c1.y;
+		p.x += 3 * u * tt * c2.x;
+		p.y += 3 * u * tt * c2.y;
+		p.x += ttt * e.x;
+		p.y += ttt * e.y;
+
+		return p;
+	}
+
+	void attackWithLeftBullet(int index);
 };
 
 class rell : public enemy
 {
-	float _xLarge, _yLarge;	// 3ÆäÀÌÁî¿ë
+	float _xLarge, _yLarge;	// 3í˜ì´ì¦ˆìš©
 
 	enum class RELLSTATE
 	{
@@ -247,7 +275,7 @@ class rell : public enemy
 		RIGHT_ATTACK,
 
 		PRAY,	// 1
-		AIR,	// 2, ¶° ÀÖ´Â »óÅÂ
+		AIR,	// 2, ë–  ìˆëŠ” ìƒíƒœ
 		DEAD,
 	};
 
@@ -264,7 +292,7 @@ class rell : public enemy
 	image* _snow;
 	image* _snow2;
 
-	// 1ÆäÀÌÁî
+	// 1í˜ì´ì¦ˆ
 	animation* _ani_idle1;
 	animation* _ani_ground1;
 	animation* _ani_attack1;
