@@ -77,12 +77,16 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("보스3-1 땅", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스3-1 공격", "image/rell1_fire.bmp", 960, 192, 10, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스3-1 기도", "image/rell1_pray.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스3-1 땅 왼쪽", "image/rell1_sword_left.bmp", 96, 192, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스3-1 땅 오른쪽", "image/rell1_sword_right.bmp", 96, 192, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스3 불렛", "image/rell_bullet.bmp", 30, 32, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("보스3-2", "image/rell2_appear.bmp", 576, 96, 5, 1, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("보스3-3 기본", "image/rell3_idle.bmp", 1800, 480, 5, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스3-3 땅", "image/rell3_ground.bmp", 4320, 480, 12, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("보스3-3 공격", "image/rell3_idle.bmp", 2520, 480, 7, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("보스3-3 땅 공격", "image/rell3_sword.bmp", 288, 288, true, RGB(255, 0, 255));
 
 	}
 
@@ -116,6 +120,8 @@ HRESULT playGround::init()
 	EFFECTMANAGER->addEffect("left2", "image/momo_effect_left2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right", "image/momo_effect_right.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right2", "image/momo_effect_right2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
+
+	EFFECTMANAGER->addEffect("보스2", "image/witchl_bullet2_effect.bmp", 1800, 300, 300, 300, 1, 0.8f, 2);
 	
 
 	// ==========================================

@@ -210,6 +210,8 @@ class witch : public enemy
 	animation* _ani_attack_right;
 
 	MYRECT _rcRight;
+	MYRECT _check;
+
 	POINT _pts[8];
 
 	float _xRight, _yRight;
@@ -222,6 +224,7 @@ class witch : public enemy
 
 	bool _isStart;
 	bool _attackVer;
+	bool _canCheckRight2;
 
 public:
 	HRESULT init(MYPOINT position);
@@ -261,8 +264,6 @@ public:
 
 class rell : public enemy
 {
-	float _xLarge, _yLarge;	// 3페이즈용
-
 	enum class RELLSTATE
 	{
 		LEFT_IDLE,
@@ -285,6 +286,8 @@ class rell : public enemy
 		MODE2,
 		MODE3,
 	};
+
+	MYRECT _rcCheckAttack;
 	
 	image* _image;
 
@@ -309,7 +312,20 @@ class rell : public enemy
 	RELLSTATE _state;
 	RELLMODE _mode;
 
+	tagBulletEnemy _bullet1[3];
+	tagBulletEnemy _bullet2[20];
+	MYRECT _ground[3];
+
 	bool _isStart;
+	bool _attackVer;
+	bool _shootCount;
+
+	int _attackCount;
+	int _prayCount;
+
+	float _yUp;	// 2페이즈용
+	float _xLarge, _yLarge;	// 3페이즈용
+
 public:
 	HRESULT init(MYPOINT position);
 	void release();
@@ -322,5 +338,6 @@ public:
 	virtual void draw();
 
 	virtual void checkCollision();
+	bool changeDirectionToLeft();
 	void start();
 };

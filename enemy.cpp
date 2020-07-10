@@ -988,6 +988,13 @@ HRESULT witch::init(MYPOINT position)
 		_rightBullet1.count = 0;
 	}
 
+	{
+		_rightBullet2.fireX = _rightBullet2.x = WINSIZEX / 2;
+		_rightBullet2.fireY = _rightBullet2.y = WINSIZEY / 2;
+		_rightBullet2.isFire = false;
+		_rightBullet2.count = 0;
+	}
+
 	_rc.set(0, 0, 40, 60);
 	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
 	_rcRight.set(0, 0, 40, 60);
@@ -1030,7 +1037,7 @@ HRESULT witch::init(MYPOINT position)
 
 	_direction = ENEMYDIRECTION::LEFT_IDLE;
 
-	_maxHp = 40;
+	_maxHp = 30;
 	_hp = _maxHp;
 
 	_alpha = 255;
@@ -1061,7 +1068,7 @@ void witch::attack()
 {
 	++_attackCount;
 
-	if (_attackCount > 290)
+	if (_attackCount > 220)
 	{
 		switch (_direction)
 		{
@@ -1086,7 +1093,7 @@ void witch::attack()
 					_leftBullet2[i].x = _leftBullet2[i].fireX = _leftAttackX + 40;
 					_leftBullet2[i].y = _leftBullet2[i].fireY = 100 + _imageLeftAttackBack->getHeight();
 					_leftBullet2[i].angle = PI * 0.5 + RND->getFromFloatTo(-0.5, 0.5);
-					_leftBullet2[i].speed = RND->getFromIntTo(2, 7);
+					_leftBullet2[i].speed = RND->getFromIntTo(4, 8);
 				}
 			}
 			break;
@@ -1102,14 +1109,14 @@ void witch::attack()
 				_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
 				_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
 				_rightBullet1.isFire = true;
-				_rightBullet1.angle = getAngle(_rightBullet1.fireX, _rightBullet1.fireY, _player->getX(), _player->getY());
-
-				_attackVer = !_attackVer;
 			}
 			else
 			{
 				cout << "두 번째 공격" << endl;
-				_attackVer = !_attackVer;
+
+				_rightBullet2.x = _player->getX();
+				_rightBullet2.y = _player->getY() - 50;
+				_rightBullet2.isFire = true;
 			}
 			break;
 		case ENEMYDIRECTION::LEFT_ATTACK:
@@ -1167,7 +1174,7 @@ void witch::move()
 			_leftBullet1[0].count = 0;
 		}
 
-		if (_leftBullet1[0].count >= 0.2f && !_leftBullet1[1].isFire)
+		if (_leftBullet1[0].count >= 0.4f && !_leftBullet1[1].isFire)
 		{
 			attackWithLeftBullet(1);
 		}
@@ -1202,6 +1209,10 @@ void witch::move()
 	if (_rightBullet1.isFire)
 	{
 		++_rightBullet1.count;
+		if (_rightBullet1.count == 50)
+		{
+			_rightBullet1.angle = getAngle(_rightBullet1.fireX, _rightBullet1.fireY, _player->getX(), _player->getY());
+		}
 		if (_rightBullet1.count > 80)
 		{
 			_rightBullet1.x += cosf(_rightBullet1.angle) * 13.0f;
@@ -1210,7 +1221,32 @@ void witch::move()
 				>= _rightBullet1.range)
 			{
 				_rightBullet1.isFire = false;
+				_attackVer = !_attackVer;
 			}
+		}
+	}
+
+	if (_rightBullet2.isFire)
+	{
+		++_rightBullet2.count;
+		if (++_rightBullet2.count > 230)
+		{
+			EFFECTMANAGER->play("보스2", _rightBullet2.x + 20, _rightBullet2.y + 20);
+			_canCheckRight2 = true;
+			_rightBullet2.isFire = false;
+
+		}
+	}
+
+	if (_canCheckRight2)
+	{
+		++_rightBullet2.count;
+
+		if (_rightBullet2.count > 300)
+		{
+			_rightBullet2.count = 0;
+			_canCheckRight2 = false;
+			_attackVer = !_attackVer;
 		}
 	}
 }
@@ -1267,7 +1303,7 @@ void witch::draw()
 						}
 					}
 					else
-						_imageLeftAttackBack->alphaRender(getMemDC(), _leftAttackX, 100, 122);
+						_imageLeftAttackBack->alphaRender(getMemDC(), _leftAttackX, 95, 122);
 				}
 				break;
 			case ENEMYDIRECTION::RIGHT_ATTACK:
@@ -1288,12 +1324,87 @@ void witch::draw()
 		}
 
 		if (_rightBullet1.isFire)
-			EllipseMake(getMemDC(), _rightBullet1.x, _rightBullet1.y, 40, 40);
+			EllipseMakeCenter(getMemDC(), _rightBullet1.x, _rightBullet1.y, 40, 40);
+
+		if (_rightBullet2.isFire)
+			EllipseMake(getMemDC(), _rightBullet2.x, _rightBullet2.y, 30, 30);
 	}
 }
 
 void witch::checkCollision()
 {
+	if (!_player->getIsAttacked())
+	{
+		if (static_cast<int>(_direction) % 2 == 0)
+		{
+			// 왼쪽
+			if (isCollision(_player->getHitbox(), _rc))
+			{
+				cout << "충돌" << endl;
+				_player->setIsAttacked(true);
+				_player->setHP(_player->getHP() - 1);
+			}
+
+			if (!_attackVer)
+			{
+				for (int i = 0; i < 2; ++i)
+				{
+					if (!_leftBullet1[i].isFire) continue;
+					if (isCollision(_player->getHitbox(), MYRECT(_leftBullet1[i].x, _leftBullet1[i].y, _leftBullet1[i].x + _leftBullet1[i].image->getWidth(), _leftBullet1[i].y + _leftBullet1[i].image->getHeight())))
+					{
+						cout << "충돌" << endl;
+						_player->setIsAttacked(true);
+						_player->setHP(_player->getHP() - 1);
+						break;
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 10; ++i)
+				{
+					if (!_leftBullet2[i].isFire) continue;
+					if (isCollision(_player->getHitbox(), MYRECT(_leftBullet2[i].x, _leftBullet2[i].y, _leftBullet2[i].x + _leftBullet2[i].image->getWidth(), _leftBullet2[i].y + _leftBullet2[i].image->getHeight())))
+					{
+						cout << "충돌" << endl;
+						_player->setIsAttacked(true);
+						_player->setHP(_player->getHP() - 1);
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			// 오른쪽
+			if (isCollision(_player->getHitbox(), _rcRight))
+			{
+				cout << "충돌" << endl;
+				_player->setIsAttacked(true);
+				_player->setHP(_player->getHP() - 1);
+			}
+
+			if (!_attackVer)
+			{
+				if (_rightBullet1.isFire && isCollision(_player->getHitbox(), MYRECT(_rightBullet1.x, _rightBullet1.y, _rightBullet1.x + 40, _rightBullet1.y + 40)))
+				{
+					cout << "충돌" << endl;
+					_player->setIsAttacked(true);
+					_player->setHP(_player->getHP() - 1);
+				}
+			}
+			else
+			{
+				if (_canCheckRight2 && isCollision(MYCIRCLE(_rightBullet2.x + 20, _rightBullet2.y + 20, 100), _player->getHitbox()))
+				{
+					cout << "충돌" << endl;
+					_player->setIsAttacked(true);
+					_player->setHP(_player->getHP() - 1);
+				}
+			}
+		}
+	}
+
 	if (_player->isAttacking() && !_player->getIsCheckAttack())
 	{
 		if (static_cast<int>(_direction) % 2 == 0)
@@ -1347,6 +1458,32 @@ HRESULT rell::init(MYPOINT position)
 	_image = IMAGEMANAGER->findImage("보스3-1 기본");
 
 	{
+		for (int i = 0; i < 3; ++i)
+		{
+			_bullet1[i].image = IMAGEMANAGER->findImage("보스3 불렛");
+			_bullet1[i].fireX = _bullet1[i].x = _x + _image->getWidth() / 2;
+			_bullet1[i].fireY = _bullet1[i].y = _y + _image->getHeight() / 2;
+			_bullet1[i].angle = PI * 0.5f;
+			_bullet1[i].speed = 7.0f;
+			_bullet1[i].range = 700;
+		}
+
+		for (int i = 0; i < 20; ++i)
+		{
+			_bullet2[i].image = IMAGEMANAGER->findImage("보스3-2");
+			_bullet2[i].fireX = _bullet2[i].x = _x + _image->getWidth() / 2;
+			_bullet2[i].fireY = _bullet2[i].y = _y + _image->getHeight() / 2;
+			_bullet2[i].angle = PI * 0.5f;
+			_bullet2[i].speed = 5.0f;
+		}
+
+		for (int i = 0; i < 3; ++i)
+		{
+			_ground[i].set(0, 0, 48, 10);
+		}
+	}
+
+	{
 		_ani_idle1 = new animation;
 		_ani_idle1->init(_image->getWidth(), _image->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
@@ -1374,7 +1511,7 @@ HRESULT rell::init(MYPOINT position)
 			IMAGEMANAGER->findImage("보스3-1 공격")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_pray->setFPS(1);
-		_ani_attack1->setDefPlayFrame(false, false);
+		_ani_pray->setDefPlayFrame(false, true);
 
 
 		_ani_attack2 = new animation;
@@ -1416,6 +1553,23 @@ HRESULT rell::init(MYPOINT position)
 	_x = position.x;
 	_y = position.y;
 
+	_rc.set(0, 0, 50, 60);
+	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2 + 20);
+
+	_rcCheck.set(0, 0, 400, 200);
+	_rcCheck.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
+
+	_rcCheckAttack.set(0, 0, 200, 100);
+	_rcCheckAttack.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
+
+	_attackVer = false;
+
+	_attackCount = _prayCount = 0;
+
+	_maxHp = 30;
+	_hp = _maxHp;
+	//_hp = 10;
+
 	return S_OK;
 }
 
@@ -1425,31 +1579,457 @@ void rell::release()
 
 void rell::update()
 {
-	_ani_idle1->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+	checkPlayer();
+	move();
+	attack();
+
+	if (KEYMANAGER->isOnceKeyDown('1'))
+	{
+		_mode = RELLMODE::MODE1;
+		_state = RELLSTATE::LEFT_IDLE;
+		_image = IMAGEMANAGER->findImage("보스3-1 기본");
+
+		_y = 480;
+		_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2 + 20);
+	}
+	if (KEYMANAGER->isOnceKeyDown('2'))
+	{
+		_mode = RELLMODE::MODE2;
+		_state = RELLSTATE::AIR;
+		_image = IMAGEMANAGER->findImage("보스3-2");
+		_ani_attack2->setPlayFrame(0, 4, false, true);
+		_ani_attack2->start();
+
+		_yUp = _y - 160;
+		_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _yUp + _image->getFrameHeight() / 2 + 20);		
+	}
+	if (KEYMANAGER->isOnceKeyDown('3'))
+	{
+		_mode = RELLMODE::MODE3;
+		_state = RELLSTATE::LEFT_IDLE;
+		_image = IMAGEMANAGER->findImage("보스3-3 기본");
+		_ani_idle3->setPlayFrame(0, 4, false, true);
+		_ani_idle3->start();
+
+		_xLarge = _x - _image->getFrameWidth() / 2 + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameWidth() / 2;
+		_yLarge = _y - _image->getFrameHeight() / 2 + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2;
+
+		_rc.setCenterPos(_x + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2 + 20);
+	}
 }
 
 void rell::render()
 {
+	_rc.render(getMemDC());
+	_ground[0].render(getMemDC());
 	draw();
 }
 
 void rell::attack()
 {
+	++_attackCount;
+	if (_attackCount > 100)
+	{
+		if (_mode == RELLMODE::MODE1)
+		{
+			switch (_state)
+			{
+			case rell::RELLSTATE::LEFT_IDLE:
+			case rell::RELLSTATE::RIGHT_IDLE:
+				if (_prayCount <= 0 && _hp < _maxHp * 0.5)
+				{
+					_image = IMAGEMANAGER->findImage("보스3-1 기도");
+					_state = RELLSTATE::PRAY;
+					_ani_pray->setPlayFrame(0, 4, false, true);
+					_ani_pray->start();
+					break;
+				}
+				if (!_attackVer)
+				{
+					_image = IMAGEMANAGER->findImage("보스3-1 공격");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_ATTACK;
+						_ani_attack1->setPlayFrame(0, 9);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_ATTACK;
+						_ani_attack1->setPlayFrame(10, 19);
+					}
+					_ani_attack1->start();
+
+					for (int i = 0; i < 3; ++i)
+					{
+						_bullet1[i].x = _bullet1[i].fireX = _x;
+						_bullet1[i].y = _bullet1[i].fireY = _y;
+						_bullet1[i].angle = getAngle(_x, _y, _player->getX(), _player->getY()) + 0.06f * (1 - i);
+						_bullet1[i].isFire = true;
+						_bullet1[i].count = 0;
+					}
+				}
+				else
+				{
+					// 땅에서 소환
+					_image = IMAGEMANAGER->findImage("보스3-1 땅");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_GROUND;
+						_ani_ground1->setPlayFrame(0, 11);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_GROUND;
+						_ani_ground1->setPlayFrame(12, 21);
+					}
+					_ground[0].setLeftTopPos(_player->getX(), _y + _image->getFrameHeight());
+					_ani_ground1->start();
+				}
+				_ani_idle1->stop();
+				break;
+			case rell::RELLSTATE::LEFT_GROUND:
+			case rell::RELLSTATE::RIGHT_GROUND:
+				if (!_ani_ground1->isPlay())
+				{
+					_image = IMAGEMANAGER->findImage("보스3-1 기본");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_IDLE;
+						_ani_idle1->setPlayFrame(0, 4);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_IDLE;
+						_ani_idle1->setDefPlayFrame(5, 7);
+					}
+					_ani_idle1->start();
+					_attackVer = !_attackVer;
+				}
+				break;
+			case rell::RELLSTATE::LEFT_ATTACK:
+			case rell::RELLSTATE::RIGHT_ATTACK:
+				if (!_ani_attack1->isPlay())
+				{
+					_image = IMAGEMANAGER->findImage("보스3-1 기본");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_IDLE;
+						_ani_idle1->setPlayFrame(0, 4);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_IDLE;
+						_ani_idle1->setDefPlayFrame(5, 7);
+					}
+					_ani_idle1->start();
+					_attackVer = !_attackVer;
+				}
+				break;
+			case rell::RELLSTATE::PRAY:
+				++_prayCount;
+				if (_prayCount > 3)
+				{
+					_image = IMAGEMANAGER->findImage("보스3-1 기본");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_IDLE;
+						_ani_idle1->setPlayFrame(0, 4);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_IDLE;
+						_ani_idle1->setDefPlayFrame(5, 7);
+					}
+					_ani_idle1->start();
+					_ani_pray->stop();
+				}
+				break;
+			}
+		}
+		else if (_mode == RELLMODE::MODE2)
+		{
+			switch (_state)
+			{
+			case rell::RELLSTATE::AIR:
+				break;
+			}
+		}
+		else
+		{
+			switch (_state)
+			{
+			case rell::RELLSTATE::LEFT_IDLE:
+			case rell::RELLSTATE::RIGHT_IDLE:
+				break;
+			case rell::RELLSTATE::LEFT_GROUND:
+			case rell::RELLSTATE::RIGHT_GROUND:
+				if (!_ani_ground3->isPlay())
+				{
+					_image = IMAGEMANAGER->findImage("보스3-3 기본");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_IDLE;
+						_ani_idle3->setPlayFrame(0, 3);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_IDLE;
+						_ani_idle3->setPlayFrame(4, 7);
+					}
+					_ani_idle3->start();
+				}
+				break;
+			case rell::RELLSTATE::LEFT_ATTACK:
+			case rell::RELLSTATE::RIGHT_ATTACK:
+				if (!_ani_ground3->isPlay())
+				{
+					_image = IMAGEMANAGER->findImage("보스3-3 기본");
+					if (changeDirectionToLeft())
+					{
+						_state = RELLSTATE::LEFT_IDLE;
+						_ani_idle3->setPlayFrame(0, 3);
+					}
+					else
+					{
+						_state = RELLSTATE::RIGHT_IDLE;
+						_ani_idle3->setPlayFrame(4, 7);
+					}
+					_ani_idle3->start();
+				}
+				break;
+			case rell::RELLSTATE::DEAD:
+				break;
+			}
+		}
+		_attackCount = 0;
+	}
 }
+/*
+		if (_mode == RELLMODE::MODE1)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+			break;
+		case rell::RELLSTATE::RIGHT_IDLE:
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+			break;
+		case rell::RELLSTATE::RIGHT_GROUND:
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+			break;
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			break;
+		case rell::RELLSTATE::PRAY:
+			break;
+		}
+		_ani_idle1->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+	}
+	else if (_mode == RELLMODE::MODE2)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::AIR:
+			break;
+		}
+	}
+	else
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+			break;
+		case rell::RELLSTATE::RIGHT_IDLE:
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+			break;
+		case rell::RELLSTATE::RIGHT_GROUND:
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+			break;
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			break;
+		case rell::RELLSTATE::DEAD:
+			break;
+		}
+	}
+*/
 
 void rell::checkPlayer()
 {
+	if (_mode == RELLMODE::MODE1)
+	{
+		if (!isCollision(_player->getHitbox(), _rcCheck))
+		{
+
+		}
+		else
+		{
+
+		}
+	}
+	else if (_mode == RELLMODE::MODE2)
+	{
+
+	}
+	else
+	{
+
+	}
 }
 
 void rell::move()
 {
+	if (_mode == RELLMODE::MODE1)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+		case rell::RELLSTATE::RIGHT_IDLE:
+			_ani_idle1->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+		case rell::RELLSTATE::RIGHT_GROUND:
+			_ani_ground1->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			_ani_attack1->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			break;
+		case rell::RELLSTATE::PRAY:
+			_ani_pray->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			break;
+		}
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!_bullet1[i].isFire) continue;
+			++_bullet1[i].count;
+			_bullet1[i].x += cosf(_bullet1[i].angle) * _bullet1[i].speed;
+			_bullet1[i].y += -sinf(_bullet1[i].angle) * _bullet1[i].speed;
+			if (getDistance(_bullet1[i].x, _bullet1[i].y, _bullet1[i].fireX, _bullet1[i].fireY) >= _bullet1[i].range)
+			{
+				_bullet1[i].isFire = false;
+			}
+			if (_bullet1[i].count < 10) break;
+		}
+	}
+	else if (_mode == RELLMODE::MODE2)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::AIR:
+			_ani_attack2->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+			break;
+		}
+	}
+	else
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+		case rell::RELLSTATE::RIGHT_IDLE:
+			_ani_idle3->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+		case rell::RELLSTATE::RIGHT_GROUND:
+			_ani_ground3->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			_ani_attack3->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			break;
+		case rell::RELLSTATE::DEAD:
+			break;
+		}
+	}
+
+	
 }
 
 void rell::draw()
 {
-	_image->aniRender(getMemDC(), _x, _y, _ani_idle1);
+	if (_mode == RELLMODE::MODE1)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+		case rell::RELLSTATE::RIGHT_IDLE:
+			_image->aniRender(getMemDC(), _x, _y, _ani_idle1);
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+		case rell::RELLSTATE::RIGHT_GROUND:
+			_image->aniRender(getMemDC(), _x, _y, _ani_ground1);
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			_image->aniRender(getMemDC(), _x, _y, _ani_attack1);
+			break;
+		case rell::RELLSTATE::PRAY:
+			_image->aniRender(getMemDC(), _x, _y, _ani_pray);
+			break;
+		}
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!_bullet1[i].isFire) continue;
+			_bullet1[i].image->alphaRender(getMemDC(), _bullet1[i].x, _bullet1[i].y, 180);
+		}
+	}
+	else if (_mode == RELLMODE::MODE2)
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::AIR:
+			_image->aniRender(getMemDC(), _x, _yUp, _ani_attack2);
+			break;
+		}
+	}
+	else
+	{
+		switch (_state)
+		{
+		case rell::RELLSTATE::LEFT_IDLE:
+		case rell::RELLSTATE::RIGHT_IDLE:
+			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_idle3);
+			break;
+		case rell::RELLSTATE::LEFT_GROUND:
+		case rell::RELLSTATE::RIGHT_GROUND:
+			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_ground3);
+			break;
+		case rell::RELLSTATE::LEFT_ATTACK:
+		case rell::RELLSTATE::RIGHT_ATTACK:
+			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_attack3);
+			break;
+		case rell::RELLSTATE::DEAD:
+			break;
+		}
+	}
 }
 
 void rell::checkCollision()
 {
+	if (_mode == RELLMODE::MODE1)
+	{
+
+	}
+	else if (_mode == RELLMODE::MODE2)
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+bool rell::changeDirectionToLeft()
+{
+	// 만약 _rc(보스 충돌용).left보다 플레이어 히트박스 right가 작다면 <- 이쪽 방향
+	if (_player->getHitbox().right < _rc.left)
+	{
+		return true;
+	}
+	return false;
 }
