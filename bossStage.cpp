@@ -52,8 +52,7 @@ HRESULT bossStage::init()
 
 void bossStage::release()
 {
-	SAFE_DELETE(_vBoss[0]);
-	_vBoss.clear();
+	//SAFE_DELETE(_vBoss[0]);
 }
 
 void bossStage::update()

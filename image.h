@@ -106,10 +106,12 @@ public:
 	void alphaRender(HDC hdc, BYTE alpha);
 	//알파렌더 (뿌려질DC, 뿌릴위치X, 뿌릴위치Y, 알파값(0 ~ 255))
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
+	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
 	//애니메이션 렌더링용
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
 	void aniRedRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
+	void aniAlphaRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
 
 	//프레임 알파렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top), 알파값(0 ~ 255))
 	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);

@@ -528,6 +528,39 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
+void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		BitBlt(_blendImage->hMemDC, sourX, sourY, sourWidth, sourHeight,
+			hdc, destX, destY, SRCCOPY);
+
+		GdiTransparentBlt(_blendImage->hMemDC, sourX, sourY,
+			sourWidth,
+			sourHeight,
+			_imageInfo->hMemDC,
+			sourX, sourY,
+			sourWidth,
+			sourHeight,
+			_transColor);
+
+		AlphaBlend(hdc, destX, destY,
+			sourWidth, sourHeight,
+			_blendImage->hMemDC, sourX, sourY, sourWidth,
+			sourHeight, _blendFunc);
+
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY,
+			sourWidth, sourHeight,
+			_imageInfo->hMemDC, sourX, sourY, sourWidth,
+			sourHeight, _blendFunc);
+	}
+}
+
 void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
@@ -536,6 +569,11 @@ void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
 void image::aniRedRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
 {
 	alphaRedRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
+}
+
+void image::aniAlphaRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
+{
+	alphaRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
 }
 
 void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)

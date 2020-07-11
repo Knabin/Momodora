@@ -631,6 +631,7 @@ void player::renderBullet()
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
 	{
+		Rectangle(getMemDC(), _viBullet->rc);
 		_viBullet->image->render(getMemDC(),
 			_viBullet->rc.left, _viBullet->rc.top);
 	}
@@ -639,6 +640,20 @@ void player::renderBullet()
 void player::removeBullet(int index)
 {
 	_vBullet.erase(_vBullet.begin() + index);
+}
+
+bool player::checkBulletCollision(MYRECT rc)
+{
+	RECT rcR = RectMake(rc.left, rc.top, rc.getWidth(), rc.getHeight());
+	for (int i = 0; i < _vBullet.size(); ++i)
+	{
+		if (isCollision(_vBullet[i].rc, rcR))
+		{
+			removeBullet(i);
+			return true;
+		}
+	}
+	return false;
 }
 
 void player::setPointLeftStart()

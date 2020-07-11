@@ -156,9 +156,6 @@
     <ClInclude Include="bossStage.h">
       <Filter>playGround\stage</Filter>
     </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
@@ -244,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="bossStage.cpp">
       <Filter>playGround\stage</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>playGround\enemy</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>

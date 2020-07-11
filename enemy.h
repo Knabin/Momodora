@@ -22,6 +22,8 @@ enum class ENEMYDIRECTION
 struct tagBulletEnemy
 {
 	image* image;
+
+	MYRECT rc;
 	float x, y;
 	float fireX, fireY;
 	float angle;
@@ -286,12 +288,11 @@ class rell : public enemy
 		MODE2,
 		MODE3,
 	};
-
-	MYRECT _rcCheckAttack;
 	
 	image* _image;
 
 	image* _bullet;
+	image* _fire;
 	image* _snow;
 	image* _snow2;
 
@@ -300,9 +301,11 @@ class rell : public enemy
 	animation* _ani_ground1;
 	animation* _ani_attack1;
 	animation* _ani_pray;
+	animation* _ani_effect_fire;
 
 	//2
 	animation* _ani_attack2;
+	animation* _ani_snow;
 
 	//3
 	animation* _ani_idle3;
@@ -313,15 +316,21 @@ class rell : public enemy
 	RELLMODE _mode;
 
 	tagBulletEnemy _bullet1[3];
-	tagBulletEnemy _bullet2[20];
-	MYRECT _ground[3];
+	tagBulletEnemy _bullet2[16];
+	tagBulletEnemy _ground[3];
+
+	MYRECT _rcPray;
+
+	MYRECT _rcCheckAttack;
 
 	bool _isStart;
 	bool _attackVer;
 	bool _shootCount;
+	bool _canPray;
 
 	int _attackCount;
 	int _prayCount;
+	int _groundCount;
 
 	float _yUp;	// 2페이즈용
 	float _xLarge, _yLarge;	// 3페이즈용
@@ -340,4 +349,5 @@ public:
 	virtual void checkCollision();
 	bool changeDirectionToLeft();
 	void start();
+	void changeMode();
 };

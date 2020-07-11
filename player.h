@@ -118,6 +118,8 @@ public:
 	void renderBullet();
 	void removeBullet(int index);
 
+	bool checkBulletCollision(MYRECT rc);
+
 
 	bool isMovingLeft() 
 	{
@@ -201,7 +203,15 @@ public:
 	}
 
 	bool getIsAttacked() { return _isAttacked; }
-	void setIsAttacked(bool isAttacked) { _isAttacked = isAttacked; }
+	void setIsAttacked(bool isAttacked)
+	{ 
+		if (isAttacked)
+		{
+			_x += isLeft() ? 20 : -20;
+			_hitbox.setCenterPos(_x, _probeY - _height / 4);
+		}
+		_isAttacked = isAttacked;
+	}
 
 	bool getIsCheckAttack() { return _isCheckAttack; }
 	void setIsCheckAttack(bool check) { _isCheckAttack = check; }
