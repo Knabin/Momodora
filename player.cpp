@@ -633,14 +633,14 @@ void player::setAnimation(PLAYERSTATE state)
 		_ani_dead->start();
 		_image = IMAGEMANAGER->findImage("dead");
 		SOUNDMANAGER->stopAll("");
-		SOUNDMANAGER->play("Á×À½");
+		SOUNDMANAGER->play("Á×À½", 0.7f);
 		break;
 	case RIGHT_DEAD:
 		_ani_dead->setPlayFrame(16, 31, false, false);
 		_ani_dead->start();
 		_image = IMAGEMANAGER->findImage("dead");
 		SOUNDMANAGER->stopAll("");
-		SOUNDMANAGER->play("Á×À½");
+		SOUNDMANAGER->play("Á×À½", 0.7f);
 		break;
 	case LEFT_PRAY:
 		_ani_pray->setPlayFrame(0, 3, false, false);
