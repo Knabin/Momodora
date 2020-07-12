@@ -30,8 +30,13 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addImage("배경3", "image/background3.bmp", 960, 720, false, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("배경3 픽셀", "image/background3_pixel.bmp", 960, 720, false, RGB(0, 0, 0));
 		IMAGEMANAGER->addImage("배경3 픽셀 보스", "image/background3_pixel_b.bmp", 960, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("까만 배경", "image/black.bmp", WINSIZEX, WINSIZEY, false, RGB(0, 0, 0));
+
+		IMAGEMANAGER->addImage("오브젝트", "image/object_pray.bmp", 42, 90, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("보스 배경", "image/background4.bmp", 960, 720, false, RGB(0, 0, 0));
+
+		IMAGEMANAGER->addImage("게임오버", "image/gameover.bmp", 750, 133, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("목숨", "image/heart.bmp", 30, 23, true, RGB(255, 0, 255));
 
@@ -41,6 +46,8 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addFrameImage("run", "image/momo_run.bmp", 768, 192, 8, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("jump", "image/momo_jump.bmp", 1056, 192, 11, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("throw", "image/momo_throw.bmp", 288, 192, 3, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("dead", "image/momo_dead.bmp", 1536, 192, 16, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("pray", "image/momo_pray.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("effect_charge", "image/momo_effect_charge.bmp", 1056, 100, 11, 1, true, RGB(255, 0, 255));
 
@@ -93,7 +100,31 @@ HRESULT playGround::init()
 		IMAGEMANAGER->addImage("보스3-3 땅 공격", "image/rell3_sword.bmp", 288, 288, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("보스3 죽음", "image/rell_defeated.bmp", 96, 96, true, RGB(255, 0, 255));
+	}
 
+	{
+		SOUNDMANAGER->addSound("일반 맵", "sound/stage1.ogg", true, true);
+		SOUNDMANAGER->addSound("보스 전 맵", "sound/stage2.ogg", true, true);
+		SOUNDMANAGER->addSound("보스1 맵", "sound/battle1.ogg", true, true);
+		SOUNDMANAGER->addSound("보스2 맵", "sound/battle2.ogg", true, true);
+		SOUNDMANAGER->addSound("보스3 맵", "sound/battle3.ogg", true, true);
+
+		SOUNDMANAGER->addSound("점프", "sound/jump.wav", false, false);
+		SOUNDMANAGER->addSound("공격", "sound/leaf.wav", false, false);
+		SOUNDMANAGER->addSound("죽음", "sound/death.wav", false, false);
+		SOUNDMANAGER->addSound("맞음", "sound/hurt.wav", false, false);
+		SOUNDMANAGER->addSound("pray", "sound/fairy.wav", false, false);
+
+		SOUNDMANAGER->addSound("monkey", "sound/monkey_atk.wav", false, false);
+		SOUNDMANAGER->addSound("bak1", "sound/bakman.wav", false, false);
+
+		SOUNDMANAGER->addSound("witchleft", "sound/spell2.wav", false, false);
+		SOUNDMANAGER->addSound("witchright", "sound/spell1.wav", false, false);
+
+		SOUNDMANAGER->addSound("rellball", "sound/ghost.wav", false, false);
+		SOUNDMANAGER->addSound("rellground", "sound/rellball.wav", false, false);
+		SOUNDMANAGER->addSound("rellpray", "sound/blowfish.wav", false, true);
+		SOUNDMANAGER->addSound("rellexp", "sound/explosion2.wav", false, false);
 	}
 
 	_player = new player;
@@ -115,23 +146,22 @@ HRESULT playGround::init()
 	_background = IMAGEMANAGER->findImage("배경");
 	_backgroundPixel = IMAGEMANAGER->findImage("배경 픽셀");
 
-	vector<string> _vTest = TXTDATA->txtLoad("test.data");
-	cout << _vTest[0] << endl;
-	cout << _vTest[1] << endl;
-
 	_shakeCount = 0;
-	_isShaking = false;
+	_isShaking = _isGameOver = false;
 
 	EFFECTMANAGER->addEffect("left", "image/momo_effect_left.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("left2", "image/momo_effect_left2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right", "image/momo_effect_right.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
 	EFFECTMANAGER->addEffect("right2", "image/momo_effect_right2.bmp", 768, 120, 192, 120, 1, 1.0f, 4);
+	EFFECTMANAGER->addEffect("left hit", "image/momo_effect_hit_left.bmp", 672, 64, 96, 64, 1, 1.0f, 2);
+	EFFECTMANAGER->addEffect("left hit2", "image/momo_effect_hit_left2.bmp", 192, 32, 32, 32, 1, 1.0f, 3);
+	EFFECTMANAGER->addEffect("right hit", "image/momo_effect_hit_right.bmp", 672, 64, 96, 64, 1, 1.0f, 2);
+	EFFECTMANAGER->addEffect("right hit2", "image/momo_effect_hit_right2.bmp", 192, 32, 32, 32, 1, 1.0f, 3);
+	EFFECTMANAGER->addEffect("pray", "image/momo_effect_pray.bmp", 264, 66, 66, 66, 1, 0.5f, 2);
 
 	EFFECTMANAGER->addEffect("보스2", "image/witchl_bullet2_effect.bmp", 1800, 300, 300, 300, 1, 0.8f, 2);
 	
 	EFFECTMANAGER->addEffect("보스1 기도 전", "image/rell1_pray_effect.bmp", 100, 21, 25, 21, 1, 0.2f, 4);
-
-	
 
 	// ==========================================
 	// ## 카메라 중점 초기화 ##
@@ -152,23 +182,36 @@ void playGround::update()
 {
 	gameNode::update();
 
-	_player->update();
-	_pixel->update();
-	_sm->update();
-
-	if (_player->getIsCameraShaking())
+	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
-		CAMERA->setIsShaking(true);
-		++_shakeCount;
-		if (_shakeCount > 10)
-		{
-			_shakeCount = 0;
-			CAMERA->setIsShaking(false);
-			_player->setIsCameraShaking(false);
-		}
+		TIMEMANAGER->setDebug();
 	}
 
-	EFFECTMANAGER->update();
+	_player->update();
+	if (!_isGameOver) 
+	{
+		_pixel->update();
+		_sm->update();
+
+		if (_player->getIsCameraShaking())
+		{
+			CAMERA->setIsShaking(true);
+			++_shakeCount;
+			if (_shakeCount > 10)
+			{
+				_shakeCount = 0;
+				CAMERA->setIsShaking(false);
+				_player->setIsCameraShaking(false);
+			}
+		}
+
+		EFFECTMANAGER->update();
+
+		if (_player->getIsDead())
+		{
+			_isGameOver = true;
+		}
+	}
 
 	// ==========================================
 	// ## 카메라 중점 업데이트 ##
@@ -182,16 +225,23 @@ void playGround::render()
 {	
 	PatBlt(getMemDC(), 0, 0, getMemDCWidth(), getMemDCHeight(), WHITENESS);
 	//=================================================
-	
-	_sm->render();
-	_player->render();
-	EFFECTMANAGER->render();
-	TIMEMANAGER->render(getMemDC());
-
-	for (int i = 0; i < _player->getHP(); i++)
+	if (!_isGameOver)
 	{
-		IMAGEMANAGER->findImage("목숨")->render(getMemDC(), CAMERA->getLeft() + 35 * (i + 1), 30);
+		_sm->render();
+		EFFECTMANAGER->render();
+		//TIMEMANAGER->render(getMemDC());
+
+		for (int i = 0; i < _player->getHP(); i++)
+		{
+			IMAGEMANAGER->findImage("목숨")->render(getMemDC(), CAMERA->getLeft() + 35 * (i + 1), 30);
+		}
 	}
+	else
+	{
+		IMAGEMANAGER->findImage("까만 배경")->render(getMemDC(), CAMERA->getLeft(), 0);
+		if (!SOUNDMANAGER->isPlaySound("죽음")) IMAGEMANAGER->findImage("게임오버")->render(getMemDC(), CAMERA->getLeft() + (WINSIZEX - IMAGEMANAGER->findImage("게임오버")->getWidth()) /2, 100);
+	}
+	_player->render();
 
 	//=============================================
 	_backBuffer->render(getHDC(), 0 + CAMERA->getShakeNumber(), 0,

@@ -18,6 +18,7 @@ private:
 
 	MYRECT _rc[3];
 	RECT _rc2;
+	MYRECT _rcPray;
 
 	/* 
 	stageManager에서 해야 할 것
@@ -43,6 +44,8 @@ public:
 
 	void checkEnterBossStage();
 	bool isAliveBoss();
+
+	void checkPrayObject();
 
 	int getCurrentStageSize();
 	int getCurrentIndex() { return _currentIdx; }

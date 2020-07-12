@@ -150,8 +150,6 @@
   <ItemGroup>
     <ClInclude Include="animation.h" />
     <ClInclude Include="bossStage.h" />
-    <ClInclude Include="bullets.h" />
-    <ClInclude Include="camel.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -185,8 +183,6 @@
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="bossStage.cpp" />
-    <ClCompile Include="bullets.cpp" />
-    <ClCompile Include="camel.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="commonStage.cpp" />

@@ -49,6 +49,9 @@ HRESULT stageManager::init()
 
 	_rc2 = RectMakeCenter(744, 552, 48, 48);
 
+	_rcPray.set(0, 0, 42, 90);
+	_rcPray.setLeftTopPos(800, _rc[0].bottom - 90);
+
 	SCENEMANAGER->addScene(_vStageName[0], common1);
 	SCENEMANAGER->addScene(_vStageName[1], common2);
 	SCENEMANAGER->addScene(_vStageName[2], common3);
@@ -107,16 +110,23 @@ void stageManager::render()
 {
 	SCENEMANAGER->render();
 
-	if (_currentIdx == 2 && DEBUG)
+	if (_currentIdx == 2 && TIMEMANAGER->getDebug())
 	{
 		_rc[0].render(getMemDC());
 		_rc[1].render(getMemDC());
 		_rc[2].render(getMemDC());
+		//_rcPray.render(getMemDC());
 	}
-	if (_currentIdx == 1 && DEBUG)
+	if (_currentIdx == 1 && TIMEMANAGER->getDebug())
 	{
-		//_rc2.render(getMemDC());
+		Rectangle(getMemDC(), _rc2);
 	}
+
+	if (_currentIdx == 2)
+	{
+		IMAGEMANAGER->findImage("오브젝트")->render(getMemDC(), _rcPray.left, _rcPray.top);
+	}
+
 }
 
 void stageManager::moveNextStage()
@@ -206,9 +216,17 @@ bool stageManager::isAliveBoss()
 {
 	if (!getIsBossStage()) return false;
 
-
-
 	return true;
+}
+
+void stageManager::checkPrayObject()
+{
+	if (_currentIdx != 2) return;
+
+	if (isCollision(_rcPray, _player->getHitbox()))
+	{
+		_player->setStatePray();
+	}
 }
 
 int stageManager::getCurrentStageSize()

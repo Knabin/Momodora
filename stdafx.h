@@ -41,6 +41,7 @@ using namespace TTYONE_UTIL;
 #define WINSIZEX	960		
 #define WINSIZEY	720
 #define WINSTYLE	WS_CAPTION | WS_SYSMENU
+#define BGMVOLUME	0.3f
 
 #define RND randomFunction::getSingleton()
 #define KEYMANAGER keyManager::getSingleton()
@@ -54,8 +55,6 @@ using namespace TTYONE_UTIL;
 #define STAGEENEMYMANAGER stageEnemyManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
-
-#define DEBUG false
 
 //====================================
 // ## 20.05.29 ## Extern ##

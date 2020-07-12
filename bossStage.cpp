@@ -6,7 +6,6 @@
 bossStage::bossStage(int bossNum, const char * fileName)
 {
 	_image = IMAGEMANAGER->findImage("º¸½º ¹è°æ");
-
 	_block = IMAGEMANAGER->findImage("º¸½º ºí·Ï");
 
 	_ani_block = new animation;
@@ -17,17 +16,8 @@ bossStage::bossStage(int bossNum, const char * fileName)
 	_ani_block->setFPS(1);
 	_ani_block->setDefPlayFrame(false, false);
 
-	switch (bossNum)
-	{
-	case BOSS1:
-		break;
-	case BOSS2:
-		break;
-	case BOSS3:
-		break;
-	}
-
 	_fileName = fileName;
+	_bossNum = bossNum;
 }
 
 HRESULT bossStage::init()
@@ -44,6 +34,32 @@ HRESULT bossStage::init()
 		_vBoss[i]->setPlayerMemoryAddressLink(_player);
 
 	_isStart = _isDead = false;
+
+	switch (_bossNum)
+	{
+	case BOSS1:
+		
+		if (!SOUNDMANAGER->isPlaySound("º¸½º1 ¸Ê"))
+		{
+			SOUNDMANAGER->stopAll("º¸½º1 ¸Ê");
+			SOUNDMANAGER->playBGM("º¸½º1 ¸Ê", BGMVOLUME);
+		}
+		break;
+	case BOSS2:
+		if (!SOUNDMANAGER->isPlaySound("º¸½º2 ¸Ê"))
+		{
+			SOUNDMANAGER->stopAll("º¸½º2 ¸Ê");
+			SOUNDMANAGER->playBGM("º¸½º2 ¸Ê", BGMVOLUME);
+		}
+		break;
+	case BOSS3:
+		if (!SOUNDMANAGER->isPlaySound("º¸½º3 ¸Ê"))
+		{
+			SOUNDMANAGER->stopAll("º¸½º3 ¸Ê");
+			SOUNDMANAGER->playBGM("º¸½º3 ¸Ê", BGMVOLUME);
+		}
+		break;
+	}
 
 	return S_OK;
 }
@@ -70,7 +86,7 @@ void bossStage::update()
 		_ani_block->frameUpdate(TIMEMANAGER->getElapsedTime() * 30);
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+	if (KEYMANAGER->isOnceKeyDown(VK_LSHIFT))
 	{
 		_isStart = false;
 		_isDead = true;

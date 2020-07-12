@@ -25,13 +25,13 @@ private:
 	progressBar _pgBar;
 
 	player* _player;
-	//enemy* _boss;
+	
+	int _bossNum;
 
 	const char * _fileName;
 	vector<enemy*> _vBoss;
 
 	bool _isStart;
-	// TODO: isDead를 boss 클래스에서 받아오기
 	bool _isDead;
 
 public:

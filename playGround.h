@@ -12,11 +12,6 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 using namespace std;
 
-struct tagObject
-{
-	MYRECT rc;
-};
-
 class playGround : public gameNode
 {
 private:
@@ -24,18 +19,12 @@ private:
 	image* _backgroundPixel;
 
 	stageManager* _sm;
-
 	pixelCollsion* _pixel;
-
 	player* _player;
 
-	vector<string> _vTest;
-
-	int _playerCount;
-
 	bool _isShaking;
+	bool _isGameOver;
 	int _shakeCount;
-
 
 
 public:

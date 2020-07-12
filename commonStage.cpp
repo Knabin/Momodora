@@ -47,6 +47,23 @@ HRESULT commonStage::init()
 
 	_loopCount = 0;
 
+	switch (_stageNum)
+	{
+	case STAGE1: case STAGE2:
+		CAMERA->setBackWidth(1920);
+		if (!SOUNDMANAGER->isPlaySound("ÀÏ¹İ ¸Ê"))
+		{
+			SOUNDMANAGER->stopAll("ÀÏ¹İ ¸Ê");
+			SOUNDMANAGER->playBGM("ÀÏ¹İ ¸Ê", BGMVOLUME);
+		}
+		break;
+	case STAGE3:
+		CAMERA->setBackWidth(960);
+		SOUNDMANAGER->stopAll("º¸½º Àü ¸Ê");
+		if (!SOUNDMANAGER->isPlaySound("º¸½º Àü ¸Ê")) SOUNDMANAGER->playBGM("º¸½º Àü ¸Ê", BGMVOLUME);
+		break;
+	}
+
 	return S_OK;
 }
 
@@ -57,19 +74,6 @@ void commonStage::release()
 
 void commonStage::update()
 {
-	switch (_stageNum)
-	{
-	case STAGE1:
-		CAMERA->setBackWidth(1920);
-		break;
-	case STAGE2:
-		CAMERA->setBackWidth(1920);
-		break;
-	case STAGE3:
-		CAMERA->setBackWidth(960);
-		break;
-	}
-
 	if (_backImg)
 	{
 		++_loopCount;
@@ -113,6 +117,11 @@ void commonStage::render()
 	}
 
 	_image->render(getMemDC());
+
+	if (TIMEMANAGER->getDebug())
+	{
+		_pixel->render(getMemDC());
+	}
 
 	for (int i = 0; i < _vEnemy.size(); ++i)
 		_vEnemy[i]->render();

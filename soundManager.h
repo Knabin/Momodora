@@ -7,8 +7,8 @@
 
 using namespace FMOD;
 
-#define SOUNDBUFFER 10
-#define EXTRACHANNELBUFFER 5
+#define SOUNDBUFFER 20
+#define EXTRACHANNELBUFFER 20
 
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
@@ -40,7 +40,9 @@ public:
 	void addSound(string keyName, string soundName, bool bgm, bool loop);
 
 	void play(string keyName, float volume = 1.0f);
+	void playBGM(string keyName, float volume = 1.0f);
 	void stop(string keyName);
+	void stopAll(string keyName);
 	void pause(string keyName);
 	void resume(string keyName);
 

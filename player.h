@@ -32,6 +32,10 @@ enum PLAYERSTATE
 	// 죽음
 	LEFT_DEAD,
 	RIGHT_DEAD,
+
+	// 기도(피 충전 모션)
+	LEFT_PRAY,
+	RIGHT_PRAY,
 };
 
 struct tagBullet
@@ -90,14 +94,16 @@ private:
 	animation* _ani_jump;
 	animation* _ani_throw;
 	animation* _ani_dead;
-	animation* _ani_charge;
+	animation* _ani_pray;
 
 	animation* _ani_effect_charge;
 
 	int _attackCount;
 	int _attackCount2;
 	int _redAlpha;
+	int _alpha;
 	int _attackedCount;
+	int _prayCount;
 
 	vector<tagBullet> _vBullet;
 	vector<tagBullet>::iterator _viBullet;
@@ -111,6 +117,7 @@ public:
 	virtual void render();
 
 	void setAnimation(PLAYERSTATE state);
+	void setStatePray();
 
 	void fireBullet();
 	void fireChargeBullet();
@@ -168,7 +175,14 @@ public:
 	void setY(float y) { _y = y; }
 
 	int getHP() { return _hp; }
-	void setHP(int hp) { _hp = hp; }
+	void setHP(int hp)
+	{
+		_hp = hp; 
+		if (hp <= 0)
+		{
+			setAnimation(isLeft() ? LEFT_DEAD : RIGHT_DEAD);
+		}
+	}
 
 	float getCenterY() { return _centerY; }
 
@@ -207,14 +221,25 @@ public:
 	{ 
 		if (isAttacked)
 		{
+			SOUNDMANAGER->play("맞음");
 			_x += isLeft() ? 20 : -20;
 			_hitbox.setCenterPos(_x, _probeY - _height / 4);
+			_alpha = 170;
 		}
 		_isAttacked = isAttacked;
 	}
 
 	bool getIsCheckAttack() { return _isCheckAttack; }
-	void setIsCheckAttack(bool check) { _isCheckAttack = check; }
+	void setIsCheckAttack(bool check) 
+	{
+		if (check)
+		{
+			isLeft() ? EFFECTMANAGER->play("left hit", _attackRc.left, _y) : EFFECTMANAGER->play("right hit", _attackRc.right, _y);
+		}
+		_isCheckAttack = check; 
+	}
+
+	bool getIsDead() { return _hp <= 0 ? true : false; }
 
 	bool getCanMoveLeft() { return _canMoveLeft; }
 	void setCanMoveLeft(bool canMoveLeft) { _canMoveLeft = canMoveLeft; }

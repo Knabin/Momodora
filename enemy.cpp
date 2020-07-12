@@ -98,7 +98,7 @@ void oko::update()
 void oko::render()
 {
 	if (_hp <= 0) return;
-	if(DEBUG) _rc.render(getMemDC());
+	if(TIMEMANAGER->getDebug()) _rc.render(getMemDC());
 	_imageRound->aniRender(getMemDC(), _rc.left - _rc.getWidth() + 10, _rc.top - _rc.getHeight() + 10, _ani_round);
 	if(!_isOnceAttacked) _image->render(getMemDC(), _rc.left, _rc.top);
 }
@@ -148,7 +148,6 @@ void oko::checkCollision()
 	// oko는 본체 충돌처리만 진행
 	if (!_player->getIsAttacked() && isCollision(_player->getHitbox(), _rc))
 	{
-		cout << "충돌" << endl;
 		_player->setIsAttacked(true);
 		_player->setHP(_player->getHP() - 1);
 	}
@@ -160,21 +159,14 @@ void oko::checkCollision()
 	{
 		_player->setIsCheckAttack(true);
 		_hp -= 1;
-		cout << "공격, " << _hp << endl;
-		if (_hp == 1)
-		{
-			_isOnceAttacked = true;
-		}
+		if (_hp == 1) _isOnceAttacked = true;
 	}
 
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
 		cout << "원거리 공격, " << _hp << endl;
-		if (_hp == 1)
-		{
-			_isOnceAttacked = true;
-		}
+		if (_hp == 1)	_isOnceAttacked = true;
 	}
 }
 
@@ -274,23 +266,7 @@ void monkey::update()
 
 void monkey::render()
 {
-	//_rc.render(getMemDC());
-	_rcHit.render(getMemDC());
-	_rcAttack.render(getMemDC());
-	if (_hp <= 0) return;
-	switch (_direction)
-	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
-	case ENEMYDIRECTION::LEFT_MOVE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
-		_image->aniRender(getMemDC(), _x, _y, _ani_run);
-		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
-		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
-		break;
-	}
+	draw();
 }
 
 void monkey::attack()
@@ -310,6 +286,7 @@ void monkey::checkPlayer()
 				_image = IMAGEMANAGER->findImage("몬스터2 공격");
 				_ani_attack->setPlayFrame(0, 10, false, true);
 				_ani_attack->start();
+				SOUNDMANAGER->play("monkey", 1.0f);
 			}
 			if (_direction == ENEMYDIRECTION::LEFT_ATTACK)
 			{
@@ -324,6 +301,7 @@ void monkey::checkPlayer()
 				_image = IMAGEMANAGER->findImage("몬스터2 공격");
 				_ani_attack->setPlayFrame(11, 21, false, true);
 				_ani_attack->start();
+				SOUNDMANAGER->play("monkey", 1.0f);
 			}
 			if (_direction == ENEMYDIRECTION::RIGHT_ATTACK)
 			{
@@ -388,6 +366,26 @@ void monkey::move()
 
 void monkey::draw()
 {
+	if (_hp <= 0) return;
+	if (TIMEMANAGER->getDebug())
+	{
+		_rcCheck.render(getMemDC());
+		_rcHit.render(getMemDC());
+		_rcAttack.render(getMemDC());
+	}
+	switch (_direction)
+	{
+	case ENEMYDIRECTION::LEFT_IDLE:
+	case ENEMYDIRECTION::RIGHT_IDLE:
+	case ENEMYDIRECTION::LEFT_MOVE:
+	case ENEMYDIRECTION::RIGHT_MOVE:
+		_image->aniRender(getMemDC(), _x, _y, _ani_run);
+		break;
+	case ENEMYDIRECTION::LEFT_ATTACK:
+	case ENEMYDIRECTION::RIGHT_ATTACK:
+		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
+		break;
+	}
 }
 
 void monkey::checkCollision()
@@ -399,7 +397,6 @@ void monkey::checkCollision()
 	{
 		if (isCollision(_player->getHitbox(), _rcAttack) || isCollision(_player->getHitbox(), _rcHit))
 		{
-			cout << "충돌" << endl;
 			_player->setIsAttacked(true);
 			_player->setHP(_player->getHP() - 1);
 		}
@@ -411,13 +408,11 @@ void monkey::checkCollision()
 	{
 		_player->setIsCheckAttack(true);
 		_hp -= 1;
-		cout << "공격, " << _hp << endl;
 	}
 
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
-		cout << "원거리 공격, " << _hp << endl;
 	}
 }
 
@@ -583,6 +578,7 @@ void bakman::attack()
 		{
 			_direction = ENEMYDIRECTION::LEFT_ACTION;
 			_ani_attack2->setPlayFrame(0, 5, false, false);
+			SOUNDMANAGER->play("bak1", 1.0f);
 
 			_bulletX = _x + 20;
 			_bulletY = _y;
@@ -592,6 +588,7 @@ void bakman::attack()
 		{
 			_direction = ENEMYDIRECTION::RIGHT_ACTION;
 			_ani_attack2->setPlayFrame(6, 11, false, false);
+			SOUNDMANAGER->play("bak1", 1.0f);
 
 			_bulletX = _x + 20;
 			_bulletY = _y;
@@ -666,14 +663,19 @@ void bakman::move()
 
 void bakman::draw()
 {
+	if (_hp <= 0) return;
+	if (TIMEMANAGER->getDebug())
+	{
+		_rcCheck.render(getMemDC());
+		_rc.render(getMemDC());
+	}
+
 	if (_isFire)
 	{
-		_rcBullet.render(getMemDC());
+		if (TIMEMANAGER->getDebug()) _rcBullet.render(getMemDC());
 		_bullet->render(getMemDC(), _bulletX, _bulletY);
 	}
 
-	if (_hp <= 0) return;
-	_rc.render(getMemDC());
 	switch (_direction)
 	{
 	case ENEMYDIRECTION::LEFT_IDLE:
@@ -702,7 +704,6 @@ void bakman::checkCollision()
 	{
 		if (isCollision(_player->getHitbox(), _rc) || isCollision(_player->getHitbox(), _rcBullet))
 		{
-			cout << "충돌" << endl;
 			_player->setIsAttacked(true);
 			_player->setHP(_player->getHP() - 1);
 		}
@@ -785,8 +786,11 @@ void prim::update()
 
 void prim::render()
 {
-	_rc.render(getMemDC());
-	_rcAttack.render(getMemDC());
+	if (TIMEMANAGER->getDebug())
+	{
+		_rc.render(getMemDC());
+		_rcAttack.render(getMemDC());
+	}
 
 	if (_hp <= 0)
 	{
@@ -940,7 +944,6 @@ void prim::checkCollision()
 			(isCollision(_player->getHitbox(), _rcAttack) && (_direction == ENEMYDIRECTION::LEFT_ATTACK ||
 				_direction == ENEMYDIRECTION::RIGHT_ATTACK)))
 		{
-			cout << "충돌" << endl;
 			_player->setIsAttacked(true);
 			_player->setHP(_player->getHP() - 1);
 		}
@@ -1089,8 +1092,11 @@ void witch::update()
 
 void witch::render()
 {
-	_rc.render(getMemDC());
-	_rcRight.render(getMemDC());
+	if (TIMEMANAGER->getDebug())
+	{
+		_rc.render(getMemDC());
+		_rcRight.render(getMemDC());
+	}
 	draw();
 }
 
@@ -1111,6 +1117,7 @@ void witch::attack()
 			{
 				cout << "공격" << endl;
 				attackWithLeftBullet(0);
+				SOUNDMANAGER->play("witchleft");
 			}
 			else
 			{
@@ -1148,6 +1155,7 @@ void witch::attack()
 				_rightBullet2.y = _player->getY() - 50;
 				_rightBullet2.isFire = true;
 			}
+			SOUNDMANAGER->play("witchright");
 			break;
 		case ENEMYDIRECTION::LEFT_ATTACK:
 			if (!_ani_attack_left->isPlay())
@@ -1208,6 +1216,7 @@ void witch::move()
 		if (_leftBullet1[0].count >= 0.4f && !_leftBullet1[1].isFire)
 		{
 			attackWithLeftBullet(1);
+			SOUNDMANAGER->play("witchleft");
 		}
 	}
 	
@@ -1268,7 +1277,7 @@ void witch::move()
 			EFFECTMANAGER->play("보스2", _rightBullet2.x + 20, _rightBullet2.y + 20);
 			_canCheckRight2 = true;
 			_rightBullet2.isFire = false;
-
+			SOUNDMANAGER->play("rellexp", 0.5f);
 		}
 	}
 
@@ -1331,10 +1340,12 @@ void witch::draw()
 					++_leftAttack2Count;
 					if (_leftAttack2Count > 100)
 					{
+						SOUNDMANAGER->play("witchleft");
 						for (int i = 0; i < 10; ++i)
 						{
 							_leftBullet2[i].isFire = true;
 						}
+						_leftAttack2Count = -100;
 					}
 					else
 						_imageLeftAttackBack->alphaRender(getMemDC(), _leftAttackX, 95, 122);
@@ -1348,21 +1359,32 @@ void witch::draw()
 		for (int i = 0; i < 2; ++i)
 		{
 			if (_leftBullet1[i].isFire)
+			{
+				if (TIMEMANAGER->getDebug()) _leftBullet1[i].rc.render(getMemDC());
 				_leftBullet1[i].image->render(getMemDC(), _leftBullet1[i].x, _leftBullet1[i].y);
+			}
 		}
 
 		for (int i = 0; i < 10; ++i)
 		{
 			if (_leftBullet2[i].isFire)
+			{
+				if (TIMEMANAGER->getDebug()) _leftBullet2[i].rc.render(getMemDC());
 				_leftBullet2[i].image->render(getMemDC(), _leftBullet2[i].x, _leftBullet2[i].y);
+			}
 		}
 
 		if (_rightBullet1.isFire)
+		{
 			_rightBullet1.image->render(getMemDC(), _rightBullet1.x - _rightBullet1.image->getWidth()/ 2, 
 				_rightBullet1.y - _rightBullet1.image->getHeight() / 2);
+		}
 
 		if (_rightBullet2.isFire)
+		{
+			if (TIMEMANAGER->getDebug()) _rightBullet2.rc.render(getMemDC());
 			EllipseMake(getMemDC(), _rightBullet2.x, _rightBullet2.y, 30, 30);
+		}
 	}
 }
 
@@ -1375,7 +1397,6 @@ void witch::checkCollision()
 			// 왼쪽
 			if (isCollision(_player->getHitbox(), _rc))
 			{
-				cout << "충돌" << endl;
 				_player->setIsAttacked(true);
 				_player->setHP(_player->getHP() - 1);
 			}
@@ -1387,7 +1408,6 @@ void witch::checkCollision()
 					if (!_leftBullet1[i].isFire) continue;
 					if (isCollision(_player->getHitbox(), _leftBullet1[i].rc))
 					{
-						cout << "충돌" << endl;
 						_player->setIsAttacked(true);
 						_player->setHP(_player->getHP() - 1);
 						break;
@@ -1401,7 +1421,6 @@ void witch::checkCollision()
 					if (!_leftBullet2[i].isFire) continue;
 					if (isCollision(_player->getHitbox(), _leftBullet2[i].rc))
 					{
-						cout << "충돌" << endl;
 						_player->setIsAttacked(true);
 						_player->setHP(_player->getHP() - 1);
 						break;
@@ -1414,7 +1433,6 @@ void witch::checkCollision()
 			// 오른쪽
 			if (isCollision(_player->getHitbox(), _rcRight))
 			{
-				cout << "충돌" << endl;
 				_player->setIsAttacked(true);
 				_player->setHP(_player->getHP() - 1);
 			}
@@ -1423,7 +1441,6 @@ void witch::checkCollision()
 			{
 				if (_rightBullet1.isFire && isCollision(_player->getHitbox(), _rightBullet1.rc))
 				{
-					cout << "충돌" << endl;
 					_player->setIsAttacked(true);
 					_player->setHP(_player->getHP() - 1);
 				}
@@ -1432,7 +1449,6 @@ void witch::checkCollision()
 			{
 				if (_canCheckRight2 && isCollision(MYCIRCLE(_rightBullet2.x + 20, _rightBullet2.y + 20, 100), _player->getHitbox()))
 				{
-					cout << "충돌" << endl;
 					_player->setIsAttacked(true);
 					_player->setHP(_player->getHP() - 1);
 				}
@@ -1448,7 +1464,6 @@ void witch::checkCollision()
 			{
 				_player->setIsCheckAttack(true);
 				_hp -= 2;
-				cout << "공격, " << _hp << endl;
 			}
 		}
 		else
@@ -1457,7 +1472,6 @@ void witch::checkCollision()
 			{
 				_player->setIsCheckAttack(true);
 				_hp -= 2;
-				cout << "공격, " << _hp << endl;
 			}
 		}
 	}
@@ -1466,7 +1480,6 @@ void witch::checkCollision()
 		if (_player->checkBulletCollision(_rc))
 		{
 			_hp -= 1;
-			cout << "원거리 공격, " << _hp << endl;
 		}
 	}
 	else
@@ -1474,7 +1487,6 @@ void witch::checkCollision()
 		if (_player->checkBulletCollision(_rcRight))
 		{
 			_hp -= 1;
-			cout << "원거리 공격, " << _hp << endl;
 		}
 	}
 
@@ -1666,8 +1678,11 @@ void rell::update()
 
 void rell::render()
 {
-	_rc.render(getMemDC());
-	_ground[0].rc.render(getMemDC());
+	if (TIMEMANAGER->getDebug())
+	{
+		_rc.render(getMemDC());
+		_ground[0].rc.render(getMemDC());
+	}
 	draw();
 }
 
@@ -1691,6 +1706,7 @@ void rell::attack()
 					_state = RELLSTATE::PRAY;
 					_ani_pray->setPlayFrame(0, 4, false, true);
 					_ani_pray->start();
+					SOUNDMANAGER->play("rellpray", 0.8f);
 					break;
 				}
 				if (!_attackVer)
@@ -1716,6 +1732,7 @@ void rell::attack()
 						_bullet1[i].isFire = true;
 						_bullet1[i].count = 0;
 					}
+					SOUNDMANAGER->play("rellball", 1.0f);
 				}
 				else
 				{
@@ -1783,6 +1800,7 @@ void rell::attack()
 				_hp += 7;
 				if (_prayCount > 3)
 				{
+					SOUNDMANAGER->stop("rellpray");
 					_image = IMAGEMANAGER->findImage("보스3-1 기본");
 					if (changeDirectionToLeft())
 					{
@@ -1800,6 +1818,7 @@ void rell::attack()
 					_ani_pray->stop();
 					_prayCount = 0;
 					_canPray = false;
+					SOUNDMANAGER->play("rellexp");
 				}
 				break;
 			}
@@ -1949,12 +1968,15 @@ void rell::move()
 			_ani_ground1->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 
 			++_ground[0].count;
-			if (_ground[0].count >= 50)
+			if (_ground[0].count >= 50 && !_ground[0].isFire)
+			{
 				_ground[0].isFire = true;
+				SOUNDMANAGER->play("rellground", 1.0f);
+			}
 			break;
 		case rell::RELLSTATE::LEFT_ATTACK:
 		case rell::RELLSTATE::RIGHT_ATTACK:
-			_ani_attack1->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+			_ani_attack1->frameUpdate(TIMEMANAGER->getElapsedTime() * 15);
 			break;
 		case rell::RELLSTATE::PRAY:
 			_ani_pray->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
@@ -2073,7 +2095,7 @@ void rell::draw()
 			_image->aniRender(getMemDC(), _x, _y, _ani_attack1);
 			break;
 		case rell::RELLSTATE::PRAY:
-			_rcPray.render(getMemDC());
+			if (TIMEMANAGER->getDebug()) _rcPray.render(getMemDC());
 			_image->aniRender(getMemDC(), _x, _y, _ani_pray);
 			break;
 		}
@@ -2084,12 +2106,15 @@ void rell::draw()
 		for (int i = 0; i < 3; ++i)
 		{
 			if (!_bullet1[i].isFire) continue;
-			_bullet1[i].rc.render(getMemDC());
+			if (TIMEMANAGER->getDebug()) _bullet1[i].rc.render(getMemDC());
 			_bullet1[i].image->alphaRender(getMemDC(), _bullet1[i].x, _bullet1[i].y, 180);
 		}
 
 		if (_ground[0].isFire)
+		{
 			_ground[0].image->render(getMemDC(), _ground[0].x - _ground[0].image->getWidth() / 2, _ground[0].y - _ground[0].image->getHeight());
+			if (TIMEMANAGER->getDebug()) _ground[0].rc.render(getMemDC());
+		}
 	}
 	else if (_mode == RELLMODE::MODE2)
 	{
@@ -2105,14 +2130,17 @@ void rell::draw()
 		for (int i = 0; i < 8; ++i)
 		{
 			if (!_bullet2[i].isFire) continue;
-			_bullet2[i].rc.render(getMemDC());
-			_bullet2[i].image->alphaRender(getMemDC(), _bullet2[i].x, _bullet2[i].y, 100);
+			if(TIMEMANAGER->getDebug()) _bullet2[i].rc.render(getMemDC());
+			_bullet2[i].image->alphaRender(getMemDC(), _bullet2[i].x, _bullet2[i].y, 150);
 		}
 	}
 	else
 	{
-		_rcCheckAttack.render(getMemDC());
-		_rc.render(getMemDC());
+		if (TIMEMANAGER->getDebug())
+		{
+			_rcCheckAttack.render(getMemDC());
+			_rc.render(getMemDC());
+		}
 
 		switch (_state)
 		{
@@ -2137,7 +2165,7 @@ void rell::draw()
 		{
 			if (!_ground[i].isFire) continue;
 			_ground[i].image->render(getMemDC(), _ground[i].x - _ground[i].image->getWidth() / 2, _ground[i].y - _ground[i].image->getHeight());
-			_ground[i].rc.render(getMemDC());
+			if (TIMEMANAGER->getDebug()) _ground[i].rc.render(getMemDC());
 		}
 	}
 }
@@ -2148,7 +2176,6 @@ void rell::checkCollision()
 	{
 		if (isCollision(_player->getHitbox(), _rc))
 		{
-			cout << "충돌" << endl;
 			_player->setIsAttacked(true);
 			_player->setHP(_player->getHP() - 1);
 		}
@@ -2162,7 +2189,6 @@ void rell::checkCollision()
 					if (!_bullet1[i].isFire) continue;
 					if (isCollision(_player->getHitbox(), _bullet1[i].rc))
 					{
-						cout << "충돌" << endl;
 						_player->setIsAttacked(true);
 						_player->setHP(_player->getHP() - 1);
 						break;
@@ -2173,14 +2199,12 @@ void rell::checkCollision()
 			{
 				if (_ground[0].isFire && isCollision(_player->getHitbox(), _ground[0].rc))
 				{
-					cout << "충돌" << endl;
 					_player->setIsAttacked(true);
 					_player->setHP(_player->getHP() - 1);
 				}
 			}
 			if (_ani_effect_fire->isPlay() && isCollision(_player->getHitbox(), _rcPray))
 			{
-				cout << "충돌" << endl;
 				_player->setIsAttacked(true);
 				_player->setHP(_player->getHP() - 2);
 			}
@@ -2192,7 +2216,6 @@ void rell::checkCollision()
 				if (!_bullet2[i].isFire) continue;
 				if (isCollision(_player->getHitbox(), _bullet2[i].rc))
 				{
-					cout << "충돌" << endl;
 					_player->setIsAttacked(true);
 					_player->setHP(_player->getHP() - 1);
 					break;
@@ -2206,7 +2229,6 @@ void rell::checkCollision()
 				if (!_ground[i].isFire) continue;
 				if (isCollision(_player->getHitbox(), _ground[i].rc))
 				{
-					cout << "충돌" << endl;
 					_player->setIsAttacked(true);
 					_player->setHP(_player->getHP() - 1);
 					break;
@@ -2219,7 +2241,6 @@ void rell::checkCollision()
 				{
 					if (changeDirectionToLeft())
 					{
-						cout << "충돌" << endl;
 						_player->setIsAttacked(true);
 						_player->setHP(_player->getHP() - 1);
 					}
@@ -2228,7 +2249,6 @@ void rell::checkCollision()
 				{
 					if (!changeDirectionToLeft())
 					{
-						cout << "충돌" << endl;
 						_player->setIsAttacked(true);
 						_player->setHP(_player->getHP() - 1);
 					}
