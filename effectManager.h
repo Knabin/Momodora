@@ -1,12 +1,22 @@
 #pragma once
-#include "singletonBase.h"
 #include <vector>
 #include <map>
 
 class effect;
 
-class effectManager : public singletonBase<effectManager>
+class effectManager
 {
+public:
+	static effectManager* getInstance()
+	{
+		static effectManager instance;
+		return &instance;
+	}
+
+private:
+	effectManager();
+	~effectManager();
+
 private:
 	//»ý»ê
 	typedef vector<effect*>				arrEffects;
@@ -22,9 +32,6 @@ private:
 	arrTotalEffect _vTotalEffect;
 
 public:
-	effectManager();
-	~effectManager();
-
 	HRESULT init();
 	void release();
 	void update();

@@ -1,8 +1,18 @@
 #pragma once
-#include "singletonBase.h"
 
-class camera : public singletonBase<camera>
+class camera
 {
+public:
+	static camera* getInstance()
+	{
+		static camera instance;
+		return &instance;
+	}
+	
+private:
+	camera();
+	~camera();
+
 	typedef struct tagCameraInfo
 	{
 		float x;
@@ -23,8 +33,7 @@ private:
 	int _flag = -1;
 
 public:
-	camera();
-	~camera();
+
 
 	HRESULT init(int width, int height, int backWidth, int backHeight);
 

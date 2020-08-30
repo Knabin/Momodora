@@ -43,16 +43,16 @@ using namespace TTYONE_UTIL;
 #define WINSTYLE	WS_CAPTION | WS_SYSMENU
 #define BGMVOLUME	0.3f
 
-#define RND randomFunction::getSingleton()
-#define KEYMANAGER keyManager::getSingleton()
-#define IMAGEMANAGER imageManager::getSingleton()
-#define TIMEMANAGER timeManager::getSingleton()
-#define EFFECTMANAGER effectManager::getSingleton()
-#define SOUNDMANAGER soundManager::getSingleton()
-#define SCENEMANAGER sceneManager::getSingleton()
-#define TXTDATA txtData::getSingleton()
-#define CAMERA camera::getSingleton()
-#define STAGEENEMYMANAGER stageEnemyManager::getSingleton()
+#define RND randomFunction::getInstance()
+#define KEYMANAGER keyManager::getInstance()
+#define IMAGEMANAGER imageManager::getInstance()
+#define TIMEMANAGER timeManager::getInstance()
+#define EFFECTMANAGER effectManager::getInstance()
+#define SOUNDMANAGER soundManager::getInstance()
+#define SCENEMANAGER sceneManager::getInstance()
+#define TXTDATA txtData::getInstance()
+#define CAMERA camera::getInstance()
+#define STAGEENEMYMANAGER stageEnemyManager::getInstance()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = NULL;}}
 

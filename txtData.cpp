@@ -43,11 +43,6 @@ char* txtData::vectorArrayCombine(vector<string> vArray)
 	char str[128];
 	ZeroMemory(str, sizeof(str));
 
-	//¿ìÁÖ¼± XÁÂÇ¥ 20
-	//¿ìÁÖ¼± YÁÂÇ¥ 40
-	//¿ìÁÖ¼± Ã¼·Â 100
-	//º¤ÅÍ »çÀÌÁî 3
-	//20,40,100
 	for (int i = 0; i < vArray.size(); ++i)
 	{
 		strncat_s(str, 128, vArray[i].c_str(), 126);
@@ -84,12 +79,6 @@ vector<string> txtData::charArraySeparation(char charArray[])
 	const char* separator = ",";
 	char* token;
 
-	//¿ìÁÖ¼± XÁÂÇ¥ 20
-	//¿ìÁÖ¼± YÁÂÇ¥ 40
-	//¿ìÁÖ¼± Ã¼·Â 100
-	//º¤ÅÍ »çÀÌÁî 3
-	//20,40,100
-
 	token = strtok_s(charArray, separator, &temp);
 
 	vArray.push_back(token);
@@ -98,7 +87,6 @@ vector<string> txtData::charArraySeparation(char charArray[])
 	{
 		vArray.push_back(token);
 	}
-
 
 	return vArray;
 }

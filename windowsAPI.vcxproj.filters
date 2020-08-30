@@ -19,9 +19,6 @@
     <Filter Include="playGround">
       <UniqueIdentifier>{95982806-068a-439b-ba72-8cb93f3609f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DGameFramework\SingletonBase">
-      <UniqueIdentifier>{fab0ad69-58ad-46bb-984d-736d10eee0f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DGameFramework\Manager">
       <UniqueIdentifier>{05d340ae-7cae-42ce-831b-ae2b80a9b8c5}</UniqueIdentifier>
     </Filter>
@@ -86,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="playGround.h">
       <Filter>playGround</Filter>
-    </ClInclude>
-    <ClInclude Include="singletonBase.h">
-      <Filter>2DGameFramework\SingletonBase</Filter>
     </ClInclude>
     <ClInclude Include="randomFunction.h">
       <Filter>헤더 파일</Filter>

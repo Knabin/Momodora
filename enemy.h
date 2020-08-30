@@ -48,7 +48,7 @@ protected:
 	int _maxHp;
 
 	MYRECT _rc;			// 충돌 처리용
-	MYRECT _rcCheck;	// 플레이어 체크용
+	//MYRECT _rcCheck;	// 플레이어 체크용
 
 	player* _player;
 
@@ -321,7 +321,7 @@ class rell : public enemy
 
 	MYRECT _rcPray;
 
-	MYRECT _rcCheckAttack;
+	//MYRECT _rcCheckAttack;
 
 	bool _isStart;
 	bool _attackVer;

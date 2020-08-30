@@ -47,34 +47,15 @@ void gameNode::release()
 	if (_managerInit)
 	{
 	//	KillTimer(_hWnd, 1);
-
 		KEYMANAGER->release();
-		KEYMANAGER->releaseSingleton();
-
 		IMAGEMANAGER->release();
-		IMAGEMANAGER->releaseSingleton();
-
 		TXTDATA->release();
-		TXTDATA->releaseSingleton();
-
 		TIMEMANAGER->release();
-		TIMEMANAGER->releaseSingleton();
-
 		EFFECTMANAGER->release();
-		EFFECTMANAGER->releaseSingleton();
-
 		SOUNDMANAGER->release();
-		SOUNDMANAGER->releaseSingleton();
-
 		SCENEMANAGER->release();
-		SCENEMANAGER->releaseSingleton();
-
 		CAMERA->release();
-		CAMERA->releaseSingleton();
-
 		STAGEENEMYMANAGER->release();
-		STAGEENEMYMANAGER->releaseSingleton();
-
 	}
 	
 	ReleaseDC(_hWnd, _hdc);

@@ -2,6 +2,14 @@
 #include "stageEnemyManager.h"
 #include "enemy.h"
 
+stageEnemyManager::stageEnemyManager()
+{
+}
+
+stageEnemyManager::~stageEnemyManager()
+{
+}
+
 HRESULT stageEnemyManager::init()
 {
 	_rc = RectMakeCenter(744, 552, 48, 48);

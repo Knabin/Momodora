@@ -190,9 +190,6 @@ HRESULT monkey::init(MYPOINT position)
 
 	_rcHit.set(0, 0, 50, 50);
 
-	_rcCheck.set(0, 0, 500, 250);
-	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
-
 	_rcAttack.set(0, 0, 20, 40);
 
 	_ani_run = new animation;
@@ -309,7 +306,7 @@ void monkey::checkPlayer()
 			}
 		}
 	}
-	else if (isCollision(_rcCheck, _player->getHitbox()))
+	else if(getDistance(_x, _y, _player->getX(), _player->getY()) <= 200)
 	{
 		if (_player->getHitbox().right < _x)
 		{
@@ -360,8 +357,6 @@ void monkey::move()
 	_probeY = _y + _height / 2;
 
 	_rc.setCenterPos(_x + _width / 2, _y + _height / 2);
-	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
-
 }
 
 void monkey::draw()
@@ -369,7 +364,6 @@ void monkey::draw()
 	if (_hp <= 0) return;
 	if (TIMEMANAGER->getDebug())
 	{
-		_rcCheck.render(getMemDC());
 		_rcHit.render(getMemDC());
 		_rcAttack.render(getMemDC());
 	}
@@ -514,9 +508,6 @@ HRESULT bakman::init(MYPOINT position)
 	_rc.set(0, 0, 50, 60);
 	_rc.setCenterPos(_x + _width / 2, _y + _height / 2 + 20);
 
-	_rcCheck.set(0, 0, 600, 300);
-	_rcCheck.setCenterPos(_x + _width / 2, _y + _height / 2);
-
 	_rcBullet.set(0, 0, _bullet->getWidth(), _bullet->getHeight());
 
 	_ani_attack = new animation;
@@ -604,7 +595,7 @@ void bakman::attack()
 
 void bakman::checkPlayer()
 {
-	if (isCollision(_rcCheck, _player->getHitbox()))
+	if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 250)
 	{
 		if (_direction != ENEMYDIRECTION::LEFT_ATTACK &&
 			_direction != ENEMYDIRECTION::RIGHT_ATTACK)
@@ -666,7 +657,6 @@ void bakman::draw()
 	if (_hp <= 0) return;
 	if (TIMEMANAGER->getDebug())
 	{
-		_rcCheck.render(getMemDC());
 		_rc.render(getMemDC());
 	}
 
@@ -1615,12 +1605,6 @@ HRESULT rell::init(MYPOINT position)
 	_rc.set(0, 0, 50, 55);
 	_rc.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2 + 20);
 
-	_rcCheck.set(0, 0, 400, 400);
-	_rcCheck.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2 - 150);
-
-	_rcCheckAttack.set(0, 0, 200, 100);
-	_rcCheckAttack.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() / 2);
-
 	_attackVer = false;
 	_canPray = true;
 
@@ -1914,7 +1898,7 @@ void rell::attack()
 
 void rell::checkPlayer()
 {
-	if (isCollision(_player->getHitbox(), _rcCheckAttack))
+	if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 200)
 	{
 		_image = IMAGEMANAGER->findImage("보스3-3 공격");
 		// 공격 범위
@@ -2138,7 +2122,6 @@ void rell::draw()
 	{
 		if (TIMEMANAGER->getDebug())
 		{
-			_rcCheckAttack.render(getMemDC());
 			_rc.render(getMemDC());
 		}
 
@@ -2235,7 +2218,7 @@ void rell::checkCollision()
 				}
 			}
 
-			if (isCollision(_player->getHitbox(), _rcCheck))
+			if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 400)
 			{
 				if (_state == RELLSTATE::LEFT_ATTACK)
 				{
@@ -2325,8 +2308,6 @@ void rell::changeMode()
 			_yLarge = _y - _image->getFrameHeight() / 2 + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2;
 
 			_rc.setCenterPos(_x + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2 + 20);
-			_rcCheck.setCenterPos(_x + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2 + 20);
-			_rcCheckAttack.setCenterPos(_x + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("보스3-1 기본")->getFrameHeight() / 2 + 20);
 
 			_maxHp = 40;
 			_hp = 40;

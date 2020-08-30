@@ -174,7 +174,9 @@ HRESULT playGround::init()
 //메모리 해제
 void playGround::release()
 {
-	
+	SAFE_DELETE(_player);
+	SAFE_DELETE(_sm);
+	SAFE_DELETE(_pixel);
 }
 
 //연산
