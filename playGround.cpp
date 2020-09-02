@@ -1,5 +1,10 @@
 #include "stdafx.h"
 #include "playGround.h"
+#include "pixelCollsion.h"
+#include "player.h"
+#include "stageManager.h"
+#include "bossStage.h"
+#include "commonStage.h"
 
 
 playGround::playGround()
@@ -174,8 +179,13 @@ HRESULT playGround::init()
 //메모리 해제
 void playGround::release()
 {
+	_player->release();
 	SAFE_DELETE(_player);
+
+	_sm->release();
 	SAFE_DELETE(_sm);
+
+	_pixel->release();
 	SAFE_DELETE(_pixel);
 }
 
@@ -231,7 +241,7 @@ void playGround::render()
 	{
 		_sm->render();
 		EFFECTMANAGER->render();
-		//TIMEMANAGER->render(getMemDC());
+		TIMEMANAGER->render(getMemDC());
 
 		for (int i = 0; i < _player->getHP(); i++)
 		{

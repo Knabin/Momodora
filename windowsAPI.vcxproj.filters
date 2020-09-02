@@ -28,9 +28,6 @@
     <Filter Include="2DGameFramework\Utils">
       <UniqueIdentifier>{6649f313-dbf4-4ec9-afff-24f47b1a709e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Bullets">
-      <UniqueIdentifier>{0cdf7837-5b4b-4626-83fc-554acbcd0e12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DGameFramework\progressBar">
       <UniqueIdentifier>{2f09af2d-ecf1-47c1-8190-27c3eb4af701}</UniqueIdentifier>
     </Filter>

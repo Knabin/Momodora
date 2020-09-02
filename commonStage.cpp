@@ -70,7 +70,10 @@ HRESULT commonStage::init()
 void commonStage::release()
 {
 	for (int i = 0; i < _vEnemy.size(); ++i)
+	{
+		_vEnemy[i]->release();
 		SAFE_DELETE(_vEnemy[i]);
+	}
 	_vEnemy.clear();
 }
 

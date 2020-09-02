@@ -1,13 +1,5 @@
 #pragma once
 #include "gameNode.h"
-
-#include "pixelCollsion.h"
-
-#include "player.h"
-#include "stageManager.h"
-#include "bossStage.h"
-#include "commonStage.h"
-
 #include <iostream>
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 using namespace std;
@@ -18,14 +10,13 @@ private:
 	image* _background;
 	image* _backgroundPixel;
 
-	stageManager* _sm;
-	pixelCollsion* _pixel;
-	player* _player;
+	class stageManager* _sm;
+	class pixelCollsion* _pixel;
+	class player* _player;
 
 	bool _isShaking;
 	bool _isGameOver;
 	int _shakeCount;
-
 
 public:
 	playGround();

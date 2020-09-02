@@ -55,20 +55,17 @@ protected:
 	ENEMYDIRECTION _direction;
 
 public:
-	enemy();
-	~enemy();
+	virtual HRESULT init(MYPOINT position) = 0;
+	virtual void release() = 0;
+	virtual void update() = 0;
+	virtual void render() = 0;
 
-	virtual HRESULT init(MYPOINT position);
-	virtual void release();
-	virtual void update();
-	virtual void render();
+	virtual void attack() = 0;
+	virtual void checkPlayer() = 0;
+	virtual void move() = 0;
+	virtual void draw() = 0;
 
-	virtual void attack();
-	virtual void checkPlayer();
-	virtual void move();
-	virtual void draw();
-
-	virtual void checkCollision();
+	virtual void checkCollision() = 0;
 
 	virtual int getHP() { return _hp; }
 	virtual int getMaxHP() { return _maxHp; }
@@ -101,7 +98,6 @@ public:
 
 	virtual void checkCollision();
 
-	//void setObjectRect(MYRECT& rc) { _objectRc = rc; }
 	void setObjectRect(RECT& rc) { _objectRc = rc; }
 };
 
@@ -242,21 +238,25 @@ public:
 	virtual void checkCollision();
 	void start();
 
-	POINT CalculateBezierPoint(float t, POINT s, POINT c1, POINT c2, POINT e)
+	const POINT& calculateBezierPoint(float time, POINT startPoint, POINT curPoint1, POINT curPoint2, POINT endPoint)
 	{
-		float u = 1 - t;
-		float tt = t * t;
-		float uu = u * u;
-		float uuu = uu * u;
-		float ttt = tt * t;
+		// 베지어 3차 곡선 공식
+		// [x,y] = (1–t)^3 * P0 + 3(1–t)^2 * t * P1 + 3(1–t)t^2 * P2 + t^3 * P3
 
-		POINT p = { s.x * uuu, s.y * uuu };
-		p.x += 3 * uu * t * c1.x;
-		p.y += 3 * uu * t * c1.y;
-		p.x += 3 * u * tt * c2.x;
-		p.y += 3 * u * tt * c2.y;
-		p.x += ttt * e.x;
-		p.y += ttt * e.y;
+		float a1 = 1 - time;		// (1-t)
+		float a2 = a1 * a1;			// (1-t)^2
+		float a3 = a2 * a1;			// (1-t)^3
+
+		float t2 = time * time;		// t^2
+		float t3 = t2 * time;		// t^3
+
+		POINT p = { startPoint.x * a3, startPoint.y * a3 };
+		p.x += 3 * a2 * time * curPoint1.x;
+		p.y += 3 * a2 * time * curPoint1.y;
+		p.x += 3 * a1 * t2 * curPoint2.x;
+		p.y += 3 * a1 * t2 * curPoint2.y;
+		p.x += t3 * endPoint.x;
+		p.y += t3 * endPoint.y;
 
 		return p;
 	}
@@ -320,8 +320,6 @@ class rell : public enemy
 	tagBulletEnemy _ground[3];
 
 	MYRECT _rcPray;
-
-	//MYRECT _rcCheckAttack;
 
 	bool _isStart;
 	bool _attackVer;

@@ -2,56 +2,6 @@
 #include "enemy.h"
 #include "player.h"
 
-
-enemy::enemy()
-{
-}
-
-
-enemy::~enemy()
-{
-}
-
-HRESULT enemy::init(MYPOINT position)
-{
-	return S_OK;
-}
-
-void enemy::release()
-{
-}
-
-void enemy::update()
-{
-}
-
-void enemy::render()
-{
-	draw();
-}
-
-void enemy::attack()
-{
-}
-
-void enemy::checkPlayer()
-{
-}
-
-void enemy::move()
-{
-
-}
-
-void enemy::draw()
-{
-
-}
-
-void enemy::checkCollision()
-{
-}
-
 HRESULT oko::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("¸ó½ºÅÍ1");
@@ -1194,8 +1144,8 @@ void witch::move()
 	if (_leftBullet1[0].isFire)
 	{
 		_leftBullet1[0].count += 0.01f;
-		_leftBullet1[0].x = CalculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).x;
-		_leftBullet1[0].y = CalculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).y;
+		_leftBullet1[0].x = calculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).x;
+		_leftBullet1[0].y = calculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).y;
 		_leftBullet1[0].rc = { _leftBullet1[0].x, _leftBullet1[0].y, _leftBullet1[0].x + _leftBullet1[0].image->getWidth(), _leftBullet1[0].y + _leftBullet1[0].image->getHeight() };
 		if (_leftBullet1[0].range <= getDistance(_leftBullet1[0].fireX, _leftBullet1[0].fireY, _leftBullet1[0].x, _leftBullet1[0].y))
 		{
@@ -1213,8 +1163,8 @@ void witch::move()
 	if (_leftBullet1[1].isFire)
 	{
 		_leftBullet1[1].count += 0.005f;
-		_leftBullet1[1].x = CalculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).x;
-		_leftBullet1[1].y = CalculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).y;
+		_leftBullet1[1].x = calculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).x;
+		_leftBullet1[1].y = calculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).y;
 		_leftBullet1[1].rc = { _leftBullet1[1].x, _leftBullet1[1].y, _leftBullet1[1].x + _leftBullet1[1].image->getWidth(), _leftBullet1[1].y + _leftBullet1[1].image->getHeight() };
 		if (_leftBullet1[1].range <= getDistance(_leftBullet1[1].fireX, _leftBullet1[1].fireY, _leftBullet1[1].x, _leftBullet1[1].y))
 		{
