@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <time.h>
 
 class randomFunction
@@ -21,17 +21,17 @@ private:
 	}
 
 public:
-	//¸Å°³º¯¼ö¿¡ ³ÖÀº ¼ıÀÚÀÇ -1¸¸Å­ ¹üÀ§¸¦ °¡Áö´Â ³­¼ö
+	//ë§¤ê°œë³€ìˆ˜ì— ë„£ì€ ìˆ«ìì˜ -1ë§Œí¼ ë²”ìœ„ë¥¼ ê°€ì§€ëŠ” ë‚œìˆ˜
 	inline int getInt(int num) { return rand() % num; }
 
-	//Á¤¼ö¿Í Á¤¼ö »çÀÌ¿¡ ¹üÀ§¿¡¼­ ·£´ıÇÑ ¼ö¸¦ »Ì°ÔÇÏ´Â ÇÔ¼ö
+	//ì •ìˆ˜ì™€ ì •ìˆ˜ ì‚¬ì´ì— ë²”ìœ„ì—ì„œ ëœë¤í•œ ìˆ˜ë¥¼ ë½‘ê²Œí•˜ëŠ” í•¨ìˆ˜
 	inline int getFromIntTo(int fromNum, int toNum)
 	{
 		return rand() % (toNum - fromNum) + fromNum;
 	}
 
 	//=========================================
-	// ## ½Ç¼öÇü ³­¼ö ##
+	// ## ì‹¤ìˆ˜í˜• ë‚œìˆ˜ ##
 	//=========================================
 
 	inline float getFloat(float num)

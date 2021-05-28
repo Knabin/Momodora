@@ -1,11 +1,11 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "enemy.h"
 #include "player.h"
 
 HRESULT oko::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ1");
-	_imageRound = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ1 «¡∑π¿”");
+	_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞1");
+	_imageRound = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞1 ÌîÑÎ†àÏûÑ");
 
 	_x = position.x - _image->getWidth();
 	_y = position.y - _image->getHeight();
@@ -94,16 +94,16 @@ void oko::draw()
 
 void oko::checkCollision()
 {
-	// «√∑π¿ÃæÓ∏¶ ∞¯∞›«‘
-	// oko¥¬ ∫ª√º √Êµπ√≥∏Æ∏∏ ¡¯«‡
+	// ÌîåÎ†àÏù¥Ïñ¥Î•º Í≥µÍ≤©Ìï®
+	// okoÎäî Î≥∏Ï≤¥ Ï∂©ÎèåÏ≤òÎ¶¨Îßå ÏßÑÌñâ
 	if (!_player->getIsAttacked() && isCollision(_player->getHitbox(), _rc))
 	{
 		_player->setIsAttacked(true);
 		_player->setHP(_player->getHP() - 1);
 	}
 
-	// «√∑π¿ÃæÓø°∞‘ ∞¯∞›¥Á«‘
-	// «√∑π¿ÃæÓ ∞¯∞› π¸¿ßø° µÈæÓø¿∏È «œ≥™ ±Ó¿Ã∞Ì
+	// ÌîåÎ†àÏù¥Ïñ¥ÏóêÍ≤å Í≥µÍ≤©ÎãπÌï®
+	// ÌîåÎ†àÏù¥Ïñ¥ Í≥µÍ≤© Î≤îÏúÑÏóê Îì§Ïñ¥Ïò§Î©¥ ÌïòÎÇò ÍπåÏù¥Í≥†
 
 	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
 	{
@@ -115,14 +115,14 @@ void oko::checkCollision()
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
-		cout << "ø¯∞≈∏Æ ∞¯∞›, " << _hp << endl;
+		cout << "ÏõêÍ±∞Î¶¨ Í≥µÍ≤©, " << _hp << endl;
 		if (_hp == 1)	_isOnceAttacked = true;
 	}
 }
 
 HRESULT monkey::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2");
+	_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2");
 
 	_x = position.x;
 	_y = position.y;
@@ -153,10 +153,10 @@ HRESULT monkey::init(MYPOINT position)
 	_ani_run->start();
 
 	_ani_attack = new animation;
-	_ani_attack->init(IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›")->getWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›")->getHeight(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›")->getFrameWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›")->getFrameHeight());
+	_ani_attack->init(IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©")->getWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©")->getHeight(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©")->getFrameWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©")->getFrameHeight());
 	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack->setFPS(1);
 	_ani_attack->setPlayFrame(0, 10, false, false);
@@ -230,7 +230,7 @@ void monkey::checkPlayer()
 			if (_direction != ENEMYDIRECTION::LEFT_ATTACK)
 			{
 				_direction = ENEMYDIRECTION::LEFT_ATTACK;
-				_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›");
+				_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©");
 				_ani_attack->setPlayFrame(0, 10, false, true);
 				_ani_attack->start();
 				SOUNDMANAGER->play("monkey", 1.0f);
@@ -245,7 +245,7 @@ void monkey::checkPlayer()
 			if (_direction != ENEMYDIRECTION::RIGHT_ATTACK)
 			{
 				_direction = ENEMYDIRECTION::RIGHT_ATTACK;
-				_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2 ∞¯∞›");
+				_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2 Í≥µÍ≤©");
 				_ani_attack->setPlayFrame(11, 21, false, true);
 				_ani_attack->start();
 				SOUNDMANAGER->play("monkey", 1.0f);
@@ -263,7 +263,7 @@ void monkey::checkPlayer()
 			if (_direction != ENEMYDIRECTION::LEFT_MOVE)
 			{
 				_direction = ENEMYDIRECTION::LEFT_MOVE;
-				_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2");
+				_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2");
 				_ani_run->setPlayFrame(0, 5, false, true);
 				_ani_run->start();
 			}
@@ -273,7 +273,7 @@ void monkey::checkPlayer()
 			if (_direction != ENEMYDIRECTION::RIGHT_MOVE)
 			{
 				_direction = ENEMYDIRECTION::RIGHT_MOVE;
-				_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ2");
+				_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞2");
 				_ani_run->setPlayFrame(6, 11, false, true);
 				_ani_run->start();
 			}
@@ -334,9 +334,9 @@ void monkey::draw()
 
 void monkey::checkCollision()
 {
-	// «√∑π¿ÃæÓ∏¶ ∞¯∞›«‘
-	// monkey ∫ª√º √Êµπ√≥∏Æ
-	// monkey ∞¯∞› rectøÕ √Êµπ√≥∏Æ
+	// ÌîåÎ†àÏù¥Ïñ¥Î•º Í≥µÍ≤©Ìï®
+	// monkey Î≥∏Ï≤¥ Ï∂©ÎèåÏ≤òÎ¶¨
+	// monkey Í≥µÍ≤© rectÏôÄ Ï∂©ÎèåÏ≤òÎ¶¨
 	if (!_player->getIsAttacked())
 	{
 		if (isCollision(_player->getHitbox(), _rcAttack) || isCollision(_player->getHitbox(), _rcHit))
@@ -346,8 +346,8 @@ void monkey::checkCollision()
 		}
 	} 
 
-	// «√∑π¿ÃæÓø°∞‘ ∞¯∞›¥Á«‘
-	// «√∑π¿ÃæÓ ∞¯∞› π¸¿ßø° µÈæÓø¿∏È «œ≥™ ±Ó¿”
+	// ÌîåÎ†àÏù¥Ïñ¥ÏóêÍ≤å Í≥µÍ≤©ÎãπÌï®
+	// ÌîåÎ†àÏù¥Ïñ¥ Í≥µÍ≤© Î≤îÏúÑÏóê Îì§Ïñ¥Ïò§Î©¥ ÌïòÎÇò ÍπåÏûÑ
 	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
 	{
 		_player->setIsCheckAttack(true);
@@ -388,7 +388,7 @@ void monkey::pixelCollision()
 	{
 		for (int j = _rc.bottom - 5; j < _rc.bottom; ++j)
 		{
-			COLORREF color = GetPixel(IMAGEMANAGER->findImage("πË∞Ê2 «»ºø")->getMemDC(), i, j);
+			COLORREF color = GetPixel(IMAGEMANAGER->findImage("Î∞∞Í≤Ω2 ÌîΩÏÖÄ")->getMemDC(), i, j);
 
 			int r = GetRValue(color);
 			int g = GetGValue(color);
@@ -409,7 +409,7 @@ void monkey::pixelCollision()
 
 	if (_direction == ENEMYDIRECTION::LEFT_MOVE)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("πË∞Ê2 «»ºø")->getMemDC(), _rc.left, _rc.bottom - 5);
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("Î∞∞Í≤Ω2 ÌîΩÏÖÄ")->getMemDC(), _rc.left, _rc.bottom - 5);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -424,7 +424,7 @@ void monkey::pixelCollision()
 	}
 	else if (_direction == ENEMYDIRECTION::RIGHT_MOVE)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("πË∞Ê2 «»ºø")->getMemDC(), _rc.right, _rc.bottom - 50);
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("Î∞∞Í≤Ω2 ÌîΩÏÖÄ")->getMemDC(), _rc.right, _rc.bottom - 50);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -442,8 +442,8 @@ void monkey::pixelCollision()
 
 HRESULT bakman::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›");
-	_bullet = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∫Ì∑œ");
+	_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©");
+	_bullet = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Î∏îÎ°ù");
 
 	_isFire = false;
 
@@ -461,18 +461,18 @@ HRESULT bakman::init(MYPOINT position)
 	_rcBullet.set(0, 0, _bullet->getWidth(), _bullet->getHeight());
 
 	_ani_attack = new animation;
-	_ani_attack->init(IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›")->getWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›")->getHeight(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›")->getFrameWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›")->getFrameHeight());
+	_ani_attack->init(IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©")->getWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©")->getHeight(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©")->getFrameWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©")->getFrameHeight());
 	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack->setFPS(1);
 
 	_ani_attack2 = new animation;
-	_ani_attack2->init(IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›2")->getWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›2")->getHeight(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›2")->getFrameWidth(),
-		IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›2")->getFrameHeight());
+	_ani_attack2->init(IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©2")->getWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©2")->getHeight(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©2")->getFrameWidth(),
+		IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©2")->getFrameHeight());
 	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack2->setFPS(1);
 
@@ -514,7 +514,7 @@ void bakman::attack()
 	if ((_direction == ENEMYDIRECTION::LEFT_ATTACK ||
 		_direction == ENEMYDIRECTION::RIGHT_ATTACK) && !_ani_attack->isPlay() && !_isFire)
 	{
-		_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›2");
+		_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©2");
 		if (_direction == ENEMYDIRECTION::LEFT_ATTACK)
 		{
 			_direction = ENEMYDIRECTION::LEFT_ACTION;
@@ -550,7 +550,7 @@ void bakman::checkPlayer()
 		if (_direction != ENEMYDIRECTION::LEFT_ATTACK &&
 			_direction != ENEMYDIRECTION::RIGHT_ATTACK)
 		{
-			_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ∞¯∞›");
+			_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Í≥µÍ≤©");
 			if (_player->getX() < _rc.right - _rc.getWidth() / 2)
 			{
 				_direction = ENEMYDIRECTION::LEFT_ATTACK;
@@ -572,12 +572,12 @@ void bakman::checkPlayer()
 		if (_player->getX() < _rc.right - _rc.getWidth() / 2)
 		{
 			_direction = ENEMYDIRECTION::LEFT_IDLE;
-			_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 øﬁ¬ ");
+			_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 ÏôºÏ™Ω");
 		}
 		else
 		{
 			_direction = ENEMYDIRECTION::RIGHT_IDLE;
-			_image = IMAGEMANAGER->findImage("∏ÛΩ∫≈Õ3 ø¿∏•¬ ");
+			_image = IMAGEMANAGER->findImage("Î™¨Ïä§ÌÑ∞3 Ïò§Î•∏Ï™Ω");
 		}
 	}
 }
@@ -637,9 +637,9 @@ void bakman::draw()
 
 void bakman::checkCollision()
 {
-	// «√∑π¿ÃæÓ∏¶ ∞¯∞›
-	// ∫ª√º √Êµπ
-	// ¥¯¡ˆ¥¬∞≈
+	// ÌîåÎ†àÏù¥Ïñ¥Î•º Í≥µÍ≤©
+	// Î≥∏Ï≤¥ Ï∂©Îèå
+	// ÎçòÏßÄÎäîÍ±∞
 	if (!_player->getIsAttacked())
 	{
 		if (isCollision(_player->getHitbox(), _rc) || isCollision(_player->getHitbox(), _rcBullet))
@@ -649,18 +649,18 @@ void bakman::checkCollision()
 		}
 	}
 
-	// ∞¯∞›¥Á«‘
+	// Í≥µÍ≤©ÎãπÌï®
 	if (_player->isAttacking() && !_player->getIsCheckAttack() && isCollision(_player->getAttackRc(), _rc))
 	{
 		_player->setIsCheckAttack(true);
 		_hp -= 1;
-		cout << "∞¯∞›, " << _hp << endl;
+		cout << "Í≥µÍ≤©, " << _hp << endl;
 	}
 
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
-		cout << "ø¯∞≈∏Æ ∞¯∞›, " << _hp << endl;
+		cout << "ÏõêÍ±∞Î¶¨ Í≥µÍ≤©, " << _hp << endl;
 	}
 }
 
@@ -669,7 +669,7 @@ void bakman::checkCollision()
 
 HRESULT prim::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∫∏Ω∫1 Ω√¿€");
+	_image = IMAGEMANAGER->findImage("Î≥¥Ïä§1 ÏãúÏûë");
 	
 	_ani_start = new animation;
 	_ani_start->init(_image->getWidth(), _image->getHeight(),
@@ -678,19 +678,19 @@ HRESULT prim::init(MYPOINT position)
 	_ani_start->setDefPlayFrame(false, false);
 
 	_ani_attack = new animation;
-	_ani_attack->init(IMAGEMANAGER->findImage("∫∏Ω∫1 ∞¯∞›")->getWidth(), IMAGEMANAGER->findImage("∫∏Ω∫1 ∞¯∞›")->getHeight(),
+	_ani_attack->init(IMAGEMANAGER->findImage("Î≥¥Ïä§1 Í≥µÍ≤©")->getWidth(), IMAGEMANAGER->findImage("Î≥¥Ïä§1 Í≥µÍ≤©")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_attack->setFPS(1);
 	_ani_attack->setDefPlayFrame(false, false);
 
 	_ani_run = new animation;
-	_ani_run->init(IMAGEMANAGER->findImage("∫∏Ω∫1 ¿Ãµø")->getWidth(), IMAGEMANAGER->findImage("∫∏Ω∫1 ¿Ãµø")->getHeight(),
+	_ani_run->init(IMAGEMANAGER->findImage("Î≥¥Ïä§1 Ïù¥Îèô")->getWidth(), IMAGEMANAGER->findImage("Î≥¥Ïä§1 Ïù¥Îèô")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_run->setFPS(1);
 	_ani_run->setDefPlayFrame(false, false);
 
 	_ani_angry = new animation;
-	_ani_angry->init(IMAGEMANAGER->findImage("∫∏Ω∫1 »≠≥≤")->getWidth(), IMAGEMANAGER->findImage("∫∏Ω∫1 »≠≥≤")->getHeight(),
+	_ani_angry->init(IMAGEMANAGER->findImage("Î≥¥Ïä§1 ÌôîÎÇ®")->getWidth(), IMAGEMANAGER->findImage("Î≥¥Ïä§1 ÌôîÎÇ®")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_angry->setFPS(1);
 	_ani_angry->setDefPlayFrame(false, false);
@@ -734,7 +734,7 @@ void prim::render()
 
 	if (_hp <= 0)
 	{
-		IMAGEMANAGER->findImage("∫∏Ω∫1 ∆–πË")->render(getMemDC(), _x, _y);
+		IMAGEMANAGER->findImage("Î≥¥Ïä§1 Ìå®Î∞∞")->render(getMemDC(), _x, _y);
 	}
 	else
 	{
@@ -771,7 +771,7 @@ void prim::checkPlayer()
 		if (getDistance(_player->getX(), 0, _x + _image->getFrameWidth() / 2, 0) <= 50)
 		{
 			_direction = static_cast<int>(_direction) % 2 == 0 ? ENEMYDIRECTION::LEFT_ATTACK : ENEMYDIRECTION::RIGHT_ATTACK;
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫1 ∞¯∞›");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§1 Í≥µÍ≤©");
 
 			if (static_cast<int>(_direction) % 2 == 0)
 			{
@@ -815,7 +815,7 @@ void prim::draw()
 
 		if (!_ani_start->isPlay())
 		{
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫1 ¿Ãµø");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§1 Ïù¥Îèô");
 			if (_player->getX() < _x + _image->getFrameWidth() / 2)
 			{
 				_direction = ENEMYDIRECTION::LEFT_MOVE;
@@ -839,7 +839,7 @@ void prim::draw()
 
 		if (!_ani_attack->isPlay())
 		{
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫1 »≠≥≤");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§1 ÌôîÎÇ®");
 			if (static_cast<int>(_direction) % 2 == 0) 
 			{
 				_direction = ENEMYDIRECTION::LEFT_ACTION;
@@ -859,7 +859,7 @@ void prim::draw()
 
 		if (!_ani_angry->isPlay())
 		{
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫1 ¿Ãµø");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§1 Ïù¥Îèô");
 			if (_player->getX() < _x + _image->getFrameWidth() / 2)
 			{
 				_direction = ENEMYDIRECTION::LEFT_MOVE;
@@ -893,13 +893,13 @@ void prim::checkCollision()
 	{
 		_player->setIsCheckAttack(true);
 		_hp -= 2;
-		cout << "∞¯∞›, " << _hp << endl;
+		cout << "Í≥µÍ≤©, " << _hp << endl;
 	}
 
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
-		cout << "ø¯∞≈∏Æ ∞¯∞›, " << _hp << endl;
+		cout << "ÏõêÍ±∞Î¶¨ Í≥µÍ≤©, " << _hp << endl;
 	}
 }
 
@@ -927,9 +927,9 @@ void prim::start()
 
 HRESULT witch::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬ ");
-	_imageRight = IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬ ");
-	_imageLeftAttackBack = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∫“∑ø2 πË∞Ê");
+	_image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω");
+	_imageRight = IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω");
+	_imageLeftAttackBack = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Î∂àÎ†õ2 Î∞∞Í≤Ω");
 
 	_x = position.x;
 	_xRight = WINSIZEX - _x - 100;
@@ -937,7 +937,7 @@ HRESULT witch::init(MYPOINT position)
 	_yRight = _y - 24;
 	
 	{
-		_leftBullet1[0].image = _leftBullet1[1].image = _leftBullet1[2].image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∫“∑ø");
+		_leftBullet1[0].image = _leftBullet1[1].image = _leftBullet1[2].image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Î∂àÎ†õ");
 		_leftBullet1[0].fireX = _leftBullet1[0].x = _leftBullet1[1].fireX = _leftBullet1[1].x = _x + 50;
 		_leftBullet1[0].fireY = _leftBullet1[0].y = _leftBullet1[1].fireY = _leftBullet1[1].y = _y;
 		_leftBullet1[0].range = _leftBullet1[1].range = 700;
@@ -947,13 +947,13 @@ HRESULT witch::init(MYPOINT position)
 
 	for (int i = 0; i < 10; ++i)
 	{
-		_leftBullet2[i].image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∫“∑ø2");
+		_leftBullet2[i].image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Î∂àÎ†õ2");
 		_leftBullet2[i].isFire = false;
 		_leftBullet2[i].range = 500;
 	}
 	
 	{
-		_rightBullet1.image = IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬  ∫“∑ø");
+		_rightBullet1.image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω Î∂àÎ†õ");
 		_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
 		_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
 		_rightBullet1.range = 1000;
@@ -982,8 +982,8 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_left->start();
 
 	_ani_attack_left = new animation;
-	_ani_attack_left->init(IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∞¯∞›")->getWidth(),
-		IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∞¯∞›")->getHeight(),
+	_ani_attack_left->init(IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Í≥µÍ≤©")->getWidth(),
+		IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Í≥µÍ≤©")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_attack_left->setFPS(1);
 	_ani_attack_left->setDefPlayFrame(false, false);
@@ -998,8 +998,8 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_right->start();
 
 	_ani_attack_right = new animation;
-	_ani_attack_right->init(IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬  ∞¯∞›")->getWidth(),
-		IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬  ∞¯∞›")->getHeight(),
+	_ani_attack_right->init(IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω Í≥µÍ≤©")->getWidth(),
+		IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω Í≥µÍ≤©")->getHeight(),
 		_imageRight->getFrameWidth(), _imageRight->getFrameHeight());
 	_ani_attack_right->setFPS(1);
 	_ani_attack_right->setDefPlayFrame(false, false);
@@ -1049,19 +1049,19 @@ void witch::attack()
 		switch (_direction)
 		{
 		case ENEMYDIRECTION::LEFT_IDLE:
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬  ∞¯∞›");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω Í≥µÍ≤©");
 			_ani_idle_left->stop();
 			_ani_attack_left->start();
 			_direction = ENEMYDIRECTION::LEFT_ATTACK;
 			if (!_attackVer)
 			{
-				cout << "∞¯∞›" << endl;
+				cout << "Í≥µÍ≤©" << endl;
 				attackWithLeftBullet(0);
 				SOUNDMANAGER->play("witchleft");
 			}
 			else
 			{
-				cout << "µŒ π¯¬∞ ∞¯∞›" << endl;
+				cout << "Îëê Î≤àÏß∏ Í≥µÍ≤©" << endl;
 				_leftAttack2Count = 0;
 				_leftAttackX = _player->getX() - _imageLeftAttackBack->getWidth() / 2;
 
@@ -1075,13 +1075,13 @@ void witch::attack()
 			}
 			break;
 		case ENEMYDIRECTION::RIGHT_IDLE:
-			_imageRight = IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬  ∞¯∞›");
+			_imageRight = IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω Í≥µÍ≤©");
 			_ani_idle_right->stop();
 			_ani_attack_right->start();
 			_direction = ENEMYDIRECTION::RIGHT_ATTACK;
 			if (!_attackVer)
 			{
-				cout << "∞¯∞›" << endl;
+				cout << "Í≥µÍ≤©" << endl;
 				_rightBullet1.count = 0;
 				_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
 				_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
@@ -1089,7 +1089,7 @@ void witch::attack()
 			}
 			else
 			{
-				cout << "µŒ π¯¬∞ ∞¯∞›" << endl;
+				cout << "Îëê Î≤àÏß∏ Í≥µÍ≤©" << endl;
 
 				_rightBullet2.x = _player->getX();
 				_rightBullet2.y = _player->getY() - 50;
@@ -1100,7 +1100,7 @@ void witch::attack()
 		case ENEMYDIRECTION::LEFT_ATTACK:
 			if (!_ani_attack_left->isPlay())
 			{
-				_imageRight = IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬ ");
+				_imageRight = IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω");
 				_ani_idle_right->start();
 
 				_direction = ENEMYDIRECTION::RIGHT_IDLE;
@@ -1109,7 +1109,7 @@ void witch::attack()
 		case ENEMYDIRECTION::RIGHT_ATTACK:
 			if (!_ani_attack_right->isPlay())
 			{
-				_image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬ ");
+				_image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω");
 				_ani_idle_left->start();
 
 				_direction = ENEMYDIRECTION::LEFT_IDLE;
@@ -1214,7 +1214,7 @@ void witch::move()
 		++_rightBullet2.count;
 		if (++_rightBullet2.count > 230)
 		{
-			EFFECTMANAGER->play("∫∏Ω∫2", _rightBullet2.x + 20, _rightBullet2.y + 20);
+			EFFECTMANAGER->play("Î≥¥Ïä§2", _rightBullet2.x + 20, _rightBullet2.y + 20);
 			_canCheckRight2 = true;
 			_rightBullet2.isFire = false;
 			SOUNDMANAGER->play("rellexp", 0.5f);
@@ -1251,14 +1251,14 @@ void witch::draw()
 			case ENEMYDIRECTION::LEFT_ATTACK:
 				if (_ani_idle_left->isPlay()) _ani_idle_left->stop();
 				if (_ani_attack_left->isPlay()) _ani_attack_left->stop();
-				_image = IMAGEMANAGER->findImage("∫∏Ω∫2 øﬁ¬ ");
+				_image = IMAGEMANAGER->findImage("Î≥¥Ïä§2 ÏôºÏ™Ω");
 				_image->alphaFrameRender(getMemDC(), _x, _y, 0, 0, _alpha);
 				break;
 			case ENEMYDIRECTION::RIGHT_IDLE:
 			case ENEMYDIRECTION::RIGHT_ATTACK:
 				if (_ani_idle_right->isPlay()) _ani_idle_right->stop();
 				if (_ani_attack_right->isPlay()) _ani_attack_right->stop();
-				_imageRight = IMAGEMANAGER->findImage("∫∏Ω∫2 ø¿∏•¬ ");
+				_imageRight = IMAGEMANAGER->findImage("Î≥¥Ïä§2 Ïò§Î•∏Ï™Ω");
 				_imageRight->alphaFrameRender(getMemDC(), _xRight, _yRight, 0, 0, _alpha);
 				break;
 			}
@@ -1334,7 +1334,7 @@ void witch::checkCollision()
 	{
 		if (static_cast<int>(_direction) % 2 == 0)
 		{
-			// øﬁ¬ 
+			// ÏôºÏ™Ω
 			if (isCollision(_player->getHitbox(), _rc))
 			{
 				_player->setIsAttacked(true);
@@ -1370,7 +1370,7 @@ void witch::checkCollision()
 		}
 		else
 		{
-			// ø¿∏•¬ 
+			// Ïò§Î•∏Ï™Ω
 			if (isCollision(_player->getHitbox(), _rcRight))
 			{
 				_player->setIsAttacked(true);
@@ -1459,10 +1459,10 @@ void witch::attackWithLeftBullet(int i)
 
 HRESULT rell::init(MYPOINT position)
 {
-	_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª");
-	_fire = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚µµ ∫“≤…");
-	_snow = IMAGEMANAGER->findImage("∫∏Ω∫3-2 ¥´≤…");
-	_snow2 = IMAGEMANAGER->findImage("∫∏Ω∫3-2 ¥´≤…2");
+	_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏");
+	_fire = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞ÎèÑ Î∂àÍΩÉ");
+	_snow = IMAGEMANAGER->findImage("Î≥¥Ïä§3-2 ÎààÍΩÉ");
+	_snow2 = IMAGEMANAGER->findImage("Î≥¥Ïä§3-2 ÎààÍΩÉ2");
 
 	{
 		_ani_idle1 = new animation;
@@ -1474,56 +1474,56 @@ HRESULT rell::init(MYPOINT position)
 		_ani_idle1->start();
 
 		_ani_ground1 = new animation;
-		_ani_ground1->init(IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂•")->getWidth(), 
-			IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂•")->getHeight(),
+		_ani_ground1->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ")->getWidth(), 
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_ground1->setFPS(1);
 		_ani_ground1->setDefPlayFrame(false, false);
 
 		_ani_attack1 = new animation;
-		_ani_attack1->init(IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∞¯∞›")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∞¯∞›")->getHeight(),
+		_ani_attack1->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í≥µÍ≤©")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í≥µÍ≤©")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_attack1->setFPS(1);
 		_ani_attack1->setDefPlayFrame(false, false);
 
 		_ani_pray = new animation;
-		_ani_pray->init(IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∞¯∞›")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∞¯∞›")->getHeight(),
+		_ani_pray->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í≥µÍ≤©")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í≥µÍ≤©")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_pray->setFPS(1);
 		_ani_pray->setDefPlayFrame(false, true);
 
 
 		_ani_attack2 = new animation;
-		_ani_attack2->init(IMAGEMANAGER->findImage("∫∏Ω∫3-2")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-2")->getHeight(),
+		_ani_attack2->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-2")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-2")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_attack2->setFPS(1);
 		_ani_attack2->setDefPlayFrame(false, false);
 
 
 		_ani_idle3 = new animation;
-		_ani_idle3->init(IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª")->getHeight(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª")->getFrameWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª")->getFrameHeight());
+		_ani_idle3->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏")->getHeight(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏")->getFrameWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏")->getFrameHeight());
 		_ani_idle3->setFPS(1);
 		_ani_idle3->setDefPlayFrame(false, true);
 
 		_ani_ground3 = new animation;
-		_ani_ground3->init(IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂•")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂•")->getHeight(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂•")->getFrameWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂•")->getFrameHeight());
+		_ani_ground3->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ")->getHeight(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ")->getFrameWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ")->getFrameHeight());
 		_ani_ground3->setFPS(1);
 		_ani_ground3->setDefPlayFrame(false, false);
 
 		_ani_attack3 = new animation;
-		_ani_attack3->init(IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∞¯∞›")->getWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∞¯∞›")->getHeight(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∞¯∞›")->getFrameWidth(),
-			IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∞¯∞›")->getFrameHeight());
+		_ani_attack3->init(IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í≥µÍ≤©")->getWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í≥µÍ≤©")->getHeight(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í≥µÍ≤©")->getFrameWidth(),
+			IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í≥µÍ≤©")->getFrameHeight());
 		_ani_attack3->setFPS(1);
 		_ani_attack3->setDefPlayFrame(false, false);
 
@@ -1566,7 +1566,7 @@ HRESULT rell::init(MYPOINT position)
 	{
 		for (int i = 0; i < 3; ++i)
 		{
-			_bullet1[i].image = IMAGEMANAGER->findImage("∫∏Ω∫3 ∫“∑ø");
+			_bullet1[i].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3 Î∂àÎ†õ");
 			_bullet1[i].fireX = _bullet1[i].x = _x + _image->getWidth() / 2;
 			_bullet1[i].fireY = _bullet1[i].y = _y + _image->getHeight() / 2;
 			_bullet1[i].angle = PI * 0.5f;
@@ -1576,7 +1576,7 @@ HRESULT rell::init(MYPOINT position)
 
 		for (int i = 0; i < 20; ++i)
 		{
-			_bullet2[i].image = IMAGEMANAGER->findImage("∫∏Ω∫3 ∫“∑ø");
+			_bullet2[i].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3 Î∂àÎ†õ");
 			_bullet2[i].fireX = _bullet2[i].x = _x + _image->getWidth() / 2;
 			_bullet2[i].fireY = _bullet2[i].y = _y + _image->getHeight() / 2;
 			_bullet2[i].angle = PI * 0.5f;
@@ -1587,7 +1587,7 @@ HRESULT rell::init(MYPOINT position)
 
 		for (int i = 0; i < 3; ++i)
 		{
-			_ground[i].image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂•");
+			_ground[i].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ");
 			_ground[i].x = _x + _image->getWidth() / 2;
 			_ground[i].y = _y + _image->getHeight() / 2;
 			_ground[i].rc.set(0, 0, 48, 10);
@@ -1607,7 +1607,7 @@ void rell::update()
 	attack();
 	checkCollision();
 
-	cout << "ªÛ≈¬: " << static_cast<int>(_state) << endl;
+	cout << "ÏÉÅÌÉú: " << static_cast<int>(_state) << endl;
 }
 
 void rell::render()
@@ -1633,7 +1633,7 @@ void rell::attack()
 			case rell::RELLSTATE::RIGHT_IDLE:
 				if (_canPray && _hp <= _maxHp * 0.5)
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚µµ");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞ÎèÑ");
 					_prayCount = 0;
 					_rcPray.set(0, 0, 300, 400);
 					_rcPray.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 200);
@@ -1645,7 +1645,7 @@ void rell::attack()
 				}
 				if (!_attackVer)
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∞¯∞›");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í≥µÍ≤©");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_ATTACK;
@@ -1670,18 +1670,18 @@ void rell::attack()
 				}
 				else
 				{
-					// ∂•ø°º≠ º“»Ø
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂•");
+					// ÎïÖÏóêÏÑú ÏÜåÌôò
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_GROUND;
-						_ground[0].image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂• øﬁ¬ ");
+						_ground[0].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ ÏôºÏ™Ω");
 						_ani_ground1->setPlayFrame(0, 11);
 					}
 					else
 					{
 						_state = RELLSTATE::RIGHT_GROUND;
-						_ground[0].image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ∂• ø¿∏•¬ ");
+						_ground[0].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 ÎïÖ Ïò§Î•∏Ï™Ω");
 						_ani_ground1->setPlayFrame(12, 21);
 					}
 					_ani_ground1->start();
@@ -1695,7 +1695,7 @@ void rell::attack()
 			case rell::RELLSTATE::RIGHT_GROUND:
 				if (!_ani_ground1->isPlay())
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_IDLE;
@@ -1714,7 +1714,7 @@ void rell::attack()
 			case rell::RELLSTATE::RIGHT_ATTACK:
 				if (!_ani_attack1->isPlay())
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_IDLE;
@@ -1735,7 +1735,7 @@ void rell::attack()
 				if (_prayCount > 3)
 				{
 					SOUNDMANAGER->stop("rellpray");
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_IDLE;
@@ -1806,7 +1806,7 @@ void rell::attack()
 			case rell::RELLSTATE::RIGHT_GROUND:
 				if (!_ani_ground3->isPlay())
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_IDLE;
@@ -1824,7 +1824,7 @@ void rell::attack()
 			case rell::RELLSTATE::RIGHT_ATTACK:
 				if (!_ani_attack3->isPlay())
 				{
-					_image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª");
+					_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏");
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_IDLE;
@@ -1850,17 +1850,17 @@ void rell::checkPlayer()
 {
 	if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 200)
 	{
-		_image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∞¯∞›");
-		// ∞¯∞› π¸¿ß
+		_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í≥µÍ≤©");
+		// Í≥µÍ≤© Î≤îÏúÑ
 		if (changeDirectionToLeft())
 		{
-			// øﬁ¬ ¿∏∑Œ
+			// ÏôºÏ™ΩÏúºÎ°ú
 			_state = RELLSTATE::LEFT_ATTACK;
 			_ani_attack3->setPlayFrame(0, 6);
 		}
 		else
 		{
-			// ø¿∏•¬ ¿∏∑Œ
+			// Ïò§Î•∏Ï™ΩÏúºÎ°ú
 			_state = RELLSTATE::RIGHT_ATTACK;
 			_ani_attack3->setPlayFrame(7, 11);
 		}
@@ -1868,17 +1868,17 @@ void rell::checkPlayer()
 	}
 	else
 	{
-		_image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂•");
-		// ∂• ∞¯∞›
+		_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ");
+		// ÎïÖ Í≥µÍ≤©
 		if (changeDirectionToLeft())
 		{
-			// øﬁ¬ ¿∏∑Œ
+			// ÏôºÏ™ΩÏúºÎ°ú
 			_state = RELLSTATE::LEFT_GROUND;
 			_ani_ground3->setPlayFrame(0, 11);
 		}
 		else
 		{
-			// ø¿∏•¬ ¿∏∑Œ
+			// Ïò§Î•∏Ï™ΩÏúºÎ°ú
 			_state = RELLSTATE::RIGHT_GROUND;
 			_ani_ground3->setPlayFrame(12, 23);
 		}
@@ -1914,7 +1914,7 @@ void rell::move()
 			break;
 		case rell::RELLSTATE::PRAY:
 			_ani_pray->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-			EFFECTMANAGER->play("∫∏Ω∫1 ±‚µµ ¿¸", _x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 10);
+			EFFECTMANAGER->play("Î≥¥Ïä§1 Í∏∞ÎèÑ Ï†Ñ", _x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 10);
 			break;
 		}
 
@@ -2196,14 +2196,14 @@ void rell::checkCollision()
 		{
 			_player->setIsCheckAttack(true);
 			_hp -= 2;
-			cout << "∞¯∞›, " << _hp << endl;
+			cout << "Í≥µÍ≤©, " << _hp << endl;
 		}
 	}
 
 	if (_player->checkBulletCollision(_rc))
 	{
 		_hp -= 1;
-		cout << "ø¯∞≈∏Æ ∞¯∞›, " << _hp << endl;
+		cout << "ÏõêÍ±∞Î¶¨ Í≥µÍ≤©, " << _hp << endl;
 	}
 
 	changeMode();
@@ -2211,7 +2211,7 @@ void rell::checkCollision()
 
 bool rell::changeDirectionToLeft()
 {
-	// ∏∏æ‡ _rc(∫∏Ω∫ √ÊµπøÎ).left∫∏¥Ÿ «√∑π¿ÃæÓ »˜∆Æπ⁄Ω∫ right∞° ¿€¥Ÿ∏È <- ¿Ã¬  πÊ«‚
+	// ÎßåÏïΩ _rc(Î≥¥Ïä§ Ï∂©ÎèåÏö©).leftÎ≥¥Îã§ ÌîåÎ†àÏù¥Ïñ¥ ÌûàÌä∏Î∞ïÏä§ rightÍ∞Ä ÏûëÎã§Î©¥ <- Ïù¥Ï™Ω Î∞©Ìñ•
 	if (_player->getHitbox().right < _rc.left)
 	{
 		return true;
@@ -2228,7 +2228,7 @@ void rell::changeMode()
 		case RELLMODE::MODE1:
 			_mode = RELLMODE::MODE2;
 			_state = RELLSTATE::AIR;
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫3-2");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-2");
 			_ani_attack2->setPlayFrame(0, 4, false, true);
 			_ani_attack2->start();
 			_ani_snow->start();
@@ -2250,14 +2250,14 @@ void rell::changeMode()
 		case RELLMODE::MODE2:
 			_mode = RELLMODE::MODE3;
 			_state = RELLSTATE::LEFT_IDLE;
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ±‚∫ª");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 Í∏∞Î≥∏");
 			_ani_idle3->setPlayFrame(0, 4, false, true);
 			_ani_idle3->start();
 
-			_xLarge = _x - _image->getFrameWidth() / 2 + IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª")->getFrameWidth() / 2;
-			_yLarge = _y - _image->getFrameHeight() / 2 + IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª")->getFrameHeight() / 2;
+			_xLarge = _x - _image->getFrameWidth() / 2 + IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏")->getFrameWidth() / 2;
+			_yLarge = _y - _image->getFrameHeight() / 2 + IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏")->getFrameHeight() / 2;
 
-			_rc.setCenterPos(_x + IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("∫∏Ω∫3-1 ±‚∫ª")->getFrameHeight() / 2 + 20);
+			_rc.setCenterPos(_x + IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏")->getFrameWidth() / 2, _y + IMAGEMANAGER->findImage("Î≥¥Ïä§3-1 Í∏∞Î≥∏")->getFrameHeight() / 2 + 20);
 
 			_maxHp = 40;
 			_hp = 40;
@@ -2265,7 +2265,7 @@ void rell::changeMode()
 
 			for (int i = 0; i < 3; ++i)
 			{
-				_ground[i].image = IMAGEMANAGER->findImage("∫∏Ω∫3-3 ∂• ∞¯∞›");
+				_ground[i].image = IMAGEMANAGER->findImage("Î≥¥Ïä§3-3 ÎïÖ Í≥µÍ≤©");
 				_ground[i].x = _xLarge + _image->getWidth() / 2;
 				_ground[i].y = _yLarge + _image->getHeight() / 2 - 80;
 				_ground[i].count = 15 * (i + 1);
@@ -2274,7 +2274,7 @@ void rell::changeMode()
 			break;
 		case RELLMODE::MODE3:
 			_state = RELLSTATE::DEAD;
-			_image = IMAGEMANAGER->findImage("∫∏Ω∫3 ¡◊¿Ω");
+			_image = IMAGEMANAGER->findImage("Î≥¥Ïä§3 Ï£ΩÏùå");
 			break;
 		}
 	}

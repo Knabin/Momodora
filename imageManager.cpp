@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "imageManager.h"
 
 
@@ -25,7 +25,7 @@ image* imageManager::addImage(string strKey, int width, int height)
 {
 	image* img = findImage(strKey);
 
-	//¸¸¾à¿¡ ³»°¡ Ã£À¸·Á´ø ÀÌ¹ÌÁö°¡ ÀÌ¹Ì ÀÖÀ¸¸é ±×°ÍÀ» ¹ÝÈ¯
+	//ë§Œì•½ì— ë‚´ê°€ ì°¾ìœ¼ë ¤ë˜ ì´ë¯¸ì§€ê°€ ì´ë¯¸ ìžˆìœ¼ë©´ ê·¸ê²ƒì„ ë°˜í™˜
 	if (img) return img;
 
 	img = new image;
@@ -47,7 +47,7 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 {
 	image* img = findImage(strKey);
 
-	//¸¸¾à¿¡ ³»°¡ Ã£À¸·Á´ø ÀÌ¹ÌÁö°¡ ÀÌ¹Ì ÀÖÀ¸¸é ±×°ÍÀ» ¹ÝÈ¯
+	//ë§Œì•½ì— ë‚´ê°€ ì°¾ìœ¼ë ¤ë˜ ì´ë¯¸ì§€ê°€ ì´ë¯¸ ìžˆìœ¼ë©´ ê·¸ê²ƒì„ ë°˜í™˜
 	if (img) return img;
 
 	img = new image;
@@ -69,7 +69,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 {
 	image* img = findImage(strKey);
 
-	//¸¸¾à¿¡ ³»°¡ Ã£À¸·Á´ø ÀÌ¹ÌÁö°¡ ÀÌ¹Ì ÀÖÀ¸¸é ±×°ÍÀ» ¹ÝÈ¯
+	//ë§Œì•½ì— ë‚´ê°€ ì°¾ìœ¼ë ¤ë˜ ì´ë¯¸ì§€ê°€ ì´ë¯¸ ìžˆìœ¼ë©´ ê·¸ê²ƒì„ ë°˜í™˜
 	if (img) return img;
 
 	img = new image;
@@ -91,7 +91,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 {
 	image* img = findImage(strKey);
 
-	//¸¸¾à¿¡ ³»°¡ Ã£À¸·Á´ø ÀÌ¹ÌÁö°¡ ÀÌ¹Ì ÀÖÀ¸¸é ±×°ÍÀ» ¹ÝÈ¯
+	//ë§Œì•½ì— ë‚´ê°€ ì°¾ìœ¼ë ¤ë˜ ì´ë¯¸ì§€ê°€ ì´ë¯¸ ìžˆìœ¼ë©´ ê·¸ê²ƒì„ ë°˜í™˜
 	if (img) return img;
 
 	img = new image;
@@ -113,7 +113,7 @@ image * imageManager::findImage(string strKey)
 {
 	mapImageIter key = _mImageList.find(strKey);
 
-	//Ã£¾Ò´Ù¸é
+	//ì°¾ì•˜ë‹¤ë©´
 	if (key != _mImageList.end())
 	{
 		return key->second;
@@ -144,7 +144,7 @@ BOOL imageManager::deleteAll()
 
 	for (; iter != _mImageList.end();)
 	{
-		//¸Ê ÄÁÅ×ÀÌ³Ê ¾È¿¡ image*°¡ ÀÖ´Ù¸é
+		//ë§µ ì»¨í…Œì´ë„ˆ ì•ˆì— image*ê°€ ìžˆë‹¤ë©´
 		if (iter->second != NULL)
 		{
 			iter->second->release();

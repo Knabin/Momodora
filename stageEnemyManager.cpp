@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "stageEnemyManager.h"
 #include "enemy.h"
 

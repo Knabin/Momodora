@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <map>
 
@@ -18,13 +18,13 @@ private:
 	~effectManager();
 
 private:
-	//»ı»ê
+	//ìƒì‚°
 	typedef vector<effect*>				arrEffects;
 	typedef vector<effect*>::iterator	iterEffects;
-	//°¡°ø
+	//ê°€ê³µ
 	typedef map<string, arrEffects>			  arrEffect;
 	typedef map<string, arrEffects>::iterator iterEffect;
-	//Æ÷Àå
+	//í¬ì¥
 	typedef vector<map<string, arrEffects>>			  arrTotalEffect;
 	typedef vector<map<string, arrEffects>>::iterator iterTotalEffect;
 

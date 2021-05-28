@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "gameNode.h"
 
 gameNode::gameNode()
@@ -73,10 +73,10 @@ void gameNode::render()
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	//HWND - �ڵ�޽���
-	//UINT - �޽��� �߻� ��ȣ
-	//WPARAM - Ű���� �Է� �� ���콺 Ŭ�� �޽��� ����
-	//LPARAM - ���콺 ��ǥ ����
+	//HWND - 핸들메시지
+	//UINT - 메시지 발생 번호
+	//WPARAM - 키보드 입력 및 마우스 클릭 메시지 전달
+	//LPARAM - 마우스 좌표 전달
 
 	PAINTSTRUCT ps;
 	HDC			hdc;

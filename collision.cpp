@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "collision.h"
 
 
@@ -98,7 +98,7 @@ namespace TTYONE_UTIL
 		return false;
 	}
 
-	//¿ø°ú ¿øÀÌ Ãæµ¹Çß´©?
+	//ì›ê³¼ ì›ì´ ì¶©ëŒí–ˆëˆ„?
 	bool isCollision(const MYCIRCLE & cir1, const MYCIRCLE & cir2)
 	{
 		float deltaX = cir2.x - cir1.x;
@@ -110,7 +110,7 @@ namespace TTYONE_UTIL
 
 		float radiusSquare = radius * radius;
 
-		//ºøº¯ ±æÀÌ°¡ ´õ ±æ¸é Ãæµ¹ ¾ÈÇÑ»óÅÂÀÌ¹Ç·Î
+		//ë¹—ë³€ ê¸¸ì´ê°€ ë” ê¸¸ë©´ ì¶©ëŒ ì•ˆí•œìƒíƒœì´ë¯€ë¡œ
 		if (distSquare > radiusSquare)
 		{
 			return false;
@@ -119,7 +119,7 @@ namespace TTYONE_UTIL
 		return true;
 	}
 
-	//¿ø°ú »ç°¢ÇüÀÌ Ãæµ¹ Çß´Ï?
+	//ì›ê³¼ ì‚¬ê°í˜•ì´ ì¶©ëŒ í–ˆë‹ˆ?
 	bool isCollision(const MYCIRCLE & cir, const RECT & rc)
 	{
 		int centerX = FLOAT_TO_INT(cir.x);
@@ -143,7 +143,7 @@ namespace TTYONE_UTIL
 		}
 		else
 		{
-			//¸ğ¼­¸®¶û ºñ±³ÇÒ·¨´õ´Ï ¸¸µå´Â°Ô ³´°Ú³×
+			//ëª¨ì„œë¦¬ë‘ ë¹„êµí• ë¬ë”ë‹ˆ ë§Œë“œëŠ”ê²Œ ë‚«ê² ë„¤
 			if (checkPointInCircle(cir, (float)rc.left, (float)rc.top)) return true;
 			if (checkPointInCircle(cir, (float)rc.right, (float)rc.top)) return true;
 			if (checkPointInCircle(cir, (float)rc.left, (float)rc.bottom)) return true;
@@ -177,7 +177,7 @@ namespace TTYONE_UTIL
 		}
 		else
 		{
-			//¸ğ¼­¸®¶û ºñ±³ÇÒ·¨´õ´Ï ¸¸µå´Â°Ô ³´°Ú³×
+			//ëª¨ì„œë¦¬ë‘ ë¹„êµí• ë¬ë”ë‹ˆ ë§Œë“œëŠ”ê²Œ ë‚«ê² ë„¤
 			if (checkPointInCircle(cir, (float)rc.left, (float)rc.top)) return true;
 			if (checkPointInCircle(cir, (float)rc.right, (float)rc.top)) return true;
 			if (checkPointInCircle(cir, (float)rc.left, (float)rc.bottom)) return true;
@@ -188,22 +188,22 @@ namespace TTYONE_UTIL
 		return false;
 	}
 
-	//Ãæµ¹ÇßÀ»¶§ ¹İÀÀÀº ?
+	//ì¶©ëŒí–ˆì„ë•Œ ë°˜ì‘ì€ ?
 	bool isCollisionReaction(const RECT & rcHold, RECT & rcMove)
 	{
 		RECT rcInter;
 
 		if (!IntersectRect(&rcInter, &rcHold, &rcMove)) return false;
 
-		//°ãÄ£ ºÎºĞ¿¡ »ı±ä ·ºÆ® Á¤º¸¸¦ ¹Ş¾Æ¿Í¼­
-		//°ãÄ£ ºÎºĞ¿¡ »ı±ä ÀÛÀº ·ºÆ®ÀÇ °¡·ÎÅ©±â, ¼¼·ÎÅ©±â
+		//ê²¹ì¹œ ë¶€ë¶„ì— ìƒê¸´ ë ‰íŠ¸ ì •ë³´ë¥¼ ë°›ì•„ì™€ì„œ
+		//ê²¹ì¹œ ë¶€ë¶„ì— ìƒê¸´ ì‘ì€ ë ‰íŠ¸ì˜ ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°
 		int interW = rcInter.right - rcInter.left;
 		int interH = rcInter.bottom - rcInter.top;
 
-		//¼öÁ÷Ãæµ¹
+		//ìˆ˜ì§ì¶©ëŒ
 		if (interW > interH)
 		{
-			//À§¿¡¼­ ºÎµúÇûÀ»¶§
+			//ìœ„ì—ì„œ ë¶€ë”ªí˜”ì„ë•Œ
 			if (rcInter.top == rcHold.top)
 			{
 				OffsetRect(&rcMove, 0, -interH);
@@ -215,7 +215,7 @@ namespace TTYONE_UTIL
 		}
 		else
 		{
-			//ÁÂ Ãæµ¹
+			//ì¢Œ ì¶©ëŒ
 			if (rcInter.left == rcHold.left)
 			{
 				OffsetRect(&rcMove, -interW, 0);
@@ -248,15 +248,15 @@ namespace TTYONE_UTIL
 
 		if (!IntersectRect(&rcInter, &rcHold, &rcMove)) return false;
 
-		//°ãÄ£ ºÎºĞ¿¡ »ı±ä ·ºÆ® Á¤º¸¸¦ ¹Ş¾Æ¿Í¼­
-		//°ãÄ£ ºÎºĞ¿¡ »ı±ä ÀÛÀº ·ºÆ®ÀÇ °¡·ÎÅ©±â, ¼¼·ÎÅ©±â
+		//ê²¹ì¹œ ë¶€ë¶„ì— ìƒê¸´ ë ‰íŠ¸ ì •ë³´ë¥¼ ë°›ì•„ì™€ì„œ
+		//ê²¹ì¹œ ë¶€ë¶„ì— ìƒê¸´ ì‘ì€ ë ‰íŠ¸ì˜ ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°
 		int interW = rcInter.right - rcInter.left;
 		int interH = rcInter.bottom - rcInter.top;
 
-		//¼öÁ÷Ãæµ¹
+		//ìˆ˜ì§ì¶©ëŒ
 		if (interW > interH)
 		{
-			//À§¿¡¼­ ºÎµúÇûÀ»¶§
+			//ìœ„ì—ì„œ ë¶€ë”ªí˜”ì„ë•Œ
 			if (rcInter.top == rcHold.top)
 			{
 				OffsetRect(&rcMove, 0, -interH);
@@ -268,7 +268,7 @@ namespace TTYONE_UTIL
 		}
 		else
 		{
-			//ÁÂ Ãæµ¹
+			//ì¢Œ ì¶©ëŒ
 			if (rcInter.left == rcHold.left)
 			{
 				OffsetRect(&rcMove, -interW, 0);

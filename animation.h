@@ -1,28 +1,28 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 
 class animation
 {
 public:
-	typedef vector<POINT>	vFrameList;	//¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ ÀúÀå¿ë
-	typedef vector<int>		vPlayList;	//¾Ö´Ï¸ŞÀÌ¼Ç ÇÃ·¹ÀÌ ÀÎµ¦½º ÀúÀå¿ë
+	typedef vector<POINT>	vFrameList;	//ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ ì €ì¥ìš©
+	typedef vector<int>		vPlayList;	//ì• ë‹ˆë©”ì´ì…˜ í”Œë ˆì´ ì¸ë±ìŠ¤ ì €ì¥ìš©
 
 private:
-	int _frameNum;	//¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓ °¹¼ö
+	int _frameNum;	//ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ ê°¯ìˆ˜
 
 	vFrameList	_frameList;
 	vPlayList	_playList;
 
-	int _frameWidth;		//ÇÁ·¹ÀÓ °¡·ÎÅ©±â
-	int _frameHeight;		//ÇÁ·¹ÀÓ ¼¼·ÎÅ©±â
+	int _frameWidth;		//í”„ë ˆì„ ê°€ë¡œí¬ê¸°
+	int _frameHeight;		//í”„ë ˆì„ ì„¸ë¡œí¬ê¸°
 
-	BOOL _loop;				//¾Ö´Ï¸ŞÀÌ¼Ç ·çÇÁ ¿©ºÎ
+	BOOL _loop;				//ì• ë‹ˆë©”ì´ì…˜ ë£¨í”„ ì—¬ë¶€
 
-	float _frameUpdateSec;	//ÇÁ·¹ÀÓ °æ°ú½Ã°£
-	float _elapsedSec;		//µ¨Å¸ Å¸ÀÓ
+	float _frameUpdateSec;	//í”„ë ˆì„ ê²½ê³¼ì‹œê°„
+	float _elapsedSec;		//ë¸íƒ€ íƒ€ì„
 
-	DWORD _nowPlayIndex;	//ÇöÀç ÇÃ·¹ÀÌ ÀÎµ¦½º
-	BOOL _play;				//¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı¿©ºÎ
+	DWORD _nowPlayIndex;	//í˜„ì¬ í”Œë ˆì´ ì¸ë±ìŠ¤
+	BOOL _play;				//ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒì—¬ë¶€
 
 public:
 	animation();

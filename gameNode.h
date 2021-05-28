@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "image.h"
 #include "camera.h"
 
@@ -8,23 +8,23 @@ class gameNode
 {
 private:
 	HDC _hdc;
-	bool _managerInit;		//¸Å´ÏÀúµé ÃÊ±âÈ­ÇÒ²¨´Ï
+	bool _managerInit;		//ë§¤ë‹ˆì €ë“¤ ì´ˆê¸°í™”í• êº¼ë‹ˆ
 	camera* _camera;
 
 public:
 	gameNode();
 	virtual ~gameNode();
 
-	//HRESULT´Â ¸¶ÀÌÅ©·Î¼ÒÇÁÆ® Àü¿ë µð¹ö±ë ¹ÝÈ¯ÀÚ ÀÎµ¥
-	//S_OK, E_FAIL, SUCCDED µîÀ¸·Î Ãâ·ÂÃ¢¿¡ 
-	//Á¦´ë·Î ÃÊ±âÈ­°¡ ÀßµÆ´ÂÁö ¾Æ´ÑÁö¸¦ º¸¿©ÁØ´Ù
-	virtual HRESULT init();			//ÃÊ±âÈ­ Àü¿ë ÇÔ¼ö
+	//HRESULTëŠ” ë§ˆì´í¬ë¡œì†Œí”„íŠ¸ ì „ìš© ë””ë²„ê¹… ë°˜í™˜ìž ì¸ë°
+	//S_OK, E_FAIL, SUCCDED ë“±ìœ¼ë¡œ ì¶œë ¥ì°½ì— 
+	//ì œëŒ€ë¡œ ì´ˆê¸°í™”ê°€ ìž˜ëëŠ”ì§€ ì•„ë‹Œì§€ë¥¼ ë³´ì—¬ì¤€ë‹¤
+	virtual HRESULT init();			//ì´ˆê¸°í™” ì „ìš© í•¨ìˆ˜
 	virtual HRESULT init(bool managerInit);
-	virtual void release();			//¸Þ¸ð¸® ÇØÁ¦ Àü¿ë
-	virtual void update();			//¿¬»ê Àü¿ë
-	virtual void render();			//±×¸®±â Àü¿ë
+	virtual void release();			//ë©”ëª¨ë¦¬ í•´ì œ ì „ìš©
+	virtual void update();			//ì—°ì‚° ì „ìš©
+	virtual void render();			//ê·¸ë¦¬ê¸° ì „ìš©
 
-	//¹é¹öÆÛ DC¸Þ¸ð¸® Á¢±ÙÀÚ
+	//ë°±ë²„í¼ DCë©”ëª¨ë¦¬ ì ‘ê·¼ìž
 	HDC getMemDC() { return _backBuffer->getMemDC(); }
 	HDC getHDC() { return _hdc; }
 

@@ -1,12 +1,12 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "bossStage.h"
 #include "player.h"
 #include "enemy.h"
 
 bossStage::bossStage(int bossNum, const char * fileName)
 {
-	_image = IMAGEMANAGER->findImage("º¸½º ¹è°æ");
-	_block = IMAGEMANAGER->findImage("º¸½º ºí·Ï");
+	_image = IMAGEMANAGER->findImage("ë³´ìŠ¤ ë°°ê²½");
+	_block = IMAGEMANAGER->findImage("ë³´ìŠ¤ ë¸”ë¡");
 
 	_ani_block = new animation;
 	_ani_block->init(_block->getWidth(),
@@ -39,24 +39,24 @@ HRESULT bossStage::init()
 	{
 	case BOSS1:
 		
-		if (!SOUNDMANAGER->isPlaySound("º¸½º1 ¸Ê"))
+		if (!SOUNDMANAGER->isPlaySound("ë³´ìŠ¤1 ë§µ"))
 		{
-			SOUNDMANAGER->stopAll("º¸½º1 ¸Ê");
-			SOUNDMANAGER->playBGM("º¸½º1 ¸Ê", BGMVOLUME);
+			SOUNDMANAGER->stopAll("ë³´ìŠ¤1 ë§µ");
+			SOUNDMANAGER->playBGM("ë³´ìŠ¤1 ë§µ", BGMVOLUME);
 		}
 		break;
 	case BOSS2:
-		if (!SOUNDMANAGER->isPlaySound("º¸½º2 ¸Ê"))
+		if (!SOUNDMANAGER->isPlaySound("ë³´ìŠ¤2 ë§µ"))
 		{
-			SOUNDMANAGER->stopAll("º¸½º2 ¸Ê");
-			SOUNDMANAGER->playBGM("º¸½º2 ¸Ê", BGMVOLUME);
+			SOUNDMANAGER->stopAll("ë³´ìŠ¤2 ë§µ");
+			SOUNDMANAGER->playBGM("ë³´ìŠ¤2 ë§µ", BGMVOLUME);
 		}
 		break;
 	case BOSS3:
-		if (!SOUNDMANAGER->isPlaySound("º¸½º3 ¸Ê"))
+		if (!SOUNDMANAGER->isPlaySound("ë³´ìŠ¤3 ë§µ"))
 		{
-			SOUNDMANAGER->stopAll("º¸½º3 ¸Ê");
-			SOUNDMANAGER->playBGM("º¸½º3 ¸Ê", BGMVOLUME);
+			SOUNDMANAGER->stopAll("ë³´ìŠ¤3 ë§µ");
+			SOUNDMANAGER->playBGM("ë³´ìŠ¤3 ë§µ", BGMVOLUME);
 		}
 		break;
 	}

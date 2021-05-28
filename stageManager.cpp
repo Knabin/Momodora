@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "stageManager.h"
 #include "player.h"
 #include "bossStage.h"
@@ -7,7 +7,7 @@
 
 HRESULT stageManager::init()
 {
-	// TODO: enemy Ãß°¡ÇÏ´Â °É ENEMYMANAGER·Î ¿Å±è, signletonÀ¸·Î º¯°æ
+	// TODO: enemy ì¶”ê°€í•˜ëŠ” ê±¸ ENEMYMANAGERë¡œ ì˜®ê¹€, signletonìœ¼ë¡œ ë³€ê²½
 	commonStage * common1 = new commonStage(0, nullptr);
 	common1->init();
 	common1->setPlayerMemoryAddressLink(_player);
@@ -124,7 +124,7 @@ void stageManager::render()
 
 	if (_currentIdx == 2)
 	{
-		IMAGEMANAGER->findImage("¿ÀºêÁ§Æ®")->render(getMemDC(), _rcPray.left, _rcPray.top);
+		IMAGEMANAGER->findImage("ì˜¤ë¸Œì íŠ¸")->render(getMemDC(), _rcPray.left, _rcPray.top);
 	}
 
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "gameNode.h"
 
 class stageManager;
@@ -9,31 +9,31 @@ enum PLAYERSTATE
 	LEFT_IDLE,
 	RIGHT_IDLE,
 
-	// ÀÌµ¿
+	// ì´ë™
 	LEFT_MOVE,
 	RIGHT_MOVE,
 	
-	// ±Ù°Å¸® °ø°İ
+	// ê·¼ê±°ë¦¬ ê³µê²©
 	LEFT_ATTACK,
 	RIGHT_ATTACK,
 
-	// ¿ø°Å¸®(Â÷Áö) °ø°İ
+	// ì›ê±°ë¦¬(ì°¨ì§€) ê³µê²©
 	LEFT_ATTACKC,
 	RIGHT_ATTACKC,
 
-	// ¿Ã¶ó°¡±â
+	// ì˜¬ë¼ê°€ê¸°
 	LEFT_JUMP,
 	RIGHT_JUMP,
 
-	// ¶³¾îÁö±â
+	// ë–¨ì–´ì§€ê¸°
 	LEFT_FALL,
 	RIGHT_FALL,
 
-	// Á×À½
+	// ì£½ìŒ
 	LEFT_DEAD,
 	RIGHT_DEAD,
 
-	// ±âµµ(ÇÇ ÃæÀü ¸ğ¼Ç)
+	// ê¸°ë„(í”¼ ì¶©ì „ ëª¨ì…˜)
 	LEFT_PRAY,
 	RIGHT_PRAY,
 };
@@ -221,7 +221,7 @@ public:
 	{ 
 		if (isAttacked)
 		{
-			SOUNDMANAGER->play("¸ÂÀ½");
+			SOUNDMANAGER->play("ë§ìŒ");
 			_x += isLeft() ? 20 : -20;
 			_hitbox.setCenterPos(_x, _probeY - _height / 4);
 			_alpha = 170;

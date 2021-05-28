@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "animation.h"
 
 
@@ -21,15 +21,15 @@ animation::~animation()
 
 HRESULT animation::init(int totalW, int totalH, int frameW, int frameH)
 {
-	//¾Ö´Ï¸ŞÀÌ¼Ç °¡·Î ¸î ÀåÀÎÁö °è»ê
+	//ì• ë‹ˆë©”ì´ì…˜ ê°€ë¡œ ëª‡ ì¥ì¸ì§€ ê³„ì‚°
 	_frameWidth = frameW;
 	int _frameNumWidth = totalW / _frameWidth;
 
-	//¾Ö´Ï¸ŞÀÌ¼Ç ¼¼·Î ¸î ÀåÀÎÁö °è»ê
+	//ì• ë‹ˆë©”ì´ì…˜ ì„¸ë¡œ ëª‡ ì¥ì¸ì§€ ê³„ì‚°
 	_frameHeight = frameH;
 	int _frameNumHeight = totalH / _frameHeight;
 
-	//ÃÑ ¾Ö´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓÀÌ ¸î ÀåÀÎÁö °è»ê
+	//ì´ ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ì´ ëª‡ ì¥ì¸ì§€ ê³„ì‚°
 	_frameNum = _frameNumWidth * _frameNumHeight;
 
 	for (int i = 0; i < _frameNumHeight; ++i)

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "soundManager.h"
 
 
@@ -16,7 +16,7 @@ soundManager::~soundManager()
 
 HRESULT soundManager::init()
 {
-	//FMOD ¿£Áø ÃÊ±âÈ­
+	//FMOD ì—”ì§„ ì´ˆê¸°í™”
 	System_Create(&_system);
 
 	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);

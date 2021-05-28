@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "playGround.h"
 #include "pixelCollsion.h"
 #include "player.h"
@@ -16,34 +16,34 @@ playGround::~playGround()
 {
 }
 
-//ÃÊ±âÈ­ ÇÔ¼ö
+//ì´ˆê¸°í™” í•¨ìˆ˜
 HRESULT playGround::init()
 {
 	gameNode::init(true);
 	{
-		IMAGEMANAGER->addImage("¹é1", "image/back1.bmp", 960, 723, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹é2", "image/back2.bmp", 960, 723, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹é3", "image/back3.bmp", 960, 723, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹é4", "image/back4.bmp", 960, 723, false, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°±1", "image/back1.bmp", 960, 723, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°±2", "image/back2.bmp", 960, 723, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°±3", "image/back3.bmp", 960, 723, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°±4", "image/back4.bmp", 960, 723, false, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addImage("redDC", "image/redDC.bmp", 600, 600, false, NULL);
 
-		IMAGEMANAGER->addImage("¹è°æ", "image/background.bmp", 1920, 720, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹è°æ ÇÈ¼¿", "image/background_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("¹è°æ2", "image/background2.bmp", 1920, 720, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹è°æ2 ÇÈ¼¿", "image/background2_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("¹è°æ3", "image/background3.bmp", 960, 720, false, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¹è°æ3 ÇÈ¼¿", "image/background3_pixel.bmp", 960, 720, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("¹è°æ3 ÇÈ¼¿ º¸½º", "image/background3_pixel_b.bmp", 960, 720, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("±î¸¸ ¹è°æ", "image/black.bmp", WINSIZEX, WINSIZEY, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë°°ê²½", "image/background.bmp", 1920, 720, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°°ê²½ í”½ì…€", "image/background_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë°°ê²½2", "image/background2.bmp", 1920, 720, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°°ê²½2 í”½ì…€", "image/background2_pixel.bmp", 1920, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë°°ê²½3", "image/background3.bmp", 960, 720, false, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë°°ê²½3 í”½ì…€", "image/background3_pixel.bmp", 960, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë°°ê²½3 í”½ì…€ ë³´ìŠ¤", "image/background3_pixel_b.bmp", 960, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ê¹Œë§Œ ë°°ê²½", "image/black.bmp", WINSIZEX, WINSIZEY, false, RGB(0, 0, 0));
 
-		IMAGEMANAGER->addImage("¿ÀºêÁ§Æ®", "image/object_pray.bmp", 42, 90, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ì˜¤ë¸Œì íŠ¸", "image/object_pray.bmp", 42, 90, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("º¸½º ¹è°æ", "image/background4.bmp", 960, 720, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤ ë°°ê²½", "image/background4.bmp", 960, 720, false, RGB(0, 0, 0));
 
-		IMAGEMANAGER->addImage("°ÔÀÓ¿À¹ö", "image/gameover.bmp", 750, 133, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ê²Œìž„ì˜¤ë²„", "image/gameover.bmp", 750, 133, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("¸ñ¼û", "image/heart.bmp", 30, 23, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ëª©ìˆ¨", "image/heart.bmp", 30, 23, true, RGB(255, 0, 255));
 
 		IMAGEMANAGER->addFrameImage("idle", "image/momo_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addFrameImage("attack", "image/momo_attack.bmp", 384, 192, 4, 2, true, RGB(255, 0, 255));
@@ -56,68 +56,68 @@ HRESULT playGround::init()
 
 		IMAGEMANAGER->addFrameImage("effect_charge", "image/momo_effect_charge.bmp", 1056, 100, 11, 1, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("ºÎÀû", "image/momo_bullet.bmp", 35, 15, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addFrameImage("º¸½º ºí·Ï", "image/block_boss.bmp", 1152, 144, 24, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë¶€ì ", "image/momo_bullet.bmp", 35, 15, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤ ë¸”ë¡", "image/block_boss.bmp", 1152, 144, 24, 1, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("¸ó½ºÅÍ1", "image/oko.bmp", 39, 39, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("¸ó½ºÅÍ1 ÇÁ·¹ÀÓ", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ëª¬ìŠ¤í„°1", "image/oko.bmp", 39, 39, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ëª¬ìŠ¤í„°1 í”„ë ˆìž„", "image/oglop.bmp", 1536, 96, 16, 1, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("¸ó½ºÅÍ2", "image/monkey_move.bmp", 1152, 192, 6, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("¸ó½ºÅÍ2 °ø°Ý", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ëª¬ìŠ¤í„°2", "image/monkey_move.bmp", 1152, 192, 6, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ëª¬ìŠ¤í„°2 ê³µê²©", "image/monkey_attack.bmp", 2112, 192, 11, 2, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("¸ó½ºÅÍ3 ¿ÞÂÊ", "image/bakman_left.bmp", 132, 96, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¸ó½ºÅÍ3 ¿À¸¥ÂÊ", "image/bakman_right.bmp", 132, 96, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("¸ó½ºÅÍ3 °ø°Ý", "image/bakman_attack.bmp", 924, 192, 7, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("¸ó½ºÅÍ3 °ø°Ý2", "image/bakman_attack2.bmp", 792, 192, 6, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("¸ó½ºÅÍ3 ºí·Ï", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ëª¬ìŠ¤í„°3 ì™¼ìª½", "image/bakman_left.bmp", 132, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ëª¬ìŠ¤í„°3 ì˜¤ë¥¸ìª½", "image/bakman_right.bmp", 132, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ëª¬ìŠ¤í„°3 ê³µê²©", "image/bakman_attack.bmp", 924, 192, 7, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ëª¬ìŠ¤í„°3 ê³µê²©2", "image/bakman_attack2.bmp", 792, 192, 6, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ëª¬ìŠ¤í„°3 ë¸”ë¡", "image/bakfall.bmp", 45, 45, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("º¸½º1 ½ÃÀÛ", "image/prim_startled.bmp", 4200, 144, 10, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º1 ÀÌµ¿", "image/prim_move.bmp", 3360, 288, 8, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º1 È­³²", "image/prim_angry.bmp", 6300, 288, 15, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º1 °ø°Ý", "image/prim_attack.bmp", 8400, 288, 20, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º1 ÆÐ¹è", "image/prim_defeated.bmp", 420, 144, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤1 ì‹œìž‘", "image/prim_startled.bmp", 4200, 144, 10, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤1 ì´ë™", "image/prim_move.bmp", 3360, 288, 8, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤1 í™”ë‚¨", "image/prim_angry.bmp", 6300, 288, 15, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤1 ê³µê²©", "image/prim_attack.bmp", 8400, 288, 20, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤1 íŒ¨ë°°", "image/prim_defeated.bmp", 420, 144, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("º¸½º2 ¿ÞÂÊ", "image/witchd_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º2 ¿ÞÂÊ °ø°Ý", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º2 ¿À¸¥ÂÊ", "image/witchl_idle.bmp", 720, 144, 5, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º2 ¿À¸¥ÂÊ °ø°Ý", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿", "image/witchd_bullet2.bmp", 18, 18, true, RGB(0, 255, 255));
-		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º2 ¿ÞÂÊ ºÒ·¿2 ¹è°æ", "image/witchd_bullet_back.bmp", 150, 480, false, RGB(0, 0, 0));
-		IMAGEMANAGER->addImage("º¸½º2 ¿À¸¥ÂÊ ºÒ·¿", "image/witchl_bullet.bmp", 40, 40, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤2 ì™¼ìª½", "image/witchd_idle.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤2 ì™¼ìª½ ê³µê²©", "image/witchd_attack.bmp", 960, 96, 10, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤2 ì˜¤ë¥¸ìª½", "image/witchl_idle.bmp", 720, 144, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤2 ì˜¤ë¥¸ìª½ ê³µê²©", "image/witchl_magic.bmp", 2592, 144, 18, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤2 ì™¼ìª½ ë¶ˆë ›", "image/witchd_bullet2.bmp", 18, 18, true, RGB(0, 255, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤2 ì™¼ìª½ ë¶ˆë ›2", "image/witchd_bullet.bmp", 33, 33, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤2 ì™¼ìª½ ë¶ˆë ›2 ë°°ê²½", "image/witchd_bullet_back.bmp", 150, 480, false, RGB(0, 0, 0));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤2 ì˜¤ë¥¸ìª½ ë¶ˆë ›", "image/witchl_bullet.bmp", 40, 40, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("º¸½º3-1 ±âº»", "image/rell1_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-1 ¶¥", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-1 °ø°Ý", "image/rell1_fire.bmp", 960, 192, 10, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-1 ±âµµ", "image/rell1_pray.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-1 ±âµµ ºÒ²É", "image/rell1_pray_effect3.bmp", 6000, 600, 10, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º3-1 ¶¥ ¿ÞÂÊ", "image/rell1_sword_left.bmp", 96, 192, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º3-1 ¶¥ ¿À¸¥ÂÊ", "image/rell1_sword_right.bmp", 96, 192, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º3 ºÒ·¿", "image/rell_bullet.bmp", 30, 32, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-1 ê¸°ë³¸", "image/rell1_idle.bmp", 480, 192, 5, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-1 ë•…", "image/rell1_ground.bmp", 1152, 192, 12, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-1 ê³µê²©", "image/rell1_fire.bmp", 960, 192, 10, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-1 ê¸°ë„", "image/rell1_pray.bmp", 480, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-1 ê¸°ë„ ë¶ˆê½ƒ", "image/rell1_pray_effect3.bmp", 6000, 600, 10, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3-1 ë•… ì™¼ìª½", "image/rell1_sword_left.bmp", 96, 192, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3-1 ë•… ì˜¤ë¥¸ìª½", "image/rell1_sword_right.bmp", 96, 192, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3 ë¶ˆë ›", "image/rell_bullet.bmp", 30, 32, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("º¸½º3-2", "image/rell2_appear.bmp", 576, 96, 5, 1, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º3-2 ´«²É", "image/rell_snowflake.bmp", 255, 255, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-2 ´«²É2", "image/rell_snowflake3.bmp", 510, 255, 2, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-2", "image/rell2_appear.bmp", 576, 96, 5, 1, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3-2 ëˆˆê½ƒ", "image/rell_snowflake.bmp", 255, 255, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-2 ëˆˆê½ƒ2", "image/rell_snowflake3.bmp", 510, 255, 2, 1, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addFrameImage("º¸½º3-3 ±âº»", "image/rell3_idle.bmp", 1800, 480, 5, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-3 ¶¥", "image/rell3_ground.bmp", 4320, 480, 12, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addFrameImage("º¸½º3-3 °ø°Ý", "image/rell3_attack.bmp", 2520, 480, 7, 2, true, RGB(255, 0, 255));
-		IMAGEMANAGER->addImage("º¸½º3-3 ¶¥ °ø°Ý", "image/rell3_sword.bmp", 288, 288, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-3 ê¸°ë³¸", "image/rell3_idle.bmp", 1800, 480, 5, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-3 ë•…", "image/rell3_ground.bmp", 4320, 480, 12, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addFrameImage("ë³´ìŠ¤3-3 ê³µê²©", "image/rell3_attack.bmp", 2520, 480, 7, 2, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3-3 ë•… ê³µê²©", "image/rell3_sword.bmp", 288, 288, true, RGB(255, 0, 255));
 
-		IMAGEMANAGER->addImage("º¸½º3 Á×À½", "image/rell_defeated.bmp", 96, 96, true, RGB(255, 0, 255));
+		IMAGEMANAGER->addImage("ë³´ìŠ¤3 ì£½ìŒ", "image/rell_defeated.bmp", 96, 96, true, RGB(255, 0, 255));
 	}
 
 	{
-		SOUNDMANAGER->addSound("ÀÏ¹Ý ¸Ê", "sound/stage1.ogg", true, true);
-		SOUNDMANAGER->addSound("º¸½º Àü ¸Ê", "sound/stage2.ogg", true, true);
-		SOUNDMANAGER->addSound("º¸½º1 ¸Ê", "sound/battle1.ogg", true, true);
-		SOUNDMANAGER->addSound("º¸½º2 ¸Ê", "sound/battle2.ogg", true, true);
-		SOUNDMANAGER->addSound("º¸½º3 ¸Ê", "sound/battle3.ogg", true, true);
+		SOUNDMANAGER->addSound("ì¼ë°˜ ë§µ", "sound/stage1.ogg", true, true);
+		SOUNDMANAGER->addSound("ë³´ìŠ¤ ì „ ë§µ", "sound/stage2.ogg", true, true);
+		SOUNDMANAGER->addSound("ë³´ìŠ¤1 ë§µ", "sound/battle1.ogg", true, true);
+		SOUNDMANAGER->addSound("ë³´ìŠ¤2 ë§µ", "sound/battle2.ogg", true, true);
+		SOUNDMANAGER->addSound("ë³´ìŠ¤3 ë§µ", "sound/battle3.ogg", true, true);
 
-		SOUNDMANAGER->addSound("Á¡ÇÁ", "sound/jump.wav", false, false);
-		SOUNDMANAGER->addSound("°ø°Ý", "sound/leaf.wav", false, false);
-		SOUNDMANAGER->addSound("Á×À½", "sound/death.wav", false, false);
-		SOUNDMANAGER->addSound("¸ÂÀ½", "sound/hurt.wav", false, false);
+		SOUNDMANAGER->addSound("ì í”„", "sound/jump.wav", false, false);
+		SOUNDMANAGER->addSound("ê³µê²©", "sound/leaf.wav", false, false);
+		SOUNDMANAGER->addSound("ì£½ìŒ", "sound/death.wav", false, false);
+		SOUNDMANAGER->addSound("ë§žìŒ", "sound/hurt.wav", false, false);
 		SOUNDMANAGER->addSound("pray", "sound/fairy.wav", false, false);
 
 		SOUNDMANAGER->addSound("monkey", "sound/monkey_atk.wav", false, false);
@@ -148,8 +148,8 @@ HRESULT playGround::init()
 	_pixel->setStageManagerMemoryAddressLink(_sm);
 	_pixel->setPlayerMemoryAddressLink(_player);
 
-	_background = IMAGEMANAGER->findImage("¹è°æ");
-	_backgroundPixel = IMAGEMANAGER->findImage("¹è°æ ÇÈ¼¿");
+	_background = IMAGEMANAGER->findImage("ë°°ê²½");
+	_backgroundPixel = IMAGEMANAGER->findImage("ë°°ê²½ í”½ì…€");
 
 	_shakeCount = 0;
 	_isShaking = _isGameOver = false;
@@ -164,19 +164,19 @@ HRESULT playGround::init()
 	EFFECTMANAGER->addEffect("right hit2", "image/momo_effect_hit_right2.bmp", 192, 32, 32, 32, 1, 1.0f, 3);
 	EFFECTMANAGER->addEffect("pray", "image/momo_effect_pray.bmp", 264, 66, 66, 66, 1, 0.5f, 2);
 
-	EFFECTMANAGER->addEffect("º¸½º2", "image/witchl_bullet2_effect.bmp", 1800, 300, 300, 300, 1, 0.8f, 2);
+	EFFECTMANAGER->addEffect("ë³´ìŠ¤2", "image/witchl_bullet2_effect.bmp", 1800, 300, 300, 300, 1, 0.8f, 2);
 	
-	EFFECTMANAGER->addEffect("º¸½º1 ±âµµ Àü", "image/rell1_pray_effect.bmp", 100, 21, 25, 21, 1, 0.2f, 4);
+	EFFECTMANAGER->addEffect("ë³´ìŠ¤1 ê¸°ë„ ì „", "image/rell1_pray_effect.bmp", 100, 21, 25, 21, 1, 0.2f, 4);
 
 	// ==========================================
-	// ## Ä«¸Þ¶ó ÁßÁ¡ ÃÊ±âÈ­ ##
+	// ## ì¹´ë©”ë¼ ì¤‘ì  ì´ˆê¸°í™” ##
 	// ==========================================
 	CAMERA->setPosition(_player->getX(), _player->getY());
 
 	return S_OK;
 }
 
-//¸Þ¸ð¸® ÇØÁ¦
+//ë©”ëª¨ë¦¬ í•´ì œ
 void playGround::release()
 {
 	_player->release();
@@ -189,7 +189,7 @@ void playGround::release()
 	SAFE_DELETE(_pixel);
 }
 
-//¿¬»ê
+//ì—°ì‚°
 void playGround::update()
 {
 	gameNode::update();
@@ -226,13 +226,13 @@ void playGround::update()
 	}
 
 	// ==========================================
-	// ## Ä«¸Þ¶ó ÁßÁ¡ ¾÷µ¥ÀÌÆ® ##
+	// ## ì¹´ë©”ë¼ ì¤‘ì  ì—…ë°ì´íŠ¸ ##
 	// ==========================================
 	if (CAMERA->getIsShaking()) CAMERA->cameraShake();
 	else CAMERA->setPosition(_player->getX(), _player->getY());	
 }
 
-//±×¸®±â Àü¿ë
+//ê·¸ë¦¬ê¸° ì „ìš©
 void playGround::render()
 {	
 	PatBlt(getMemDC(), 0, 0, getMemDCWidth(), getMemDCHeight(), WHITENESS);
@@ -245,13 +245,13 @@ void playGround::render()
 
 		for (int i = 0; i < _player->getHP(); i++)
 		{
-			IMAGEMANAGER->findImage("¸ñ¼û")->render(getMemDC(), CAMERA->getLeft() + 35 * (i + 1), 30);
+			IMAGEMANAGER->findImage("ëª©ìˆ¨")->render(getMemDC(), CAMERA->getLeft() + 35 * (i + 1), 30);
 		}
 	}
 	else
 	{
-		IMAGEMANAGER->findImage("±î¸¸ ¹è°æ")->render(getMemDC(), CAMERA->getLeft(), 0);
-		if (!SOUNDMANAGER->isPlaySound("Á×À½")) IMAGEMANAGER->findImage("°ÔÀÓ¿À¹ö")->render(getMemDC(), CAMERA->getLeft() + (WINSIZEX - IMAGEMANAGER->findImage("°ÔÀÓ¿À¹ö")->getWidth()) /2, 100);
+		IMAGEMANAGER->findImage("ê¹Œë§Œ ë°°ê²½")->render(getMemDC(), CAMERA->getLeft(), 0);
+		if (!SOUNDMANAGER->isPlaySound("ì£½ìŒ")) IMAGEMANAGER->findImage("ê²Œìž„ì˜¤ë²„")->render(getMemDC(), CAMERA->getLeft() + (WINSIZEX - IMAGEMANAGER->findImage("ê²Œìž„ì˜¤ë²„")->getWidth()) /2, 100);
 	}
 	_player->render();
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <string>
 #include "gameNode.h"
@@ -21,10 +21,10 @@ private:
 	MYRECT _rcPray;
 
 	/* 
-	stageManager¿¡¼­ ÇØ¾ß ÇÒ °Í
+	stageManagerì—ì„œ í•´ì•¼ í•  ê²ƒ
 
-	ÀÎµ¦½º 2¹øÂ° ½ºÅ×ÀÌÁö¿¡¼­ rect·Î Ãæµ¹ Ã¼Å©(ÇØ´ç ¹æÀ¸·Î ÀÌµ¿)
-	enemyManager ÂÊÀ¸·Î °¢ stage ¾È¿¡ ÀÖ´Â enemy vector ³Ñ°Ü¼­ enemy ¹Ş¾Æ¿À±â
+	ì¸ë±ìŠ¤ 2ë²ˆì§¸ ìŠ¤í…Œì´ì§€ì—ì„œ rectë¡œ ì¶©ëŒ ì²´í¬(í•´ë‹¹ ë°©ìœ¼ë¡œ ì´ë™)
+	enemyManager ìª½ìœ¼ë¡œ ê° stage ì•ˆì— ìˆëŠ” enemy vector ë„˜ê²¨ì„œ enemy ë°›ì•„ì˜¤ê¸°
 	*/
 	
 

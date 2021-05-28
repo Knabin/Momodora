@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "gameNode.h"
 #include <iostream>
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")

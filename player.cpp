@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "player.h"
 #include "stageManager.h"
 
@@ -156,7 +156,7 @@ void player::update()
 			{
 				if (_isOnGround)
 				{
-					SOUNDMANAGER->stop("ÀÌµ¿");
+					SOUNDMANAGER->stop("ì´ë™");
 					setAnimation(LEFT_IDLE);
 				}
 				else if (!(isFalling() || isJumping() || isAttacking()))
@@ -237,7 +237,7 @@ void player::update()
 
 			if ((isMovingLeft() || _state == LEFT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 			{
-				SOUNDMANAGER->play("Á¡ÇÁ", 0.4f);
+				SOUNDMANAGER->play("ì í”„", 0.4f);
 				_stateBefore = _state;
 				setAnimation(LEFT_JUMP);
 				_gravity = 0;
@@ -246,7 +246,7 @@ void player::update()
 			}
 			else if ((isMovingRight() || _state == RIGHT_IDLE) && !isJumping() && !isFalling() && _isOnGround)
 			{
-				SOUNDMANAGER->play("Á¡ÇÁ", 0.4f);
+				SOUNDMANAGER->play("ì í”„", 0.4f);
 				_stateBefore = _state;
 				setAnimation(RIGHT_JUMP);
 				_gravity = 0;
@@ -310,16 +310,16 @@ void player::update()
 		{
 			if (_chargeFull)
 			{
-				// Â÷Áö °ø°İ
+				// ì°¨ì§€ ê³µê²©
 				setAnimation(isLeft() ? LEFT_ATTACKC : RIGHT_ATTACKC);
-				cout << "Â÷Áö °ø°İ" << endl;
+				cout << "ì°¨ì§€ ê³µê²©" << endl;
 				fireChargeBullet();
 			}
 			else if (_charge)
 			{
-				// ¿ø°Å¸® °ø°İ
+				// ì›ê±°ë¦¬ ê³µê²©
 				setAnimation(isLeft() ? LEFT_ATTACKC : RIGHT_ATTACKC);
-				cout << "¿ø°Å¸® °ø°İ" << endl;
+				cout << "ì›ê±°ë¦¬ ê³µê²©" << endl;
 				fireBullet();
 			}
 
@@ -484,7 +484,7 @@ void player::render()
 			break;
 		case LEFT_DEAD: case RIGHT_DEAD:
 			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_dead);
-			if (!_ani_dead->isPlay()) SOUNDMANAGER->stop("Á×À½");
+			if (!_ani_dead->isPlay()) SOUNDMANAGER->stop("ì£½ìŒ");
 			break;
 		case LEFT_PRAY: case RIGHT_PRAY:
 			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_pray);
@@ -518,7 +518,7 @@ void player::render()
 			break;
 		case LEFT_DEAD: case RIGHT_DEAD:
 			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_dead);
-			if (!_ani_dead->isPlay()) SOUNDMANAGER->stop("Á×À½");
+			if (!_ani_dead->isPlay()) SOUNDMANAGER->stop("ì£½ìŒ");
 			break;
 		case LEFT_PRAY: case RIGHT_PRAY:
 			_image->aniRender(getMemDC(), _x - _width / 2, _y - _height / 2, _ani_pray);
@@ -580,7 +580,7 @@ void player::setAnimation(PLAYERSTATE state)
 			_image = IMAGEMANAGER->findImage("attack");
 			EFFECTMANAGER->play("left", _x, _y + 10);
 		}
-		SOUNDMANAGER->play("°ø°İ", 0.8f);
+		SOUNDMANAGER->play("ê³µê²©", 0.8f);
 		_ani_attack->start();
 		break;
 	case RIGHT_ATTACK:
@@ -595,7 +595,7 @@ void player::setAnimation(PLAYERSTATE state)
 			_image = IMAGEMANAGER->findImage("attack");
 			EFFECTMANAGER->play("right", _x, _y + 10);
 		}
-		SOUNDMANAGER->play("°ø°İ", 0.8f);
+		SOUNDMANAGER->play("ê³µê²©", 0.8f);
 		_ani_attack->start();
 		break;
 	case LEFT_ATTACKC:
@@ -633,14 +633,14 @@ void player::setAnimation(PLAYERSTATE state)
 		_ani_dead->start();
 		_image = IMAGEMANAGER->findImage("dead");
 		SOUNDMANAGER->stopAll("");
-		SOUNDMANAGER->play("Á×À½", 0.7f);
+		SOUNDMANAGER->play("ì£½ìŒ", 0.7f);
 		break;
 	case RIGHT_DEAD:
 		_ani_dead->setPlayFrame(16, 31, false, false);
 		_ani_dead->start();
 		_image = IMAGEMANAGER->findImage("dead");
 		SOUNDMANAGER->stopAll("");
-		SOUNDMANAGER->play("Á×À½", 0.7f);
+		SOUNDMANAGER->play("ì£½ìŒ", 0.7f);
 		break;
 	case LEFT_PRAY:
 		_ani_pray->setPlayFrame(0, 3, false, false);
@@ -666,7 +666,7 @@ void player::fireBullet()
 	tagBullet bullet;
 	ZeroMemory(&bullet, sizeof(bullet));
 
-	bullet.image = IMAGEMANAGER->findImage("ºÎÀû");
+	bullet.image = IMAGEMANAGER->findImage("ë¶€ì ");
 	bullet.speed = 7.0f;
 	bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 	bullet.y = bullet.fireY = _y + 25;
@@ -687,7 +687,7 @@ void player::fireChargeBullet()
 		tagBullet bullet;
 		ZeroMemory(&bullet, sizeof(bullet));
 
-		bullet.image = IMAGEMANAGER->findImage("ºÎÀû");
+		bullet.image = IMAGEMANAGER->findImage("ë¶€ì ");
 		bullet.speed = 7.0f;
 		bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 		bullet.y = bullet.fireY = _y + 25;

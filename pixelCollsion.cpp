@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "pixelCollsion.h"
 #include "player.h"
 #include "stageManager.h"
@@ -16,9 +16,9 @@ pixelCollsion::~pixelCollsion()
 HRESULT pixelCollsion::init()
 {
 
-	_str[0] = "¹è°æ ÇÈ¼¿";
-	_str[1] = "¹è°æ2 ÇÈ¼¿";
-	_str[2] = "¹è°æ3 ÇÈ¼¿";
+	_str[0] = "ë°°ê²½ í”½ì…€";
+	_str[1] = "ë°°ê²½2 í”½ì…€";
+	_str[2] = "ë°°ê²½3 í”½ì…€";
 
 	return S_OK;
 }

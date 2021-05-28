@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "sceneManager.h"
 #include "gameNode.h"
 
@@ -66,10 +66,10 @@ HRESULT sceneManager::changeScene(string sceneName)
 
 	if (SUCCEEDED(find->second->init()))
 	{
-		//¾î¶² ¾ÀÀÇ Á¤º¸°¡ µé¾îÀÖ±â ¶§¹®¿¡ ¸±¸®Áî ¸ÕÀú ÇØÁÖ°í
+		//ì–´ë–¤ ì”¬ì˜ ì •ë³´ê°€ ë“¤ì–´ìžˆê¸° ë•Œë¬¸ì— ë¦´ë¦¬ì¦ˆ ë¨¼ì € í•´ì£¼ê³ 
 		if (_currentScene) _currentScene->release();
 
-		//ÇöÀç ¾À¿¡ ¹Ù²Ù·Á´Â ¾ÀÀ» ´ã´Â´Ù
+		//í˜„ìž¬ ì”¬ì— ë°”ê¾¸ë ¤ëŠ” ì”¬ì„ ë‹´ëŠ”ë‹¤
 		_currentScene = find->second;
 
 		return S_OK;

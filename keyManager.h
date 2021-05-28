@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <bitset>
 
 #define KEYMAX 256
@@ -25,13 +25,13 @@ private:
 public:
 	HRESULT init();
 	void release();
-	//Å°¸¦ ÇÑ ¹ø ´©¸£¸é
+	//í‚¤ë¥¼ í•œ ë²ˆ ëˆ„ë¥´ë©´
 	bool isOnceKeyDown(int key);
-	//Å°¸¦ ´­·¶´Ù°¡ ¶¼¸é
+	//í‚¤ë¥¼ ëˆŒë €ë‹¤ê°€ ë–¼ë©´
 	bool isOnceKeyUp(int key);
-	//Å°¸¦ °è¼Ó ´©¸£°í ÀÖÀ¸¸é
+	//í‚¤ë¥¼ ê³„ì† ëˆ„ë¥´ê³  ìˆìœ¼ë©´
 	bool isStayKeyDown(int key);
-	//Å°°¡ Åä±ÛµÇ¸é(?) Ä¸½ºô »ı°¢ÇØ¶ó
+	//í‚¤ê°€ í† ê¸€ë˜ë©´(?) ìº¡ìŠ¤ë¡¹ ìƒê°í•´ë¼
 	bool isToggleKey(int key);
 
 	bitset<KEYMAX> getKeyUp() { return _keyUp; }

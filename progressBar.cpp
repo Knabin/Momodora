@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "progressBar.h"
 
 
@@ -21,7 +21,7 @@ HRESULT progressBar::init(float x, float y, int width, int height)
 	_progressBarTop = IMAGEMANAGER->addImage("frontBar", "image/boss_health.bmp", width, height, true, RGB(255, 0, 255));
 	_progressBarBottom = IMAGEMANAGER->addImage("backBar", "image/boss_health_back.bmp", width, height, false, RGB(255, 0, 255));
 
-	//µÚ¿¡ ±ò¸®´Â °ÔÀÌÁöÀÇ °¡·ÎÅ©±â¸¦ ±âÁØÀ¸·Î »ï´Â´Ù
+	//ë’¤ì— ê¹”ë¦¬ëŠ” ê²Œì´ì§€ì˜ ê°€ë¡œí¬ê¸°ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì‚¼ëŠ”ë‹¤
 	_width = _progressBarBottom->getWidth();
 
 	return S_OK;
@@ -56,6 +56,6 @@ void progressBar::render()
 
 void progressBar::setGauge(float currentGauge, float maxGauge)
 {
-	//¹éºÐÀ² ±¸ÇÏ´Â °ø½ÄÀÌ¿¡¿©!
+	//ë°±ë¶„ìœ¨ êµ¬í•˜ëŠ” ê³µì‹ì´ì—ì—¬!
 	_width = (currentGauge / maxGauge) * _progressBarBottom->getWidth();
 }

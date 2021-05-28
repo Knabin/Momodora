@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace TTYONE_UTIL
 {
@@ -20,9 +20,9 @@ namespace TTYONE_UTIL
 
 	typedef struct tagCircle
 	{
-		float x;	//ÁßÁ¡ x
-		float y;	//ÁßÁ¡ y
-		float r;	//¹İÁö¸§
+		float x;	//ì¤‘ì  x
+		float y;	//ì¤‘ì  y
+		float r;	//ë°˜ì§€ë¦„
 
 		tagCircle() : x(0.0f), y(0.0f), r(0.0){}
 		tagCircle(float _x, float _y, float _r) : x(_x), y(_y), r(_r){}
@@ -121,27 +121,27 @@ namespace TTYONE_UTIL
 	}MYRECT, *LPMYRECT;
 
 
-	//POINT°¡ »ç°¢Çü ¾È¿¡ ÀÖ³ª
+	//POINTê°€ ì‚¬ê°í˜• ì•ˆì— ìˆë‚˜
 	bool checkPointInRect(const RECT& rc, const POINT& pt);
 	bool checkPointInRect(const RECT& rc, int x, int y);
 	bool checkPointInRect(const MYRECT& rc, float x, float y);
 	
 
-	//POINT°¡ ¿ø ¾È¿¡ ÀÖ³ª
+	//POINTê°€ ì› ì•ˆì— ìˆë‚˜
 	bool checkPointInCircle(float cX, float cY, float cR, const POINT& pt);
 	bool checkPointInCircle(float cX, float cY, float cR, float x, float y);
 	bool checkPointInCircle(const MYCIRCLE& rc, float x, float y);
 	bool checkPointInCircle(const MYCIRCLE& rc, const MYPOINT& pt);
 
 
-	//»ç°¢ÇüÀÌ »ç°¢ÇüÀÌ¶û Ãæµ¹Çß´©?
+	//ì‚¬ê°í˜•ì´ ì‚¬ê°í˜•ì´ë‘ ì¶©ëŒí–ˆëˆ„?
 	bool isCollision(const MYRECT& rc1, const MYRECT& rc2);
 	bool isCollision(const RECT& rc1, const RECT& rc2);
 
-	//¿ø°ú ¿øÀÌ Ãæµ¹Çß´©?
+	//ì›ê³¼ ì›ì´ ì¶©ëŒí–ˆëˆ„?
 	bool isCollision(const MYCIRCLE& cir1, const MYCIRCLE& cir2);
 
-	//¿ø°ú »ç°¢ÇüÀÌ Ãæµ¹Çß´©?
+	//ì›ê³¼ ì‚¬ê°í˜•ì´ ì¶©ëŒí–ˆëˆ„?
 	bool isCollision(const MYCIRCLE& cir, const RECT& rc);
 	bool isCollision(const MYCIRCLE& cir, const MYRECT& rc);
 

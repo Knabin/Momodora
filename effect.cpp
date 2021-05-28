@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "effect.h"
 #include "animation.h"
 
@@ -23,7 +23,7 @@ HRESULT effect::init(image * effectImage, int frameW, int frameH, int fps, float
 	_effectImage = effectImage;
 	_elapsedTime = elapsedTime;
 
-	//ÀÌÆåÆ® ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾øÀ¸¸é »ý¼ºÇØ¶ó
+	//ì´íŽ™íŠ¸ ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ìœ¼ë©´ ìƒì„±í•´ë¼
 	if (!_effectAnimation) _effectAnimation = new animation;
 
 	_effectAnimation->init(_effectImage->getWidth(), _effectImage->getHeight(),
@@ -43,7 +43,7 @@ void effect::release()
 
 void effect::update()
 {
-	//ÀÌÆåÆ® ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà º¯¼ö°¡ false¸é ½ÇÇàÇÏÁö ¸¶¶ó
+	//ì´íŽ™íŠ¸ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰ ë³€ìˆ˜ê°€ falseë©´ ì‹¤í–‰í•˜ì§€ ë§ˆë¼
 	if (!_isRunning) return;
 
 	_effectAnimation->frameUpdate(_elapsedTime);
@@ -60,7 +60,7 @@ void effect::render()
 
 void effect::startEffect(int x, int y)
 {
-	//ÀÌÆåÆ® ÀÌ¹ÌÁö ¶Ç´Â ÀÌÆåÆ® ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾øÀ¸¸é ½ÇÇàÇÏÁö¸¶¶ó
+	//ì´íŽ™íŠ¸ ì´ë¯¸ì§€ ë˜ëŠ” ì´íŽ™íŠ¸ ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ìœ¼ë©´ ì‹¤í–‰í•˜ì§€ë§ˆë¼
 	if (!_effectImage || !_effectAnimation) return;
 
 	_x = x - (_effectAnimation->getFrameWidth() / 2);

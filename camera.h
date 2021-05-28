@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 class camera
 {
@@ -21,8 +21,8 @@ private:
 		int backWidth;
 		int backHeight;
 
-		int width;	//єёї©Бъ їµїЄ °Ў·О Е©±в
-		int height;	//єёї©Бъ їµїЄ јј·О Е©±в
+		int width;	//ліґм—¬м§€ мЃм—­ к°ЂлЎњ нЃ¬кё°
+		int height;	//ліґм—¬м§€ мЃм—­ м„ёлЎњ нЃ¬кё°
 	} CAMERA_INFO, *LPCAMERA_INFO;
 
 private:

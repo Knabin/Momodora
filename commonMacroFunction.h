@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 //=============================
 // ## 20.05.27 ## Macro~ ##
 //=============================
 
-//			¼±±ß±â »Ñ·ÁÁÙDC, ¼±½ÃÀÛÁÂÇ¥X ¼±½ÃÀÛÁÂÇ¥Y ¼±ÀÇ ³¡ÁÂÇ¥X, ¼±ÀÇ ³¡ÁÂÇ¥Y
+//			ì„ ê¸‹ê¸° ë¿Œë ¤ì¤„DC, ì„ ì‹œì‘ì¢Œí‘œX ì„ ì‹œì‘ì¢Œí‘œY ì„ ì˜ ëì¢Œí‘œX, ì„ ì˜ ëì¢Œí‘œY
 inline void LineMake(HDC hdc, int startX, int startY, int endX, int endY)
 {
 	MoveToEx(hdc, startX, startY, NULL);
 	LineTo(hdc, endX, endY);
 }
-//¸ÅÅ©·Î Æã¼Ç Çì´õ ÆÄÀÏÀÔ´Ï´Ù ¿ä·ÎºĞ!!!
+//ë§¤í¬ë¡œ í‘ì…˜ í—¤ë” íŒŒì¼ì…ë‹ˆë‹¤ ìš”ë¡œë¶„!!!
 inline POINT PointMake(int x, int y)
 {
 	POINT pt = { x,y };
@@ -17,8 +17,8 @@ inline POINT PointMake(int x, int y)
 	return pt;
 }
 
-//================= ·ºÆ® °ü·Ã ÇÔ¼ö ===================
-//left, top ±âÁØÀ¸·Î ·ºÆ® Åº»ı(left, top, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+//================= ë ‰íŠ¸ ê´€ë ¨ í•¨ìˆ˜ ===================
+//left, top ê¸°ì¤€ìœ¼ë¡œ ë ‰íŠ¸ íƒ„ìƒ(left, top, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline RECT RectMake(int x, int y, int width, int height)
 {
 	RECT rc = { x, y, x + width, y + height };
@@ -26,7 +26,7 @@ inline RECT RectMake(int x, int y, int width, int height)
 	return rc;
 }
 
-// ÁßÁ¡ X,Y¸¦ ±âÁØÀ¸·Î ·ºÆ®Åº»ı(ÁßÁ¡X, ÁßÁ¡Y, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+// ì¤‘ì  X,Yë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë ‰íŠ¸íƒ„ìƒ(ì¤‘ì X, ì¤‘ì Y, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline RECT RectMakeCenter(int x, int y, int width, int height)
 {
 	RECT rc = { x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2) };
@@ -36,7 +36,7 @@ inline RECT RectMakeCenter(int x, int y, int width, int height)
 
 
 
-//================= »ç°¢Çü °ü·Ã ÇÔ¼ö ==================
+//================= ì‚¬ê°í˜• ê´€ë ¨ í•¨ìˆ˜ ==================
 
 inline void Rectangle(HDC hdc, RECT& rc)
 {
@@ -45,32 +45,32 @@ inline void Rectangle(HDC hdc, RECT& rc)
 
 
 
-//left, top ±âÁØÀ¸·Î »ç°¢Çü±×¸°´Ù(»Ñ·ÁÁÙDC, ±âÁØÁ¡ X, ±âÁØÁ¡ Y, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+//left, top ê¸°ì¤€ìœ¼ë¡œ ì‚¬ê°í˜•ê·¸ë¦°ë‹¤(ë¿Œë ¤ì¤„DC, ê¸°ì¤€ì  X, ê¸°ì¤€ì  Y, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline void RectangleMake(HDC hdc, int x, int y, int width, int height)
 {
 	Rectangle(hdc, x, y, x + width, y + height);
 }
 
-// ÁßÁ¡ X,Y¸¦ ±âÁØÀ¸·Î »ç°¢ÇüÅº»ı(»Ñ·ÁÁÙDC, ÁßÁ¡X, ÁßÁ¡Y, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+// ì¤‘ì  X,Yë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì‚¬ê°í˜•íƒ„ìƒ(ë¿Œë ¤ì¤„DC, ì¤‘ì X, ì¤‘ì Y, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline void RectangleMakeCenter(HDC hdc, int x, int y, int width, int height)
 {
 	Rectangle(hdc,	 x - (width / 2), y - (height / 2), 
 					x + (width / 2), y + (height /2));
 }
 
-//================== ¿ø °ü·Ã ÇÔ¼ö =====================
+//================== ì› ê´€ë ¨ í•¨ìˆ˜ =====================
 inline void Ellipse(HDC hdc, RECT& rc)
 {
 	Ellipse(hdc, rc.left, rc.top, rc.right, rc.bottom);
 }
 
-//left, top ±âÁØÀ¸·Î ¿ø ±×¸°´Ù(»Ñ·ÁÁÙDC, ±âÁØÁ¡ X, ±âÁØÁ¡ Y, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+//left, top ê¸°ì¤€ìœ¼ë¡œ ì› ê·¸ë¦°ë‹¤(ë¿Œë ¤ì¤„DC, ê¸°ì¤€ì  X, ê¸°ì¤€ì  Y, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline void EllipseMake(HDC hdc, int x, int y, int width, int height)
 {
 	Ellipse(hdc, x, y, x + width, y + height);
 }
 
-// ÁßÁ¡ X,Y¸¦ ±âÁØÀ¸·Î ¿ø Åº»ı(»Ñ·ÁÁÙDC, ÁßÁ¡X, ÁßÁ¡Y, °¡·ÎÅ©±â, ¼¼·ÎÅ©±â)
+// ì¤‘ì  X,Yë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì› íƒ„ìƒ(ë¿Œë ¤ì¤„DC, ì¤‘ì X, ì¤‘ì Y, ê°€ë¡œí¬ê¸°, ì„¸ë¡œí¬ê¸°)
 inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
 {
 	Ellipse(hdc, x - (width / 2), y - (height / 2),

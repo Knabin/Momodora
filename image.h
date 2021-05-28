@@ -1,35 +1,35 @@
-#pragma once
+ï»¿#pragma once
 #include "animation.h"
 
 class image
 {
 public:
-	//ÀÌ¹ÌÁö ºÒ·¯¿Ã Å¸ÀÔ
+	//ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¬ íƒ€ìž…
 	enum IMAGE_LOAD_KIND
 	{
-		LOAD_RESOURCE,		//¸®¼Ò½º·ÎºÎÅÍ
-		LOAD_FILE,			//ÆÄÀÏ·ÎºÎÅÍ
-		LOAD_EMPTY,			//ºó ºñÆ®¸Ê
+		LOAD_RESOURCE,		//ë¦¬ì†ŒìŠ¤ë¡œë¶€í„°
+		LOAD_FILE,			//íŒŒì¼ë¡œë¶€í„°
+		LOAD_EMPTY,			//ë¹ˆ ë¹„íŠ¸ë§µ
 		LOAD_END
 	};
 
 	typedef struct tagImageInfo
 	{
-		DWORD resID;		//¸®¼Ò½º ºÒ·¯¿Ã¶§ »ç¿ëÇÒ ID°ª
+		DWORD resID;		//ë¦¬ì†ŒìŠ¤ ë¶ˆëŸ¬ì˜¬ë•Œ ì‚¬ìš©í•  IDê°’
 		HDC hMemDC;
 		HBITMAP hBit;
 		HBITMAP hOBit;
-		float x;			//ÀÌ¹ÌÁö »Ñ·ÁÁú °÷ÀÇ x(left)
-		float y;			//ÀÌ¹ÌÁö »Ñ·ÁÁú °÷ÀÇ y(top)
+		float x;			//ì´ë¯¸ì§€ ë¿Œë ¤ì§ˆ ê³³ì˜ x(left)
+		float y;			//ì´ë¯¸ì§€ ë¿Œë ¤ì§ˆ ê³³ì˜ y(top)
 		int width;
 		int height;
-		int currentFrameX;	//ÇöÀç ÇÁ·¹ÀÓ °¡·Î¹øÈ£ (X¿­)
-		int currentFrameY;	//ÇöÀç ÇÁ·¹ÀÓ ¼¼·Î¹øÈ£ (Y¿­)
-		int maxFrameX;		//ÃÖ´ë ÇÁ·¹ÀÓ ¹øÈ£ °¡·Î
-		int maxFrameY;		//ÃÖ´ë ÇÁ·¹ÀÓ ¹øÈ£ ¼¼·Î
-		int frameWidth;		//ÇÑ ÇÁ·¹ÀÓÀÇ °¡·ÎÅ©±â
-		int frameHeight;	//ÇÑ ÇÁ·¹ÀÓÀÇ ¼¼·ÎÅ©±â
-		BYTE loadType;	//ÀÌ¹ÌÁö ºÒ·¯¿Ã Å¸ÀÔ
+		int currentFrameX;	//í˜„ìž¬ í”„ë ˆìž„ ê°€ë¡œë²ˆí˜¸ (Xì—´)
+		int currentFrameY;	//í˜„ìž¬ í”„ë ˆìž„ ì„¸ë¡œë²ˆí˜¸ (Yì—´)
+		int maxFrameX;		//ìµœëŒ€ í”„ë ˆìž„ ë²ˆí˜¸ ê°€ë¡œ
+		int maxFrameY;		//ìµœëŒ€ í”„ë ˆìž„ ë²ˆí˜¸ ì„¸ë¡œ
+		int frameWidth;		//í•œ í”„ë ˆìž„ì˜ ê°€ë¡œí¬ê¸°
+		int frameHeight;	//í•œ í”„ë ˆìž„ì˜ ì„¸ë¡œí¬ê¸°
+		BYTE loadType;	//ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¬ íƒ€ìž…
 
 		tagImageInfo()
 		{
@@ -54,12 +54,12 @@ public:
 
 private:
 	LPIMAGE_INFO	_imageInfo;
-	CHAR*			_fileName;	//ÆÄÀÏ ÀÌ¸§(bmp)
-	BOOL			_trans;		//Æ¯Á¤ÇÈ¼¿ Á¦°ÅÇÒ²¨´Ï? À¯¹«
-	COLORREF		_transColor;//Á¦°ÅÇÒ Æ¯Á¤ ÇÈ¼¿°ª Á¤º¸
+	CHAR*			_fileName;	//íŒŒì¼ ì´ë¦„(bmp)
+	BOOL			_trans;		//íŠ¹ì •í”½ì…€ ì œê±°í• êº¼ë‹ˆ? ìœ ë¬´
+	COLORREF		_transColor;//ì œê±°í•  íŠ¹ì • í”½ì…€ê°’ ì •ë³´
 
-	BLENDFUNCTION	_blendFunc;	//¾ËÆÄºí·»µå °ü·Ã ÇÔ¼ö
-	LPIMAGE_INFO	_blendImage;//¾ËÆÄºí·»µå Ã³¸®ÇÒ ÀÌ¹ÌÁöÁ¤º¸
+	BLENDFUNCTION	_blendFunc;	//ì•ŒíŒŒë¸”ë Œë“œ ê´€ë ¨ í•¨ìˆ˜
+	LPIMAGE_INFO	_blendImage;//ì•ŒíŒŒë¸”ë Œë“œ ì²˜ë¦¬í•  ì´ë¯¸ì§€ì •ë³´
 
 public:
 	image();
@@ -69,7 +69,7 @@ public:
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = FALSE);
 	
-	//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö ¿ë ÃÊ±âÈ­ ÇÔ¼ö
+	//í”„ë ˆìž„ ì´ë¯¸ì§€ ìš© ì´ˆê¸°í™” í•¨ìˆ˜
 	HRESULT init(const char* fileName, float x, float y,
 		int width, int height,
 		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = FALSE);
@@ -81,41 +81,41 @@ public:
 
 	void release();
 	
-	//È¤½Ã ´Ù¸¥ ÇÈ¼¿°ªÀ¸·Î ³¯·Á¾ß ÇÒ¶§ ³¯·ÁÁÙ ÇÈ¼¿°ª º¯°æÇÒ ÇÔ¼ö
+	//í˜¹ì‹œ ë‹¤ë¥¸ í”½ì…€ê°’ìœ¼ë¡œ ë‚ ë ¤ì•¼ í• ë•Œ ë‚ ë ¤ì¤„ í”½ì…€ê°’ ë³€ê²½í•  í•¨ìˆ˜
 	void setTransColor(BOOL trans, COLORREF transColor);
 
 
-	//·»´õÇÔ¼ö(»Ñ·ÁÁúDC)
+	//ë Œë”í•¨ìˆ˜(ë¿Œë ¤ì§ˆDC)
 	void render(HDC hdc);
 
-	//·»´õÇÔ¼ö(»Ñ·ÁÁúDC, left, top)
+	//ë Œë”í•¨ìˆ˜(ë¿Œë ¤ì§ˆDC, left, top)
 	void render(HDC hdc, int destX, int destY);
 
-	//·»´õÇÔ¼ö(»Ñ·ÁÁúDC, ±×·ÁÁú ÁÂÇ¥X(left), ±×·ÁÁú ÁÂÇ¥Y(top), °¡Á®¿ÃÁÂÇ¥X, °¡Á®¿ÃÁÂÇ¥Y, °¡Á®¿Ã °¡·ÎÅ©±â, °¡Á®¿Ã ¼¼·ÎÅ©±â)
+	//ë Œë”í•¨ìˆ˜(ë¿Œë ¤ì§ˆDC, ê·¸ë ¤ì§ˆ ì¢Œí‘œX(left), ê·¸ë ¤ì§ˆ ì¢Œí‘œY(top), ê°€ì ¸ì˜¬ì¢Œí‘œX, ê°€ì ¸ì˜¬ì¢Œí‘œY, ê°€ì ¸ì˜¬ ê°€ë¡œí¬ê¸°, ê°€ì ¸ì˜¬ ì„¸ë¡œí¬ê¸°)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	
-	//ÀÌ¹ÌÁö ÇÁ·¹ÀÓ ·»´õ(»Ñ·ÁÁúDC, ±×·ÁÁú ÁÂÇ¥(left), ±×·ÁÁú ÁÂÇ¥(top))
+	//ì´ë¯¸ì§€ í”„ë ˆìž„ ë Œë”(ë¿Œë ¤ì§ˆDC, ê·¸ë ¤ì§ˆ ì¢Œí‘œ(left), ê·¸ë ¤ì§ˆ ì¢Œí‘œ(top))
 	void frameRender(HDC hdc, int destX, int destY);
 
-	//ÀÌ¹ÌÁö ÇÁ·¹ÀÓ ·»´õ(»Ñ·ÁÁúDC, ±×·ÁÁú ÁÂÇ¥(left), ±×·ÁÁú ÁÂÇ¥(top), ÇöÀç ÇÁ·¹ÀÓ °¡·Î¹øÈ£, ÇöÀç ÇÁ·¹ÀÓ ¼¼·Î¹øÈ£)
+	//ì´ë¯¸ì§€ í”„ë ˆìž„ ë Œë”(ë¿Œë ¤ì§ˆDC, ê·¸ë ¤ì§ˆ ì¢Œí‘œ(left), ê·¸ë ¤ì§ˆ ì¢Œí‘œ(top), í˜„ìž¬ í”„ë ˆìž„ ê°€ë¡œë²ˆí˜¸, í˜„ìž¬ í”„ë ˆìž„ ì„¸ë¡œë²ˆí˜¸)
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
-	//¾ËÆÄ·»´õ (»Ñ·ÁÁúDC, ¾ËÆÄ°ª(0 ~ 255))
+	//ì•ŒíŒŒë Œë” (ë¿Œë ¤ì§ˆDC, ì•ŒíŒŒê°’(0 ~ 255))
 	void alphaRender(HDC hdc, BYTE alpha);
-	//¾ËÆÄ·»´õ (»Ñ·ÁÁúDC, »Ñ¸±À§Ä¡X, »Ñ¸±À§Ä¡Y, ¾ËÆÄ°ª(0 ~ 255))
+	//ì•ŒíŒŒë Œë” (ë¿Œë ¤ì§ˆDC, ë¿Œë¦´ìœ„ì¹˜X, ë¿Œë¦´ìœ„ì¹˜Y, ì•ŒíŒŒê°’(0 ~ 255))
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
-	//¾Ö´Ï¸ÞÀÌ¼Ç ·»´õ¸µ¿ë
+	//ì• ë‹ˆë©”ì´ì…˜ ë Œë”ë§ìš©
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
 	void aniRedRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
 	void aniAlphaRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
 
-	//ÇÁ·¹ÀÓ ¾ËÆÄ·»´õ(»Ñ·ÁÁúDC, ±×·ÁÁú ÁÂÇ¥(left), ±×·ÁÁú ÁÂÇ¥(top), ¾ËÆÄ°ª(0 ~ 255))
+	//í”„ë ˆìž„ ì•ŒíŒŒë Œë”(ë¿Œë ¤ì§ˆDC, ê·¸ë ¤ì§ˆ ì¢Œí‘œ(left), ê·¸ë ¤ì§ˆ ì¢Œí‘œ(top), ì•ŒíŒŒê°’(0 ~ 255))
 	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);
-	//ÇÁ·¹ÀÓ ¾ËÆÄ·»´õ(»Ñ·ÁÁúDC, ±×·ÁÁú ÁÂÇ¥(left), ±×·ÁÁú ÁÂÇ¥(top), ÇöÀç ÇÁ·¹ÀÓ °¡·Î¹øÈ£, ÇöÀç ÇÁ·¹ÀÓ ¼¼·Î¹øÈ£, ¾ËÆÄ°ª(0 ~ 255))
+	//í”„ë ˆìž„ ì•ŒíŒŒë Œë”(ë¿Œë ¤ì§ˆDC, ê·¸ë ¤ì§ˆ ì¢Œí‘œ(left), ê·¸ë ¤ì§ˆ ì¢Œí‘œ(top), í˜„ìž¬ í”„ë ˆìž„ ê°€ë¡œë²ˆí˜¸, í˜„ìž¬ í”„ë ˆìž„ ì„¸ë¡œë²ˆí˜¸, ì•ŒíŒŒê°’(0 ~ 255))
 	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
 	void alphaRedRender(HDC hdc, BYTE alpha);
@@ -124,7 +124,7 @@ public:
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 
 	//=======================================
-	// ## ÀÌ¹ÌÁö °ü·Ã Á¢±ÙÀÚ, ¼³Á¤ÀÚ ##
+	// ## ì´ë¯¸ì§€ ê´€ë ¨ ì ‘ê·¼ìž, ì„¤ì •ìž ##
 	//=======================================
 
 	inline void setX(float x) { _imageInfo->x = x; }

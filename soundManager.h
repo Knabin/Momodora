@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <map>
 
 #include "inc/fmod.hpp"
@@ -53,7 +53,7 @@ public:
 	void pause(string keyName);
 	void resume(string keyName);
 
-	//»ç¿îµå ÀÌº¥Æ® Ã³¸®¿ë (È£¿Á½Ã ¸ô¶ó¼­ hoxy...)
+	//ì‚¬ìš´ë“œ ì´ë²¤íŠ¸ ì²˜ë¦¬ìš© (í˜¸ì˜¥ì‹œ ëª°ë¼ì„œ hoxy...)
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
 };

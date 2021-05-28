@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "commonStage.h"
 #include "player.h"
 #include "enemy.h"
@@ -12,18 +12,18 @@ commonStage::commonStage(int stageNum, const char * stageName)
 	switch (stageNum)
 	{
 	case STAGE1:
-		_image = IMAGEMANAGER->findImage("¹è°æ");
-		_pixel = IMAGEMANAGER->findImage("¹è°æ ÇÈ¼¿");
+		_image = IMAGEMANAGER->findImage("ë°°ê²½");
+		_pixel = IMAGEMANAGER->findImage("ë°°ê²½ í”½ì…€");
 		_backImg = true;
 		break;
 	case STAGE2:
-		_image = IMAGEMANAGER->findImage("¹è°æ2");
-		_pixel = IMAGEMANAGER->findImage("¹è°æ2 ÇÈ¼¿");
+		_image = IMAGEMANAGER->findImage("ë°°ê²½2");
+		_pixel = IMAGEMANAGER->findImage("ë°°ê²½2 í”½ì…€");
 		_backImg = true;
 		break;
 	case STAGE3:
-		_image = IMAGEMANAGER->findImage("¹è°æ3");
-		_pixel = IMAGEMANAGER->findImage("¹è°æ3 ÇÈ¼¿");
+		_image = IMAGEMANAGER->findImage("ë°°ê²½3");
+		_pixel = IMAGEMANAGER->findImage("ë°°ê²½3 í”½ì…€");
 		_backImg = false;
 		break;
 	}
@@ -51,16 +51,16 @@ HRESULT commonStage::init()
 	{
 	case STAGE1: case STAGE2:
 		CAMERA->setBackWidth(1920);
-		if (!SOUNDMANAGER->isPlaySound("ÀÏ¹İ ¸Ê"))
+		if (!SOUNDMANAGER->isPlaySound("ì¼ë°˜ ë§µ"))
 		{
-			SOUNDMANAGER->stopAll("ÀÏ¹İ ¸Ê");
-			SOUNDMANAGER->playBGM("ÀÏ¹İ ¸Ê", BGMVOLUME);
+			SOUNDMANAGER->stopAll("ì¼ë°˜ ë§µ");
+			SOUNDMANAGER->playBGM("ì¼ë°˜ ë§µ", BGMVOLUME);
 		}
 		break;
 	case STAGE3:
 		CAMERA->setBackWidth(960);
-		SOUNDMANAGER->stopAll("º¸½º Àü ¸Ê");
-		if (!SOUNDMANAGER->isPlaySound("º¸½º Àü ¸Ê")) SOUNDMANAGER->playBGM("º¸½º Àü ¸Ê", BGMVOLUME);
+		SOUNDMANAGER->stopAll("ë³´ìŠ¤ ì „ ë§µ");
+		if (!SOUNDMANAGER->isPlaySound("ë³´ìŠ¤ ì „ ë§µ")) SOUNDMANAGER->playBGM("ë³´ìŠ¤ ì „ ë§µ", BGMVOLUME);
 		break;
 	}
 
@@ -115,10 +115,10 @@ void commonStage::render()
 {
 	if (_backImg)
 	{
-		IMAGEMANAGER->findImage("¹é4")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX4, 0);
-		IMAGEMANAGER->findImage("¹é3")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX3, 0);
-		IMAGEMANAGER->findImage("¹é2")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX2, 0);
-		IMAGEMANAGER->findImage("¹é1")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX1, 0);
+		IMAGEMANAGER->findImage("ë°±4")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX4, 0);
+		IMAGEMANAGER->findImage("ë°±3")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX3, 0);
+		IMAGEMANAGER->findImage("ë°±2")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX2, 0);
+		IMAGEMANAGER->findImage("ë°±1")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX1, 0);
 	}
 
 	_image->render(getMemDC());

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "image.h"
 #include <map>
 
@@ -33,7 +33,7 @@ public:
 	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
 	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
 
-	//ÀÌ¹ÌÁö Ã£´Â ÇÔ¼ö (Áß¿ä)
+	//ì´ë¯¸ì§€ ì°¾ëŠ” í•¨ìˆ˜ (ì¤‘ìš”)
 	image* findImage(string strKey);
 
 	BOOL deleteImage(string strKey);
@@ -44,7 +44,7 @@ public:
 	void render(string strKey, HDC hdc, int destX, int destY);
 	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 
-	//frameRender´Â ¿©·¯ºĞÀÌ ¸¸µé¾îº¸¼¼¿ä~
+	//frameRenderëŠ” ì—¬ëŸ¬ë¶„ì´ ë§Œë“¤ì–´ë³´ì„¸ìš”~
 
 };
 
