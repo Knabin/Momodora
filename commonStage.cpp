@@ -115,10 +115,15 @@ void commonStage::render()
 {
 	if (_backImg)
 	{
-		IMAGEMANAGER->findImage("백4")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX4, 0);
-		IMAGEMANAGER->findImage("백3")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX3, 0);
-		IMAGEMANAGER->findImage("백2")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX2, 0);
-		IMAGEMANAGER->findImage("백1")->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX * 2, WINSIZEY), _loopX1, 0);
+		auto four = RectMake(0, 0, WINSIZEX * 2, WINSIZEY);
+		auto three = RectMake(0, 0, WINSIZEX * 2, WINSIZEY);
+		auto two = RectMake(0, 0, WINSIZEX * 2, WINSIZEY);
+		auto one = RectMake(0, 0, WINSIZEX * 2, WINSIZEY);
+
+		IMAGEMANAGER->findImage("백4")->loopRender(getMemDC(), &four, _loopX4, 0);
+		IMAGEMANAGER->findImage("백3")->loopRender(getMemDC(), &three, _loopX3, 0);
+		IMAGEMANAGER->findImage("백2")->loopRender(getMemDC(), &two, _loopX2, 0);
+		IMAGEMANAGER->findImage("백1")->loopRender(getMemDC(), &one, _loopX1, 0);
 	}
 
 	_image->render(getMemDC());
