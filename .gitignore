@@ -72,3 +72,7 @@ x64/Debug/windowsAPI.tlog/rc.read.1.tlog
 x64/Debug/windowsAPI.tlog/rc.write.1.tlog
 x64/Debug/windowsAPI.tlog/windowsAPI.lastbuildstate
 *.db
+
+x64/Debug/windowsAPI.tlog/
+*.tlog
+.vs/
