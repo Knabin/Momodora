@@ -16,17 +16,17 @@ using namespace std;
 
 #include "commonMacroFunction.h"
 #include "randomFunction.h"
-#include "keyManager.h"
+#include "manager/keyManager.h"
 #include "utils.h"
-#include "collision.h"
-#include "imageManager.h"
-#include "timeManager.h"
-#include "effectManager.h"
-#include "soundManager.h"
-#include "sceneManager.h"
-#include "txtData.h"
-#include "camera.h"
-#include "stageEnemyManager.h"
+#include "collision/collision.h"
+#include "manager/imageManager.h"
+#include "manager/timeManager.h"
+#include "manager/effectManager.h"
+#include "manager/soundManager.h"
+#include "manager/sceneManager.h"
+#include "txtData/txtData.h"
+#include "camera/camera.h"
+#include "manager/stageEnemyManager.h"
 
 using namespace TTYONE_UTIL;
 

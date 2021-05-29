@@ -24,6 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>windowsAPI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Momodora</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -104,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./;./contents;./data;./gameBase;./include;./manager;./util;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,68 +150,68 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="animation.h" />
-    <ClInclude Include="bossStage.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="collision.h" />
-    <ClInclude Include="commonMacroFunction.h" />
-    <ClInclude Include="commonStage.h" />
-    <ClInclude Include="effect.h" />
-    <ClInclude Include="effectManager.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="gameNode.h" />
-    <ClInclude Include="image.h" />
-    <ClInclude Include="imageManager.h" />
-    <ClInclude Include="keyManager.h" />
-    <ClInclude Include="pixelCollsion.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="playGround.h" />
-    <ClInclude Include="progressBar.h" />
-    <ClInclude Include="randomFunction.h" />
+    <ClInclude Include="contents\enemy\enemy.h" />
+    <ClInclude Include="contents\player\player.h" />
+    <ClInclude Include="contents\stage\bossStage.h" />
+    <ClInclude Include="contents\stage\commonStage.h" />
+    <ClInclude Include="contents\ui\progressBar\progressBar.h" />
+    <ClInclude Include="gameBase\gameNode.h" />
+    <ClInclude Include="gameBase\playGround.h" />
+    <ClInclude Include="manager\effectManager.h" />
+    <ClInclude Include="manager\imageManager.h" />
+    <ClInclude Include="manager\keyManager.h" />
+    <ClInclude Include="manager\sceneManager.h" />
+    <ClInclude Include="manager\soundManager.h" />
+    <ClInclude Include="manager\stageEnemyManager.h" />
+    <ClInclude Include="manager\stageManager.h" />
+    <ClInclude Include="manager\timeManager.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="sceneManager.h" />
-    <ClInclude Include="soundManager.h" />
-    <ClInclude Include="stageManager.h" />
-    <ClInclude Include="stageEnemyManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="timeManager.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="txtData.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="util\animation\animation.h" />
+    <ClInclude Include="util\camera\camera.h" />
+    <ClInclude Include="util\collision\collision.h" />
+    <ClInclude Include="util\collision\pixelCollsion.h" />
+    <ClInclude Include="util\commonMacroFunction.h" />
+    <ClInclude Include="util\effect\effect.h" />
+    <ClInclude Include="util\image\image.h" />
+    <ClInclude Include="util\randomFunction.h" />
+    <ClInclude Include="util\timer\timer.h" />
+    <ClInclude Include="util\txtData\txtData.h" />
+    <ClInclude Include="util\utils.h" />
     <ClInclude Include="windowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="animation.cpp" />
-    <ClCompile Include="bossStage.cpp" />
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="collision.cpp" />
-    <ClCompile Include="commonStage.cpp" />
-    <ClCompile Include="effect.cpp" />
-    <ClCompile Include="effectManager.cpp" />
-    <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="gameNode.cpp" />
-    <ClCompile Include="image.cpp" />
-    <ClCompile Include="imageManager.cpp" />
-    <ClCompile Include="keyManager.cpp" />
-    <ClCompile Include="pixelCollsion.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="playGround.cpp" />
-    <ClCompile Include="progressBar.cpp" />
-    <ClCompile Include="sceneManager.cpp" />
-    <ClCompile Include="soundManager.cpp" />
-    <ClCompile Include="stageManager.cpp" />
-    <ClCompile Include="stageEnemyManager.cpp" />
+    <ClCompile Include="contents\enemy\enemy.cpp" />
+    <ClCompile Include="contents\player\player.cpp" />
+    <ClCompile Include="contents\stage\bossStage.cpp" />
+    <ClCompile Include="contents\stage\commonStage.cpp" />
+    <ClCompile Include="contents\ui\progressBar\progressBar.cpp" />
+    <ClCompile Include="gameBase\gameNode.cpp" />
+    <ClCompile Include="gameBase\playGround.cpp" />
+    <ClCompile Include="manager\effectManager.cpp" />
+    <ClCompile Include="manager\imageManager.cpp" />
+    <ClCompile Include="manager\keyManager.cpp" />
+    <ClCompile Include="manager\sceneManager.cpp" />
+    <ClCompile Include="manager\soundManager.cpp" />
+    <ClCompile Include="manager\stageEnemyManager.cpp" />
+    <ClCompile Include="manager\stageManager.cpp" />
+    <ClCompile Include="manager\timeManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="timeManager.cpp" />
-    <ClCompile Include="timer.cpp" />
-    <ClCompile Include="txtData.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="util\animation\animation.cpp" />
+    <ClCompile Include="util\camera\camera.cpp" />
+    <ClCompile Include="util\collision\collision.cpp" />
+    <ClCompile Include="util\collision\pixelCollsion.cpp" />
+    <ClCompile Include="util\effect\effect.cpp" />
+    <ClCompile Include="util\image\image.cpp" />
+    <ClCompile Include="util\timer\timer.cpp" />
+    <ClCompile Include="util\txtData\txtData.cpp" />
+    <ClCompile Include="util\utils.cpp" />
     <ClCompile Include="windowsAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
