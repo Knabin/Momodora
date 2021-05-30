@@ -3,7 +3,7 @@
 
 class Player;
 
-enum class ENEMYDIRECTION
+enum class ENEMY_DIRECTION
 {
 	LEFT_IDLE,
 	RIGHT_IDLE,
@@ -52,7 +52,7 @@ protected:
 
 	Player* _player;
 
-	ENEMYDIRECTION _direction;
+	ENEMY_DIRECTION _direction;
 
 public:
 	virtual HRESULT init(MYPOINT position) = 0;
@@ -70,7 +70,7 @@ public:
 	virtual int getHP() { return _hp; }
 	virtual int getMaxHP() { return _maxHp; }
 
-	void enemyDirection(int num) { _direction = (ENEMYDIRECTION)num; }
+	void enemyDirection(int num) { _direction = (ENEMY_DIRECTION)num; }
 	inline MYRECT& getRect() { return _rc; }
 
 	void setPlayerMemoryAddressLink(Player * p) { _player = p; }
@@ -266,7 +266,7 @@ public:
 
 class rell : public Enemy
 {
-	enum class RELLSTATE
+	enum class RELL_STATE
 	{
 		LEFT_IDLE,
 		RIGHT_IDLE,
@@ -282,7 +282,7 @@ class rell : public Enemy
 		DEAD,
 	};
 
-	enum class RELLMODE
+	enum class RELL_MODE
 	{
 		MODE1,
 		MODE2,
@@ -312,8 +312,8 @@ class rell : public Enemy
 	Animation* _ani_ground3;
 	Animation* _ani_attack3;
 
-	RELLSTATE _state;
-	RELLMODE _mode;
+	RELL_STATE _state;
+	RELL_MODE _mode;
 
 	tagBulletEnemy _bullet1[3];
 	tagBulletEnemy _bullet2[16];

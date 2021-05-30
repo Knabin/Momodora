@@ -133,7 +133,7 @@ HRESULT monkey::init(MYPOINT position)
 	_probeXR = _x + _width - 70;
 	_probeY = _y + _height / 2;
 
-	_direction = ENEMYDIRECTION::LEFT_IDLE;
+	_direction = ENEMY_DIRECTION::LEFT_IDLE;
 
 	_rc.set(0, 0, 70, 100);
 	_rc.setCenterPos(_x + _width / 2 , _y + _height / 2);
@@ -197,14 +197,14 @@ void monkey::update()
 
 	switch (_direction)
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
-	case ENEMYDIRECTION::LEFT_MOVE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::LEFT_MOVE:
+	case ENEMY_DIRECTION::RIGHT_MOVE:
 		if (_ani_run->isPlay()) _ani_run->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		if (_ani_attack->isPlay()) _ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
 	}
@@ -227,30 +227,30 @@ void monkey::checkPlayer()
 		_ani_run->stop();
 		if (_player->getX() < _x + 50)
 		{
-			if (_direction != ENEMYDIRECTION::LEFT_ATTACK)
+			if (_direction != ENEMY_DIRECTION::LEFT_ATTACK)
 			{
-				_direction = ENEMYDIRECTION::LEFT_ATTACK;
+				_direction = ENEMY_DIRECTION::LEFT_ATTACK;
 				_image = IMAGEMANAGER->findImage("몬스터2 공격");
 				_ani_attack->setPlayFrame(0, 10, false, true);
 				_ani_attack->start();
 				SOUNDMANAGER->play("monkey", 1.0f);
 			}
-			if (_direction == ENEMYDIRECTION::LEFT_ATTACK)
+			if (_direction == ENEMY_DIRECTION::LEFT_ATTACK)
 			{
 				attack();
 			}
 		}
 		else
 		{
-			if (_direction != ENEMYDIRECTION::RIGHT_ATTACK)
+			if (_direction != ENEMY_DIRECTION::RIGHT_ATTACK)
 			{
-				_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+				_direction = ENEMY_DIRECTION::RIGHT_ATTACK;
 				_image = IMAGEMANAGER->findImage("몬스터2 공격");
 				_ani_attack->setPlayFrame(11, 21, false, true);
 				_ani_attack->start();
 				SOUNDMANAGER->play("monkey", 1.0f);
 			}
-			if (_direction == ENEMYDIRECTION::RIGHT_ATTACK)
+			if (_direction == ENEMY_DIRECTION::RIGHT_ATTACK)
 			{
 				attack();
 			}
@@ -260,9 +260,9 @@ void monkey::checkPlayer()
 	{
 		if (_player->getHitbox().right < _x)
 		{
-			if (_direction != ENEMYDIRECTION::LEFT_MOVE)
+			if (_direction != ENEMY_DIRECTION::LEFT_MOVE)
 			{
-				_direction = ENEMYDIRECTION::LEFT_MOVE;
+				_direction = ENEMY_DIRECTION::LEFT_MOVE;
 				_image = IMAGEMANAGER->findImage("몬스터2");
 				_ani_run->setPlayFrame(0, 5, false, true);
 				_ani_run->start();
@@ -270,9 +270,9 @@ void monkey::checkPlayer()
 		}
 		else if (_player->getHitbox().left > _x + _width)
 		{
-			if (_direction != ENEMYDIRECTION::RIGHT_MOVE)
+			if (_direction != ENEMY_DIRECTION::RIGHT_MOVE)
 			{
-				_direction = ENEMYDIRECTION::RIGHT_MOVE;
+				_direction = ENEMY_DIRECTION::RIGHT_MOVE;
 				_image = IMAGEMANAGER->findImage("몬스터2");
 				_ani_run->setPlayFrame(6, 11, false, true);
 				_ani_run->start();
@@ -282,17 +282,17 @@ void monkey::checkPlayer()
 	else
 	{
 		_ani_attack->stop();
-		_direction = (_direction == ENEMYDIRECTION::LEFT_MOVE || _direction == ENEMYDIRECTION::LEFT_ATTACK || _direction == ENEMYDIRECTION::LEFT_IDLE) ? ENEMYDIRECTION::LEFT_IDLE : ENEMYDIRECTION::RIGHT_IDLE;
+		_direction = (_direction == ENEMY_DIRECTION::LEFT_MOVE || _direction == ENEMY_DIRECTION::LEFT_ATTACK || _direction == ENEMY_DIRECTION::LEFT_IDLE) ? ENEMY_DIRECTION::LEFT_IDLE : ENEMY_DIRECTION::RIGHT_IDLE;
 	}
 }
 
 void monkey::move()
 {
-	if (_direction == ENEMYDIRECTION::LEFT_MOVE && _canMoveLeft)
+	if (_direction == ENEMY_DIRECTION::LEFT_MOVE && _canMoveLeft)
 	{
 		_x -= 3;
 	}
-	if (_direction == ENEMYDIRECTION::RIGHT_MOVE && _canMoveRight)
+	if (_direction == ENEMY_DIRECTION::RIGHT_MOVE && _canMoveRight)
 	{
 		_x += 3;
 	}
@@ -319,14 +319,14 @@ void monkey::draw()
 	}
 	switch (_direction)
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
-	case ENEMYDIRECTION::LEFT_MOVE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::LEFT_MOVE:
+	case ENEMY_DIRECTION::RIGHT_MOVE:
 		_image->aniRender(getMemDC(), _x, _y, _ani_run);
 		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
 		break;
 	}
@@ -368,15 +368,15 @@ void monkey::pixelCollision()
 
 	switch (_direction)	
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::LEFT_MOVE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_MOVE:
 		i = _rc.left + 15;
 		dest = _x + _width / 2;
 		break;
-	case ENEMYDIRECTION::RIGHT_IDLE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_MOVE:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		i = _x + _width / 2;
 		dest = _rc.right - 15;
 		break;
@@ -407,7 +407,7 @@ void monkey::pixelCollision()
 		}
 	}
 
-	if (_direction == ENEMYDIRECTION::LEFT_MOVE)
+	if (_direction == ENEMY_DIRECTION::LEFT_MOVE)
 	{
 		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _rc.left, _rc.bottom - 5);
 
@@ -422,7 +422,7 @@ void monkey::pixelCollision()
 		}
 		else _canMoveLeft = true;
 	}
-	else if (_direction == ENEMYDIRECTION::RIGHT_MOVE)
+	else if (_direction == ENEMY_DIRECTION::RIGHT_MOVE)
 	{
 		COLORREF color = GetPixel(IMAGEMANAGER->findImage("배경2 픽셀")->getMemDC(), _rc.right, _rc.bottom - 50);
 
@@ -447,7 +447,7 @@ HRESULT bakman::init(MYPOINT position)
 
 	_isFire = false;
 
-	_direction = ENEMYDIRECTION::LEFT_IDLE;
+	_direction = ENEMY_DIRECTION::LEFT_IDLE;
 
 	_x = position.x;
 	_y = position.y;
@@ -511,13 +511,13 @@ void bakman::render()
 void bakman::attack()
 {
 
-	if ((_direction == ENEMYDIRECTION::LEFT_ATTACK ||
-		_direction == ENEMYDIRECTION::RIGHT_ATTACK) && !_ani_attack->isPlay() && !_isFire)
+	if ((_direction == ENEMY_DIRECTION::LEFT_ATTACK ||
+		_direction == ENEMY_DIRECTION::RIGHT_ATTACK) && !_ani_attack->isPlay() && !_isFire)
 	{
 		_image = IMAGEMANAGER->findImage("몬스터3 공격2");
-		if (_direction == ENEMYDIRECTION::LEFT_ATTACK)
+		if (_direction == ENEMY_DIRECTION::LEFT_ATTACK)
 		{
-			_direction = ENEMYDIRECTION::LEFT_ACTION;
+			_direction = ENEMY_DIRECTION::LEFT_ACTION;
 			_ani_attack2->setPlayFrame(0, 5, false, false);
 			SOUNDMANAGER->play("bak1", 1.0f);
 
@@ -527,7 +527,7 @@ void bakman::attack()
 		}
 		else
 		{
-			_direction = ENEMYDIRECTION::RIGHT_ACTION;
+			_direction = ENEMY_DIRECTION::RIGHT_ACTION;
 			_ani_attack2->setPlayFrame(6, 11, false, false);
 			SOUNDMANAGER->play("bak1", 1.0f);
 
@@ -547,18 +547,18 @@ void bakman::checkPlayer()
 {
 	if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 250)
 	{
-		if (_direction != ENEMYDIRECTION::LEFT_ATTACK &&
-			_direction != ENEMYDIRECTION::RIGHT_ATTACK)
+		if (_direction != ENEMY_DIRECTION::LEFT_ATTACK &&
+			_direction != ENEMY_DIRECTION::RIGHT_ATTACK)
 		{
 			_image = IMAGEMANAGER->findImage("몬스터3 공격");
 			if (_player->getX() < _rc.right - _rc.getWidth() / 2)
 			{
-				_direction = ENEMYDIRECTION::LEFT_ATTACK;
+				_direction = ENEMY_DIRECTION::LEFT_ATTACK;
 				_ani_attack->setPlayFrame(0, 5, false, false);
 			}
 			else
 			{
-				_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+				_direction = ENEMY_DIRECTION::RIGHT_ATTACK;
 				_ani_attack->setPlayFrame(7, 13, false, false);
 			}
 			_ani_attack->start();
@@ -571,12 +571,12 @@ void bakman::checkPlayer()
 
 		if (_player->getX() < _rc.right - _rc.getWidth() / 2)
 		{
-			_direction = ENEMYDIRECTION::LEFT_IDLE;
+			_direction = ENEMY_DIRECTION::LEFT_IDLE;
 			_image = IMAGEMANAGER->findImage("몬스터3 왼쪽");
 		}
 		else
 		{
-			_direction = ENEMYDIRECTION::RIGHT_IDLE;
+			_direction = ENEMY_DIRECTION::RIGHT_IDLE;
 			_image = IMAGEMANAGER->findImage("몬스터3 오른쪽");
 		}
 	}
@@ -618,16 +618,16 @@ void bakman::draw()
 
 	switch (_direction)
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
 		_image->render(getMemDC(), _x, _y);
 		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		_image->aniRender(getMemDC(), _x, _y, _ani_attack);
 		break;
-	case ENEMYDIRECTION::LEFT_ACTION:
-	case ENEMYDIRECTION::RIGHT_ACTION:
+	case ENEMY_DIRECTION::LEFT_ACTION:
+	case ENEMY_DIRECTION::RIGHT_ACTION:
 		_image->aniRender(getMemDC(), _x, _y, _ani_attack2);
 		break;
 	}
@@ -740,20 +740,20 @@ void prim::render()
 	{
 		switch (_direction)
 		{
-		case ENEMYDIRECTION::LEFT_IDLE:
-		case ENEMYDIRECTION::RIGHT_IDLE:
+		case ENEMY_DIRECTION::LEFT_IDLE:
+		case ENEMY_DIRECTION::RIGHT_IDLE:
 			_image->aniRender(getMemDC(), _x, _y, _ani_start);
 			break;
-		case ENEMYDIRECTION::LEFT_MOVE:
-		case ENEMYDIRECTION::RIGHT_MOVE:
+		case ENEMY_DIRECTION::LEFT_MOVE:
+		case ENEMY_DIRECTION::RIGHT_MOVE:
 			_image->aniRender(getMemDC(), _x, _y, _ani_run);
 			break;
-		case ENEMYDIRECTION::LEFT_ATTACK:
-		case ENEMYDIRECTION::RIGHT_ATTACK:
+		case ENEMY_DIRECTION::LEFT_ATTACK:
+		case ENEMY_DIRECTION::RIGHT_ATTACK:
 			_image->aniRender(getMemDC(), _x, _y, _ani_attack);
 			break;
-		case ENEMYDIRECTION::LEFT_ACTION:
-		case ENEMYDIRECTION::RIGHT_ACTION:
+		case ENEMY_DIRECTION::LEFT_ACTION:
+		case ENEMY_DIRECTION::RIGHT_ACTION:
 			_image->aniRender(getMemDC(), _x, _y, _ani_angry);
 			break;
 		}
@@ -766,11 +766,11 @@ void prim::attack()
 
 void prim::checkPlayer()
 {
-	if (_direction != ENEMYDIRECTION::LEFT_ATTACK && _direction != ENEMYDIRECTION::RIGHT_ATTACK && _direction != ENEMYDIRECTION::LEFT_ACTION && _direction != ENEMYDIRECTION::RIGHT_ACTION)
+	if (_direction != ENEMY_DIRECTION::LEFT_ATTACK && _direction != ENEMY_DIRECTION::RIGHT_ATTACK && _direction != ENEMY_DIRECTION::LEFT_ACTION && _direction != ENEMY_DIRECTION::RIGHT_ACTION)
 	{
 		if (getDistance(_player->getX(), 0, _x + _image->getFrameWidth() / 2, 0) <= 50)
 		{
-			_direction = static_cast<int>(_direction) % 2 == 0 ? ENEMYDIRECTION::LEFT_ATTACK : ENEMYDIRECTION::RIGHT_ATTACK;
+			_direction = static_cast<int>(_direction) % 2 == 0 ? ENEMY_DIRECTION::LEFT_ATTACK : ENEMY_DIRECTION::RIGHT_ATTACK;
 			_image = IMAGEMANAGER->findImage("보스1 공격");
 
 			if (static_cast<int>(_direction) % 2 == 0)
@@ -792,7 +792,7 @@ void prim::checkPlayer()
 
 void prim::move()
 {
-	if (_direction == ENEMYDIRECTION::LEFT_MOVE || _direction == ENEMYDIRECTION::RIGHT_MOVE)
+	if (_direction == ENEMY_DIRECTION::LEFT_MOVE || _direction == ENEMY_DIRECTION::RIGHT_MOVE)
 	{
 		if (_player->getX() < _x + _image->getFrameWidth() / 2)
 		{
@@ -809,8 +809,8 @@ void prim::draw()
 {
 	switch (_direction)
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
 		_ani_start->frameUpdate(TIMEMANAGER->getElapsedTime() * 0.5);
 
 		if (!_ani_start->isPlay())
@@ -818,23 +818,23 @@ void prim::draw()
 			_image = IMAGEMANAGER->findImage("보스1 이동");
 			if (_player->getX() < _x + _image->getFrameWidth() / 2)
 			{
-				_direction = ENEMYDIRECTION::LEFT_MOVE;
+				_direction = ENEMY_DIRECTION::LEFT_MOVE;
 				_ani_run->setPlayFrame(0, 7, true);
 			}
 			else
 			{
-				_direction = ENEMYDIRECTION::RIGHT_MOVE;
+				_direction = ENEMY_DIRECTION::RIGHT_MOVE;
 				_ani_run->setPlayFrame(8, 15, true);
 			}
 			_ani_run->start();
 		}
 		break;
-	case ENEMYDIRECTION::LEFT_MOVE:
-	case ENEMYDIRECTION::RIGHT_MOVE:
+	case ENEMY_DIRECTION::LEFT_MOVE:
+	case ENEMY_DIRECTION::RIGHT_MOVE:
 		_ani_run->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		_ani_attack->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 
 		if (!_ani_attack->isPlay())
@@ -842,19 +842,19 @@ void prim::draw()
 			_image = IMAGEMANAGER->findImage("보스1 화남");
 			if (static_cast<int>(_direction) % 2 == 0) 
 			{
-				_direction = ENEMYDIRECTION::LEFT_ACTION;
+				_direction = ENEMY_DIRECTION::LEFT_ACTION;
 				_ani_angry->setPlayFrame(0, 14, false);
 			}
 			else
 			{
-				_direction = ENEMYDIRECTION::RIGHT_ACTION;
+				_direction = ENEMY_DIRECTION::RIGHT_ACTION;
 				_ani_angry->setPlayFrame(15, 29, false);
 			}
 			_ani_angry->start();
 		}
 		break;
-	case ENEMYDIRECTION::LEFT_ACTION:
-	case ENEMYDIRECTION::RIGHT_ACTION:
+	case ENEMY_DIRECTION::LEFT_ACTION:
+	case ENEMY_DIRECTION::RIGHT_ACTION:
 		_ani_angry->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 
 		if (!_ani_angry->isPlay())
@@ -862,12 +862,12 @@ void prim::draw()
 			_image = IMAGEMANAGER->findImage("보스1 이동");
 			if (_player->getX() < _x + _image->getFrameWidth() / 2)
 			{
-				_direction = ENEMYDIRECTION::LEFT_MOVE;
+				_direction = ENEMY_DIRECTION::LEFT_MOVE;
 				_ani_run->setPlayFrame(0, 7, true);
 			}
 			else
 			{
-				_direction = ENEMYDIRECTION::RIGHT_MOVE;
+				_direction = ENEMY_DIRECTION::RIGHT_MOVE;
 				_ani_run->setPlayFrame(8, 15, true);
 			}
 			_ani_run->start();
@@ -881,8 +881,8 @@ void prim::checkCollision()
 	if (!_player->getIsAttacked())
 	{
 		if (isCollision(_player->getHitbox(), _rc) || 
-			(isCollision(_player->getHitbox(), _rcAttack) && (_direction == ENEMYDIRECTION::LEFT_ATTACK ||
-				_direction == ENEMYDIRECTION::RIGHT_ATTACK)))
+			(isCollision(_player->getHitbox(), _rcAttack) && (_direction == ENEMY_DIRECTION::LEFT_ATTACK ||
+				_direction == ENEMY_DIRECTION::RIGHT_ATTACK)))
 		{
 			_player->setIsAttacked(true);
 			_player->setHP(_player->getHP() - 1);
@@ -1008,7 +1008,7 @@ HRESULT witch::init(MYPOINT position)
 	_isStart = _attackVer = false;
 	_attackCount = _leftAttack2Count = 0;
 
-	_direction = ENEMYDIRECTION::LEFT_IDLE;
+	_direction = ENEMY_DIRECTION::LEFT_IDLE;
 
 	_maxHp = 30;
 	_hp = _maxHp;
@@ -1048,11 +1048,11 @@ void witch::attack()
 	{
 		switch (_direction)
 		{
-		case ENEMYDIRECTION::LEFT_IDLE:
+		case ENEMY_DIRECTION::LEFT_IDLE:
 			_image = IMAGEMANAGER->findImage("보스2 왼쪽 공격");
 			_ani_idle_left->stop();
 			_ani_attack_left->start();
-			_direction = ENEMYDIRECTION::LEFT_ATTACK;
+			_direction = ENEMY_DIRECTION::LEFT_ATTACK;
 			if (!_attackVer)
 			{
 				cout << "공격" << endl;
@@ -1074,11 +1074,11 @@ void witch::attack()
 				}
 			}
 			break;
-		case ENEMYDIRECTION::RIGHT_IDLE:
+		case ENEMY_DIRECTION::RIGHT_IDLE:
 			_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽 공격");
 			_ani_idle_right->stop();
 			_ani_attack_right->start();
-			_direction = ENEMYDIRECTION::RIGHT_ATTACK;
+			_direction = ENEMY_DIRECTION::RIGHT_ATTACK;
 			if (!_attackVer)
 			{
 				cout << "공격" << endl;
@@ -1097,22 +1097,22 @@ void witch::attack()
 			}
 			SOUNDMANAGER->play("witchright");
 			break;
-		case ENEMYDIRECTION::LEFT_ATTACK:
+		case ENEMY_DIRECTION::LEFT_ATTACK:
 			if (!_ani_attack_left->isPlay())
 			{
 				_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽");
 				_ani_idle_right->start();
 
-				_direction = ENEMYDIRECTION::RIGHT_IDLE;
+				_direction = ENEMY_DIRECTION::RIGHT_IDLE;
 			}
 			break;
-		case ENEMYDIRECTION::RIGHT_ATTACK:
+		case ENEMY_DIRECTION::RIGHT_ATTACK:
 			if (!_ani_attack_right->isPlay())
 			{
 				_image = IMAGEMANAGER->findImage("보스2 왼쪽");
 				_ani_idle_left->start();
 
-				_direction = ENEMYDIRECTION::LEFT_IDLE;
+				_direction = ENEMY_DIRECTION::LEFT_IDLE;
 			}
 			break;
 		}
@@ -1128,14 +1128,14 @@ void witch::move()
 {
 	switch (_direction)
 	{
-	case ENEMYDIRECTION::LEFT_IDLE:
-	case ENEMYDIRECTION::RIGHT_IDLE:
+	case ENEMY_DIRECTION::LEFT_IDLE:
+	case ENEMY_DIRECTION::RIGHT_IDLE:
 		_ani_idle_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		_ani_idle_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
 
-	case ENEMYDIRECTION::LEFT_ATTACK:
-	case ENEMYDIRECTION::RIGHT_ATTACK:
+	case ENEMY_DIRECTION::LEFT_ATTACK:
+	case ENEMY_DIRECTION::RIGHT_ATTACK:
 		_ani_attack_left->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		_ani_attack_right->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		break;
@@ -1247,15 +1247,15 @@ void witch::draw()
 			if (_alpha > 0) _alpha -= 5;
 			switch (_direction)
 			{
-			case ENEMYDIRECTION::LEFT_IDLE:
-			case ENEMYDIRECTION::LEFT_ATTACK:
+			case ENEMY_DIRECTION::LEFT_IDLE:
+			case ENEMY_DIRECTION::LEFT_ATTACK:
 				if (_ani_idle_left->isPlay()) _ani_idle_left->stop();
 				if (_ani_attack_left->isPlay()) _ani_attack_left->stop();
 				_image = IMAGEMANAGER->findImage("보스2 왼쪽");
 				_image->alphaFrameRender(getMemDC(), _x, _y, 0, 0, _alpha);
 				break;
-			case ENEMYDIRECTION::RIGHT_IDLE:
-			case ENEMYDIRECTION::RIGHT_ATTACK:
+			case ENEMY_DIRECTION::RIGHT_IDLE:
+			case ENEMY_DIRECTION::RIGHT_ATTACK:
 				if (_ani_idle_right->isPlay()) _ani_idle_right->stop();
 				if (_ani_attack_right->isPlay()) _ani_attack_right->stop();
 				_imageRight = IMAGEMANAGER->findImage("보스2 오른쪽");
@@ -1267,13 +1267,13 @@ void witch::draw()
 		{
 			switch (_direction)
 			{
-			case ENEMYDIRECTION::LEFT_IDLE:
+			case ENEMY_DIRECTION::LEFT_IDLE:
 				_image->aniRender(getMemDC(), _x, _y, _ani_idle_left);
 				break;
-			case ENEMYDIRECTION::RIGHT_IDLE:
+			case ENEMY_DIRECTION::RIGHT_IDLE:
 				_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_idle_right);
 				break;
-			case ENEMYDIRECTION::LEFT_ATTACK:
+			case ENEMY_DIRECTION::LEFT_ATTACK:
 				_image->aniRender(getMemDC(), _x, _y, _ani_attack_left);
 				if (_attackVer)
 				{
@@ -1291,7 +1291,7 @@ void witch::draw()
 						_imageLeftAttackBack->alphaRender(getMemDC(), _leftAttackX, 95, 122);
 				}
 				break;
-			case ENEMYDIRECTION::RIGHT_ATTACK:
+			case ENEMY_DIRECTION::RIGHT_ATTACK:
 				_imageRight->aniRender(getMemDC(), _xRight, _yRight, _ani_attack_right);
 				break;
 			}
@@ -1545,8 +1545,8 @@ HRESULT rell::init(MYPOINT position)
 		_ani_snow->setPlayFrame(0, 1, false, true);
 	}
 
-	_state = RELLSTATE::LEFT_IDLE;
-	_mode = RELLMODE::MODE1;
+	_state = RELL_STATE::LEFT_IDLE;
+	_mode = RELL_MODE::MODE1;
 
 	_x = position.x;
 	_y = position.y;
@@ -1622,22 +1622,22 @@ void rell::render()
 
 void rell::attack()
 {
-	if (_mode == RELLMODE::MODE1)
+	if (_mode == RELL_MODE::MODE1)
 	{
 		++_attackCount;
 		if (_attackCount > 120)
 		{
 			switch (_state)
 			{
-			case rell::RELLSTATE::LEFT_IDLE:
-			case rell::RELLSTATE::RIGHT_IDLE:
+			case rell::RELL_STATE::LEFT_IDLE:
+			case rell::RELL_STATE::RIGHT_IDLE:
 				if (_canPray && _hp <= _maxHp * 0.5)
 				{
 					_image = IMAGEMANAGER->findImage("보스3-1 기도");
 					_prayCount = 0;
 					_rcPray.set(0, 0, 300, 400);
 					_rcPray.setCenterPos(_x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 200);
-					_state = RELLSTATE::PRAY;
+					_state = RELL_STATE::PRAY;
 					_ani_pray->setPlayFrame(0, 4, false, true);
 					_ani_pray->start();
 					SOUNDMANAGER->play("rellpray", 0.8f);
@@ -1648,12 +1648,12 @@ void rell::attack()
 					_image = IMAGEMANAGER->findImage("보스3-1 공격");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_ATTACK;
+						_state = RELL_STATE::LEFT_ATTACK;
 						_ani_attack1->setPlayFrame(0, 9);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_ATTACK;
+						_state = RELL_STATE::RIGHT_ATTACK;
 						_ani_attack1->setPlayFrame(10, 19);
 					}
 					_ani_attack1->start();
@@ -1674,13 +1674,13 @@ void rell::attack()
 					_image = IMAGEMANAGER->findImage("보스3-1 땅");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_GROUND;
+						_state = RELL_STATE::LEFT_GROUND;
 						_ground[0].Image = IMAGEMANAGER->findImage("보스3-1 땅 왼쪽");
 						_ani_ground1->setPlayFrame(0, 11);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_GROUND;
+						_state = RELL_STATE::RIGHT_GROUND;
 						_ground[0].Image = IMAGEMANAGER->findImage("보스3-1 땅 오른쪽");
 						_ani_ground1->setPlayFrame(12, 21);
 					}
@@ -1691,45 +1691,45 @@ void rell::attack()
 				}
 				_ani_idle1->stop();
 				break;
-			case rell::RELLSTATE::LEFT_GROUND:
-			case rell::RELLSTATE::RIGHT_GROUND:
+			case rell::RELL_STATE::LEFT_GROUND:
+			case rell::RELL_STATE::RIGHT_GROUND:
 				if (!_ani_ground1->isPlay())
 				{
 					_image = IMAGEMANAGER->findImage("보스3-1 기본");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_IDLE;
+						_state = RELL_STATE::LEFT_IDLE;
 						_ani_idle1->setPlayFrame(0, 4);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_IDLE;
+						_state = RELL_STATE::RIGHT_IDLE;
 						_ani_idle1->setDefPlayFrame(5, 7);
 					}
 					_ani_idle1->start();
 					_attackVer = !_attackVer;
 				}
 				break;
-			case rell::RELLSTATE::LEFT_ATTACK:
-			case rell::RELLSTATE::RIGHT_ATTACK:
+			case rell::RELL_STATE::LEFT_ATTACK:
+			case rell::RELL_STATE::RIGHT_ATTACK:
 				if (!_ani_attack1->isPlay())
 				{
 					_image = IMAGEMANAGER->findImage("보스3-1 기본");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_IDLE;
+						_state = RELL_STATE::LEFT_IDLE;
 						_ani_idle1->setPlayFrame(0, 4);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_IDLE;
+						_state = RELL_STATE::RIGHT_IDLE;
 						_ani_idle1->setDefPlayFrame(5, 7);
 					}
 					_ani_idle1->start();
 					_attackVer = !_attackVer;
 				}
 				break;
-			case rell::RELLSTATE::PRAY:
+			case rell::RELL_STATE::PRAY:
 				++_prayCount;
 				_hp += 7;
 				if (_prayCount > 3)
@@ -1738,12 +1738,12 @@ void rell::attack()
 					_image = IMAGEMANAGER->findImage("보스3-1 기본");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_IDLE;
+						_state = RELL_STATE::LEFT_IDLE;
 						_ani_idle1->setPlayFrame(0, 4);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_IDLE;
+						_state = RELL_STATE::RIGHT_IDLE;
 						_ani_idle1->setDefPlayFrame(5, 7);
 					}
 					_ani_effect_fire->setPlayFrame(0, 9, false, false);
@@ -1760,7 +1760,7 @@ void rell::attack()
 			_attackCount = 0;
 		}
 	}
-	else if (_mode == RELLMODE::MODE2)
+	else if (_mode == RELL_MODE::MODE2)
 	{
 			_attackCount++;
 			if (_attackCount >= 70)
@@ -1798,47 +1798,47 @@ void rell::attack()
 		{
 			switch (_state)
 			{
-			case rell::RELLSTATE::LEFT_IDLE:
-			case rell::RELLSTATE::RIGHT_IDLE:
+			case rell::RELL_STATE::LEFT_IDLE:
+			case rell::RELL_STATE::RIGHT_IDLE:
 				checkPlayer();
 				break;
-			case rell::RELLSTATE::LEFT_GROUND:
-			case rell::RELLSTATE::RIGHT_GROUND:
+			case rell::RELL_STATE::LEFT_GROUND:
+			case rell::RELL_STATE::RIGHT_GROUND:
 				if (!_ani_ground3->isPlay())
 				{
 					_image = IMAGEMANAGER->findImage("보스3-3 기본");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_IDLE;
+						_state = RELL_STATE::LEFT_IDLE;
 						_ani_idle3->setPlayFrame(0, 4, false, true);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_IDLE;
+						_state = RELL_STATE::RIGHT_IDLE;
 						_ani_idle3->setPlayFrame(5, 9, false, true);
 					}
 					_ani_idle3->start();
 				}
 				break;
-			case rell::RELLSTATE::LEFT_ATTACK:
-			case rell::RELLSTATE::RIGHT_ATTACK:
+			case rell::RELL_STATE::LEFT_ATTACK:
+			case rell::RELL_STATE::RIGHT_ATTACK:
 				if (!_ani_attack3->isPlay())
 				{
 					_image = IMAGEMANAGER->findImage("보스3-3 기본");
 					if (changeDirectionToLeft())
 					{
-						_state = RELLSTATE::LEFT_IDLE;
+						_state = RELL_STATE::LEFT_IDLE;
 						_ani_idle3->setPlayFrame(0, 4, false, true);
 					}
 					else
 					{
-						_state = RELLSTATE::RIGHT_IDLE;
+						_state = RELL_STATE::RIGHT_IDLE;
 						_ani_idle3->setPlayFrame(5, 9, false, true);
 					}
 					_ani_idle3->start();
 				}
 				break;
-			case rell::RELLSTATE::DEAD:
+			case rell::RELL_STATE::DEAD:
 				break;
 			}
 			_attackCount = 0;
@@ -1855,13 +1855,13 @@ void rell::checkPlayer()
 		if (changeDirectionToLeft())
 		{
 			// 왼쪽으로
-			_state = RELLSTATE::LEFT_ATTACK;
+			_state = RELL_STATE::LEFT_ATTACK;
 			_ani_attack3->setPlayFrame(0, 6);
 		}
 		else
 		{
 			// 오른쪽으로
-			_state = RELLSTATE::RIGHT_ATTACK;
+			_state = RELL_STATE::RIGHT_ATTACK;
 			_ani_attack3->setPlayFrame(7, 11);
 		}
 		_ani_attack3->start();
@@ -1873,13 +1873,13 @@ void rell::checkPlayer()
 		if (changeDirectionToLeft())
 		{
 			// 왼쪽으로
-			_state = RELLSTATE::LEFT_GROUND;
+			_state = RELL_STATE::LEFT_GROUND;
 			_ani_ground3->setPlayFrame(0, 11);
 		}
 		else
 		{
 			// 오른쪽으로
-			_state = RELLSTATE::RIGHT_GROUND;
+			_state = RELL_STATE::RIGHT_GROUND;
 			_ani_ground3->setPlayFrame(12, 23);
 		}
 		_ani_ground3->start();
@@ -1889,16 +1889,16 @@ void rell::checkPlayer()
 
 void rell::move()
 {
-	if (_mode == RELLMODE::MODE1)
+	if (_mode == RELL_MODE::MODE1)
 	{
 		switch (_state)
 		{
-		case rell::RELLSTATE::LEFT_IDLE:
-		case rell::RELLSTATE::RIGHT_IDLE:
+		case rell::RELL_STATE::LEFT_IDLE:
+		case rell::RELL_STATE::RIGHT_IDLE:
 			_ani_idle1->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 			break;
-		case rell::RELLSTATE::LEFT_GROUND:
-		case rell::RELLSTATE::RIGHT_GROUND:
+		case rell::RELL_STATE::LEFT_GROUND:
+		case rell::RELL_STATE::RIGHT_GROUND:
 			_ani_ground1->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 
 			++_ground[0].count;
@@ -1908,11 +1908,11 @@ void rell::move()
 				SOUNDMANAGER->play("rellground", 1.0f);
 			}
 			break;
-		case rell::RELLSTATE::LEFT_ATTACK:
-		case rell::RELLSTATE::RIGHT_ATTACK:
+		case rell::RELL_STATE::LEFT_ATTACK:
+		case rell::RELL_STATE::RIGHT_ATTACK:
 			_ani_attack1->frameUpdate(TIMEMANAGER->getElapsedTime() * 15);
 			break;
-		case rell::RELLSTATE::PRAY:
+		case rell::RELL_STATE::PRAY:
 			_ani_pray->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 			EFFECTMANAGER->play("보스1 기도 전", _x + _image->getFrameWidth() / 2, _y + _image->getFrameHeight() - 10);
 			break;
@@ -1940,11 +1940,11 @@ void rell::move()
 			_ground[0].isFire = false;
 		}
 	}
-	else if (_mode == RELLMODE::MODE2)
+	else if (_mode == RELL_MODE::MODE2)
 	{
 		switch (_state)
 		{
-		case rell::RELLSTATE::AIR:
+		case rell::RELL_STATE::AIR:
 			_ani_attack2->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 			_ani_snow->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 			break;
@@ -1970,12 +1970,12 @@ void rell::move()
 	{
 		switch (_state)
 		{
-		case rell::RELLSTATE::LEFT_IDLE:
-		case rell::RELLSTATE::RIGHT_IDLE:
+		case rell::RELL_STATE::LEFT_IDLE:
+		case rell::RELL_STATE::RIGHT_IDLE:
 			_ani_idle3->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 			break;
-		case rell::RELLSTATE::LEFT_GROUND:
-		case rell::RELLSTATE::RIGHT_GROUND:
+		case rell::RELL_STATE::LEFT_GROUND:
+		case rell::RELL_STATE::RIGHT_GROUND:
 			_ani_ground3->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 			_groundCount++;
 
@@ -2000,11 +2000,11 @@ void rell::move()
 			}
 
 			break;
-		case rell::RELLSTATE::LEFT_ATTACK:
-		case rell::RELLSTATE::RIGHT_ATTACK:
+		case rell::RELL_STATE::LEFT_ATTACK:
+		case rell::RELL_STATE::RIGHT_ATTACK:
 			_ani_attack3->frameUpdate(TIMEMANAGER->getElapsedTime() * 15);
 			break;
-		case rell::RELLSTATE::DEAD:
+		case rell::RELL_STATE::DEAD:
 			break;
 		}
 	}	
@@ -2012,23 +2012,23 @@ void rell::move()
 
 void rell::draw()
 {
-	if (_mode == RELLMODE::MODE1)
+	if (_mode == RELL_MODE::MODE1)
 	{
 		switch (_state)
 		{
-		case rell::RELLSTATE::LEFT_IDLE:
-		case rell::RELLSTATE::RIGHT_IDLE:
+		case rell::RELL_STATE::LEFT_IDLE:
+		case rell::RELL_STATE::RIGHT_IDLE:
 			_image->aniRender(getMemDC(), _x, _y, _ani_idle1);
 			break;
-		case rell::RELLSTATE::LEFT_GROUND:
-		case rell::RELLSTATE::RIGHT_GROUND:
+		case rell::RELL_STATE::LEFT_GROUND:
+		case rell::RELL_STATE::RIGHT_GROUND:
 			_image->aniRender(getMemDC(), _x, _y, _ani_ground1);
 			break;
-		case rell::RELLSTATE::LEFT_ATTACK:
-		case rell::RELLSTATE::RIGHT_ATTACK:
+		case rell::RELL_STATE::LEFT_ATTACK:
+		case rell::RELL_STATE::RIGHT_ATTACK:
 			_image->aniRender(getMemDC(), _x, _y, _ani_attack1);
 			break;
-		case rell::RELLSTATE::PRAY:
+		case rell::RELL_STATE::PRAY:
 			if (TIMEMANAGER->getDebug()) _rcPray.render(getMemDC());
 			_image->aniRender(getMemDC(), _x, _y, _ani_pray);
 			break;
@@ -2050,11 +2050,11 @@ void rell::draw()
 			if (TIMEMANAGER->getDebug()) _ground[0].rc.render(getMemDC());
 		}
 	}
-	else if (_mode == RELLMODE::MODE2)
+	else if (_mode == RELL_MODE::MODE2)
 	{
 		switch (_state)
 		{
-		case rell::RELLSTATE::AIR:
+		case rell::RELL_STATE::AIR:
 			_snow2->aniAlphaRender(getMemDC(), _x - _snow2->getFrameWidth() / 2 + 48, _yUp - _snow2->getFrameHeight() / 2 + 50, _ani_snow, 100);
 			_snow->render(getMemDC(), _x - _snow->getWidth() / 2 + 48, _yUp - _snow->getHeight() /2 + 50);
 			_image->aniRender(getMemDC(), _x, _yUp, _ani_attack2);
@@ -2077,19 +2077,19 @@ void rell::draw()
 
 		switch (_state)
 		{
-		case rell::RELLSTATE::LEFT_IDLE:
-		case rell::RELLSTATE::RIGHT_IDLE:
+		case rell::RELL_STATE::LEFT_IDLE:
+		case rell::RELL_STATE::RIGHT_IDLE:
 			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_idle3);
 			break;
-		case rell::RELLSTATE::LEFT_GROUND:
-		case rell::RELLSTATE::RIGHT_GROUND:
+		case rell::RELL_STATE::LEFT_GROUND:
+		case rell::RELL_STATE::RIGHT_GROUND:
 			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_ground3);
 			break;
-		case rell::RELLSTATE::LEFT_ATTACK:
-		case rell::RELLSTATE::RIGHT_ATTACK:
+		case rell::RELL_STATE::LEFT_ATTACK:
+		case rell::RELL_STATE::RIGHT_ATTACK:
 			_image->aniRender(getMemDC(), _xLarge, _yLarge, _ani_attack3);
 			break;
-		case rell::RELLSTATE::DEAD:
+		case rell::RELL_STATE::DEAD:
 			_image->render(getMemDC(), _x, _y);
 			break;
 		}
@@ -2113,7 +2113,7 @@ void rell::checkCollision()
 			_player->setHP(_player->getHP() - 1);
 		}
 
-		if (_mode == RELLMODE::MODE1)
+		if (_mode == RELL_MODE::MODE1)
 		{
 			if (!_attackVer)
 			{
@@ -2142,7 +2142,7 @@ void rell::checkCollision()
 				_player->setHP(_player->getHP() - 2);
 			}
 		}
-		else if (_mode == RELLMODE::MODE2)
+		else if (_mode == RELL_MODE::MODE2)
 		{
 			for (int i = 0; i < 8; ++i)
 			{
@@ -2170,7 +2170,7 @@ void rell::checkCollision()
 
 			if (getDistance(_x, _y, _player->getX(), _player->getY()) <= 400)
 			{
-				if (_state == RELLSTATE::LEFT_ATTACK)
+				if (_state == RELL_STATE::LEFT_ATTACK)
 				{
 					if (changeDirectionToLeft())
 					{
@@ -2178,7 +2178,7 @@ void rell::checkCollision()
 						_player->setHP(_player->getHP() - 1);
 					}
 				}
-				else if (_state == RELLSTATE::RIGHT_ATTACK)
+				else if (_state == RELL_STATE::RIGHT_ATTACK)
 				{
 					if (!changeDirectionToLeft())
 					{
@@ -2225,9 +2225,9 @@ void rell::changeMode()
 	{
 		switch (_mode)
 		{
-		case RELLMODE::MODE1:
-			_mode = RELLMODE::MODE2;
-			_state = RELLSTATE::AIR;
+		case RELL_MODE::MODE1:
+			_mode = RELL_MODE::MODE2;
+			_state = RELL_STATE::AIR;
 			_image = IMAGEMANAGER->findImage("보스3-2");
 			_ani_attack2->setPlayFrame(0, 4, false, true);
 			_ani_attack2->start();
@@ -2247,9 +2247,9 @@ void rell::changeMode()
 			_maxHp = 20;
 			_hp = 20;
 			break;
-		case RELLMODE::MODE2:
-			_mode = RELLMODE::MODE3;
-			_state = RELLSTATE::LEFT_IDLE;
+		case RELL_MODE::MODE2:
+			_mode = RELL_MODE::MODE3;
+			_state = RELL_STATE::LEFT_IDLE;
 			_image = IMAGEMANAGER->findImage("보스3-3 기본");
 			_ani_idle3->setPlayFrame(0, 4, false, true);
 			_ani_idle3->start();
@@ -2272,8 +2272,8 @@ void rell::changeMode()
 				_ground[i].rc.set(0, 0, 48, 10);
 			}
 			break;
-		case RELLMODE::MODE3:
-			_state = RELLSTATE::DEAD;
+		case RELL_MODE::MODE3:
+			_state = RELL_STATE::DEAD;
 			_image = IMAGEMANAGER->findImage("보스3 죽음");
 			break;
 		}

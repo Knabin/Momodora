@@ -535,7 +535,7 @@ void Player::render()
 
 }
 
-void Player::setAnimation(PLAYERSTATE state)
+void Player::setAnimation(PLAYER_STATE state)
 {
 	_ani_idle->stop();
 	_ani_run->stop();
