@@ -153,6 +153,9 @@
     <ClInclude Include="contents\player\player.h">
       <Filter>contents\player</Filter>
     </ClInclude>
+    <ClInclude Include="manager\jsonManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windowsAPI.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="contents\player\player.cpp">
       <Filter>contents\player</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\jsonManager.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

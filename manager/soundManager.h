@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <map>
 
-#include "include/fmod.hpp"
+#include "fmod.hpp"
 #pragma comment(lib, "lib/fmodex64_vc.lib")
 
 using namespace FMOD;

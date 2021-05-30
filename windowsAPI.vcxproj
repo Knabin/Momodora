@@ -105,11 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./;./contents;./data;./gameBase;./include;./manager;./util;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./contents;./data;./gameBase;./include;./manager;./util;./include/json;./include/fmod</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionFolder)\lib\jsoncpp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>.\lib\jsoncpp\jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,6 +161,7 @@
     <ClInclude Include="gameBase\playGround.h" />
     <ClInclude Include="manager\effectManager.h" />
     <ClInclude Include="manager\imageManager.h" />
+    <ClInclude Include="manager\jsonManager.h" />
     <ClInclude Include="manager\keyManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
     <ClInclude Include="manager\soundManager.h" />
@@ -191,6 +194,7 @@
     <ClCompile Include="gameBase\playGround.cpp" />
     <ClCompile Include="manager\effectManager.cpp" />
     <ClCompile Include="manager\imageManager.cpp" />
+    <ClCompile Include="manager\jsonManager.cpp" />
     <ClCompile Include="manager\keyManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />
     <ClCompile Include="manager\soundManager.cpp" />
