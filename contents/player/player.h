@@ -3,7 +3,7 @@
 
 class StageManager;
 
-enum PLAYERSTATE
+enum PLAYER_STATE
 {
 	// IDLE
 	LEFT_IDLE,
@@ -83,8 +83,8 @@ private:
 	bool _canMoveLeft;
 	bool _canMoveRight;
 
-	PLAYERSTATE _state;
-	PLAYERSTATE _stateBefore;
+	PLAYER_STATE _state;
+	PLAYER_STATE _stateBefore;
 
 	StageManager* _sm;
 
@@ -116,7 +116,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setAnimation(PLAYERSTATE state);
+	void setAnimation(PLAYER_STATE state);
 	void setStatePray();
 
 	void fireBullet();
