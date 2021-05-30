@@ -1,15 +1,15 @@
 ﻿#include "stdafx.h"
 #include "keyManager.h"
 
-keyManager::keyManager()
+KeyManager::KeyManager()
 {
 }
 
-keyManager::~keyManager()
+KeyManager::~KeyManager()
 {
 }
 
-HRESULT keyManager::init()
+HRESULT KeyManager::init()
 {
 	for (int i = 0; i < KEYMAX; i++)
 	{
@@ -19,11 +19,11 @@ HRESULT keyManager::init()
 	return S_OK;
 }
 
-void keyManager::release()
+void KeyManager::release()
 {
 }
 
-bool keyManager::isOnceKeyDown(int key)
+bool KeyManager::isOnceKeyDown(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
@@ -39,7 +39,7 @@ bool keyManager::isOnceKeyDown(int key)
 	return false;
 }
 
-bool keyManager::isOnceKeyUp(int key)
+bool KeyManager::isOnceKeyUp(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000) this->setKeyUp(key, true);
 	else
@@ -55,14 +55,14 @@ bool keyManager::isOnceKeyUp(int key)
 	return false;
 }
 
-bool keyManager::isStayKeyDown(int key)
+bool KeyManager::isStayKeyDown(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000) return true;
 
 	return false;
 }
 
-bool keyManager::isToggleKey(int key)
+bool KeyManager::isToggleKey(int key)
 {
 	if (GetKeyState(key) & 0x0001) return true;
 

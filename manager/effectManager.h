@@ -2,25 +2,25 @@
 #include <vector>
 #include <map>
 
-class effect;
+class Effect;
 
-class effectManager
+class EffectManager
 {
 public:
-	static effectManager* getInstance()
+	static EffectManager* getInstance()
 	{
-		static effectManager instance;
+		static EffectManager instance;
 		return &instance;
 	}
 
 private:
-	effectManager();
-	~effectManager();
+	EffectManager();
+	~EffectManager();
 
 private:
 	//생산
-	typedef vector<effect*>				arrEffects;
-	typedef vector<effect*>::iterator	iterEffects;
+	typedef vector<Effect*>				arrEffects;
+	typedef vector<Effect*>::iterator	iterEffects;
 	//가공
 	typedef map<string, arrEffects>			  arrEffect;
 	typedef map<string, arrEffects>::iterator iterEffect;

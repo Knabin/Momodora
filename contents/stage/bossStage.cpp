@@ -3,12 +3,12 @@
 #include "player/player.h"
 #include "enemy/enemy.h"
 
-bossStage::bossStage(int bossNum, const char * fileName)
+BossStage::BossStage(int bossNum, const char * fileName)
 {
 	_image = IMAGEMANAGER->findImage("보스 배경");
 	_block = IMAGEMANAGER->findImage("보스 블록");
 
-	_ani_block = new animation;
+	_ani_block = new Animation;
 	_ani_block->init(_block->getWidth(),
 		_block->getHeight(),
 		_block->getFrameWidth(),
@@ -20,7 +20,7 @@ bossStage::bossStage(int bossNum, const char * fileName)
 	_bossNum = bossNum;
 }
 
-HRESULT bossStage::init()
+HRESULT BossStage::init()
 {
 	_rc.set(0, 144, 48, 428);
 	_rcCol.set(0, 0, 50, 150);
@@ -66,13 +66,13 @@ HRESULT bossStage::init()
 
 
 
-void bossStage::release()
+void BossStage::release()
 {
 	_vBoss[0]->release();
 	SAFE_DELETE(_vBoss[0]);
 }
 
-void bossStage::update()
+void BossStage::update()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && !_isStart)
 	{
@@ -110,7 +110,7 @@ void bossStage::update()
 	_pgBar.update();
 }
 
-void bossStage::render()
+void BossStage::render()
 {
 	_image->render(getMemDC());
 	

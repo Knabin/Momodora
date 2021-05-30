@@ -3,13 +3,13 @@
 #include <string>
 #include "gameNode.h"
 
-class player;
-class enemy;
+class Player;
+class Enemy;
 
-class stageManager : public gameNode
+class StageManager : public GameNode
 {
 private:
-	player * _player;
+	Player * _player;
 
 	// 0 ~ 2: commonStage, 3 ~ 5: bossStage
 	int _currentIdx;
@@ -24,7 +24,7 @@ private:
 	stageManager에서 해야 할 것
 
 	인덱스 2번째 스테이지에서 rect로 충돌 체크(해당 방으로 이동)
-	enemyManager 쪽으로 각 stage 안에 있는 enemy vector 넘겨서 enemy 받아오기
+	enemyManager 쪽으로 각 stage 안에 있는 Enemy vector 넘겨서 Enemy 받아오기
 	*/
 	
 
@@ -38,9 +38,9 @@ public:
 	void movePrevStage();
 	void moveBossStage(int index);
 
-	void setPlayerMemoryAddressLink(player *p) { _player = p; }
+	void setPlayerMemoryAddressLink(Player *p) { _player = p; }
 
-	void parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy);
+	void parsingEnemyData(const char * loadFileName, vector<Enemy*>& vEnemy);
 
 	void checkEnterBossStage();
 	bool isAliveBoss();
@@ -50,7 +50,7 @@ public:
 	int getCurrentStageSize();
 	int getCurrentIndex() { return _currentIdx; }
 
-	//vector<enemy *>& getCurrentStageEnemyVector { _v}
+	//vector<Enemy *>& getCurrentStageEnemyVector { _v}
 
 	bool getIsBossStage() 
 	{

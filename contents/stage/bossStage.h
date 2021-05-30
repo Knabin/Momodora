@@ -8,42 +8,42 @@ enum
 	BOSS3
 };
 
-class player;
-class enemy;
+class Player;
+class Enemy;
 
-class bossStage : public gameNode
+class BossStage : public GameNode
 {
 private:
-	image* _image;
+	Image* _image;
 
-	image* _block;
-	animation* _ani_block;
+	Image* _block;
+	Animation* _ani_block;
 
 	MYRECT _rc;
 	MYRECT _rcCol;
 
-	progressBar _pgBar;
+	ProgressBar _pgBar;
 
-	player* _player;
+	Player* _player;
 	
 	int _bossNum;
 
 	const char * _fileName;
-	vector<enemy*> _vBoss;
+	vector<Enemy*> _vBoss;
 
 	bool _isStart;
 	bool _isDead;
 
 public:
-	bossStage(int bossNum, const char * fileName);
+	BossStage(int bossNum, const char * fileName);
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();
 
-	void setPlayerMemoryAddressLink(player *p) { _player = p; }
+	void setPlayerMemoryAddressLink(Player *p) { _player = p; }
 
-	/*enemy* getBossPointer() { return _boss; }
-	void setBossPointer(enemy* boss) { _boss = boss; }*/
+	/*Enemy* getBossPointer() { return _boss; }
+	void setBossPointer(Enemy* boss) { _boss = boss; }*/
 };
 

@@ -2,20 +2,20 @@
 #include <vector>
 #include <string>
 
-class enemy;
+class Enemy;
 
-class stageEnemyManager
+class StageEnemyManager
 {
 public:
-	static stageEnemyManager* getInstance()
+	static StageEnemyManager* getInstance()
 	{
-		static stageEnemyManager instance;
+		static StageEnemyManager instance;
 		return &instance;
 	}
 
 private:
-	stageEnemyManager();
-	~stageEnemyManager();
+	StageEnemyManager();
+	~StageEnemyManager();
 
 private:
 	vector<string> _vFileData;
@@ -28,7 +28,7 @@ public:
 	void release();
 	void update();
 
-	void parsingEnemyData(const char * loadFileName, vector<enemy *>& vEnemy);
-	void parsingBossData(const char * lodaFileName, enemy * boss);
+	void parsingEnemyData(const char * loadFileName, vector<Enemy *>& vEnemy);
+	void parsingBossData(const char * lodaFileName, Enemy * boss);
 };
 

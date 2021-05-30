@@ -2,25 +2,25 @@
 #include "txtData.h"
 
 
-txtData::txtData()
+TxtData::TxtData()
 {
 }
 
 
-txtData::~txtData()
+TxtData::~TxtData()
 {
 }
 
-HRESULT txtData::init()
+HRESULT TxtData::init()
 {
 	return S_OK;
 }
 
-void txtData::release()
+void TxtData::release()
 {
 }
 
-void txtData::txtSave(const char * saveFileName, vector<string> vStr)
+void TxtData::txtSave(const char * saveFileName, vector<string> vStr)
 {
 	HANDLE file;
 	DWORD write;
@@ -38,7 +38,7 @@ void txtData::txtSave(const char * saveFileName, vector<string> vStr)
 
 }
 
-char* txtData::vectorArrayCombine(vector<string> vArray)
+char* TxtData::vectorArrayCombine(vector<string> vArray)
 {
 	char str[128];
 	ZeroMemory(str, sizeof(str));
@@ -52,7 +52,7 @@ char* txtData::vectorArrayCombine(vector<string> vArray)
 	return str;
 }
 
-vector<string> txtData::txtLoad(const char * loadFileName)
+vector<string> TxtData::txtLoad(const char * loadFileName)
 {
 	HANDLE file;
 	DWORD read;
@@ -71,7 +71,7 @@ vector<string> txtData::txtLoad(const char * loadFileName)
 	return charArraySeparation(str);
 }
 
-vector<string> txtData::charArraySeparation(char charArray[])
+vector<string> TxtData::charArraySeparation(char charArray[])
 {
 	vector<string> vArray;
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "gameNode.h"
 
-class player;
+class Player;
 
 enum class ENEMYDIRECTION
 {
@@ -21,7 +21,7 @@ enum class ENEMYDIRECTION
 
 struct tagBulletEnemy
 {
-	image* image;
+	Image* Image;
 
 	MYRECT rc;
 	float x, y;
@@ -34,10 +34,10 @@ struct tagBulletEnemy
 	bool isFire;
 };
 
-class enemy : public gameNode
+class Enemy : public GameNode
 {
 protected:
-	image* _image;
+	Image* _image;
 	float _x;
 	float _y;
 	int _width;
@@ -50,7 +50,7 @@ protected:
 	MYRECT _rc;			// 충돌 처리용
 	//MYRECT _rcCheck;	// 플레이어 체크용
 
-	player* _player;
+	Player* _player;
 
 	ENEMYDIRECTION _direction;
 
@@ -73,14 +73,14 @@ public:
 	void enemyDirection(int num) { _direction = (ENEMYDIRECTION)num; }
 	inline MYRECT& getRect() { return _rc; }
 
-	void setPlayerMemoryAddressLink(player * p) { _player = p; }
+	void setPlayerMemoryAddressLink(Player * p) { _player = p; }
 };
 
-class oko : public enemy
+class oko : public Enemy
 {
 private:
-	image* _imageRound;
-	animation* _ani_round;
+	Image* _imageRound;
+	Animation* _ani_round;
 	RECT _objectRc;
 
 	bool _isOnceAttacked;
@@ -101,11 +101,11 @@ public:
 	void setObjectRect(RECT& rc) { _objectRc = rc; }
 };
 
-class monkey : public enemy
+class monkey : public Enemy
 {
 private:
-	animation* _ani_run;
-	animation* _ani_attack;
+	Animation* _ani_run;
+	Animation* _ani_attack;
 
 	MYRECT _rcHit;
 	MYRECT _rcAttack;
@@ -133,12 +133,12 @@ public:
 	void pixelCollision();
 };
 
-class bakman : public enemy
+class bakman : public Enemy
 {
 private:
-	image* _bullet;
-	animation* _ani_attack;
-	animation* _ani_attack2;
+	Image* _bullet;
+	Animation* _ani_attack;
+	Animation* _ani_attack2;
 
 	MYRECT _rcBullet;
 
@@ -166,12 +166,12 @@ public:
 // ===================================================
 // ## 보스 몬스터 클래스 ##
 
-class prim : public enemy
+class prim : public Enemy
 {
-	animation* _ani_start;
-	animation* _ani_run;
-	animation* _ani_angry;
-	animation* _ani_attack;
+	Animation* _ani_start;
+	Animation* _ani_run;
+	Animation* _ani_angry;
+	Animation* _ani_attack;
 
 	MYRECT _rcAttack;
 
@@ -192,20 +192,20 @@ public:
 	void start();
 };
 
-class witch : public enemy
+class witch : public Enemy
 {
-	image* _imageRight;
-	image* _imageLeftAttackBack;
+	Image* _imageRight;
+	Image* _imageLeftAttackBack;
 
 	tagBulletEnemy _leftBullet1[3];
 	tagBulletEnemy _leftBullet2[10];
 	tagBulletEnemy _rightBullet1;
 	tagBulletEnemy _rightBullet2;
 
-	animation* _ani_idle_left;
-	animation* _ani_idle_right;
-	animation* _ani_attack_left;
-	animation* _ani_attack_right;
+	Animation* _ani_idle_left;
+	Animation* _ani_idle_right;
+	Animation* _ani_attack_left;
+	Animation* _ani_attack_right;
 
 	MYRECT _rcRight;
 	MYRECT _check;
@@ -264,7 +264,7 @@ public:
 	void attackWithLeftBullet(int index);
 };
 
-class rell : public enemy
+class rell : public Enemy
 {
 	enum class RELLSTATE
 	{
@@ -289,28 +289,28 @@ class rell : public enemy
 		MODE3,
 	};
 	
-	image* _image;
+	Image* _image;
 
-	image* _bullet;
-	image* _fire;
-	image* _snow;
-	image* _snow2;
+	Image* _bullet;
+	Image* _fire;
+	Image* _snow;
+	Image* _snow2;
 
 	// 1페이즈
-	animation* _ani_idle1;
-	animation* _ani_ground1;
-	animation* _ani_attack1;
-	animation* _ani_pray;
-	animation* _ani_effect_fire;
+	Animation* _ani_idle1;
+	Animation* _ani_ground1;
+	Animation* _ani_attack1;
+	Animation* _ani_pray;
+	Animation* _ani_effect_fire;
 
 	//2
-	animation* _ani_attack2;
-	animation* _ani_snow;
+	Animation* _ani_attack2;
+	Animation* _ani_snow;
 
 	//3
-	animation* _ani_idle3;
-	animation* _ani_ground3;
-	animation* _ani_attack3;
+	Animation* _ani_idle3;
+	Animation* _ani_ground3;
+	Animation* _ani_attack3;
 
 	RELLSTATE _state;
 	RELLMODE _mode;

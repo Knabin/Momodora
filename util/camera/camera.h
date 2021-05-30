@@ -1,17 +1,17 @@
 ﻿#pragma once
 
-class camera
+class Camera
 {
 public:
-	static camera* getInstance()
+	static Camera* getInstance()
 	{
-		static camera instance;
+		static Camera instance;
 		return &instance;
 	}
 	
 private:
-	camera();
-	~camera();
+	Camera();
+	~Camera();
 
 	typedef struct tagCameraInfo
 	{

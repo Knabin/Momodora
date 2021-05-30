@@ -1,24 +1,24 @@
 ﻿#pragma once
 #include "gameNode.h"
 
-class animation;
+class Animation;
 
-class effect : public gameNode
+class Effect : public GameNode
 {
 protected:
 	int _x;
 	int _y;
 
-	image*		_effectImage;
-	animation*	_effectAnimation;
+	Image*		_effectImage;
+	Animation*	_effectAnimation;
 	BOOL		_isRunning;
 	float		_elapsedTime;
 
 public:
-	effect();
-	~effect();
+	Effect();
+	~Effect();
 
-	virtual HRESULT init(image* effectImage, int frameW, int frameH, int fps, float elapsedTime);
+	virtual HRESULT init(Image* effectImage, int frameW, int frameH, int fps, float elapsedTime);
 	virtual void release();
 	virtual void update();
 	virtual void render();

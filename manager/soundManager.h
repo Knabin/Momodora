@@ -12,18 +12,18 @@ using namespace FMOD;
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
 
-class soundManager
+class SoundManager
 {
 public:
-	static soundManager* getInstance()
+	static SoundManager* getInstance()
 	{
-		static soundManager instance;
+		static SoundManager instance;
 		return &instance;
 	}
 
 private:
-	soundManager();
-	~soundManager();
+	SoundManager();
+	~SoundManager();
 
 private:
 	typedef map<string, Sound**>			arrSounds;

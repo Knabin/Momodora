@@ -1,16 +1,16 @@
 ﻿#include "stdafx.h"
 #include "gameNode.h"
 
-gameNode::gameNode()
+GameNode::GameNode()
 {
 }
 
 
-gameNode::~gameNode()
+GameNode::~GameNode()
 {
 }
 
-HRESULT gameNode::init()
+HRESULT GameNode::init()
 {
 
 	_hdc = GetDC(_hWnd);
@@ -20,7 +20,7 @@ HRESULT gameNode::init()
 	return S_OK;
 }
 
-HRESULT gameNode::init(bool managerInit)
+HRESULT GameNode::init(bool managerInit)
 {
 	_hdc = GetDC(_hWnd);
 	_managerInit = managerInit;
@@ -42,7 +42,7 @@ HRESULT gameNode::init(bool managerInit)
 	return S_OK;
 }
 
-void gameNode::release()
+void GameNode::release()
 {
 	if (_managerInit)
 	{
@@ -61,17 +61,17 @@ void gameNode::release()
 	ReleaseDC(_hWnd, _hdc);
 }
 
-void gameNode::update()
+void GameNode::update()
 {
 	
 }
 
-void gameNode::render()
+void GameNode::render()
 {
 
 }
 
-LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
+LRESULT GameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	//HWND - 핸들메시지
 	//UINT - 메시지 발생 번호

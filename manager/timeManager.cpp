@@ -2,30 +2,30 @@
 #include "timeManager.h"
 
 
-timeManager::timeManager()
+TimeManager::TimeManager()
 	: _timer(NULL)
 {
 }
 
 
-timeManager::~timeManager()
+TimeManager::~TimeManager()
 {
 }
 
-HRESULT timeManager::init()
+HRESULT TimeManager::init()
 {
-	_timer = new timer;
+	_timer = new Timer;
 	_timer->init();
 
 	return S_OK;
 }
 
-void timeManager::release()
+void TimeManager::release()
 {
 	if (_timer != NULL) SAFE_DELETE(_timer);
 }
 
-void timeManager::update(float lockFPS)
+void TimeManager::update(float lockFPS)
 {
 	if (_timer != NULL)
 	{
@@ -34,7 +34,7 @@ void timeManager::update(float lockFPS)
 
 }
 
-void timeManager::render(HDC hdc)
+void TimeManager::render(HDC hdc)
 {
 	char str[256];
 	string frameRate;

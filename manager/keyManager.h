@@ -5,18 +5,18 @@
 
 using namespace std;
 
-class keyManager
+class KeyManager
 {
 public:
-	static keyManager* getInstance()
+	static KeyManager* getInstance()
 	{
-		static keyManager instance;
+		static KeyManager instance;
 		return &instance;
 	}
 
 private:
-	keyManager();
-	~keyManager();
+	KeyManager();
+	~KeyManager();
 
 private:
 	bitset<KEYMAX> _keyUp;

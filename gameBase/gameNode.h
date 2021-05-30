@@ -2,18 +2,18 @@
 #include "image/image.h"
 #include "camera/camera.h"
 
-static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX * 2, WINSIZEY);
+static Image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX * 2, WINSIZEY);
 
-class gameNode
+class GameNode
 {
 private:
 	HDC _hdc;
 	bool _managerInit;		//매니저들 초기화할꺼니
-	camera* _camera;
+	Camera* _camera;
 
 public:
-	gameNode();
-	virtual ~gameNode();
+	GameNode();
+	virtual ~GameNode();
 
 	//HRESULT는 마이크로소프트 전용 디버깅 반환자 인데
 	//S_OK, E_FAIL, SUCCDED 등으로 출력창에 

@@ -2,33 +2,33 @@
 #include "imageManager.h"
 
 
-imageManager::imageManager()
+ImageManager::ImageManager()
 {
 }
 
 
-imageManager::~imageManager()
+ImageManager::~ImageManager()
 {
 }
 
-HRESULT imageManager::init()
+HRESULT ImageManager::init()
 {
 	return S_OK;
 }
 
-void imageManager::release()
+void ImageManager::release()
 {
 	deleteAll();
 }
 
-image* imageManager::addImage(string strKey, int width, int height)
+Image* ImageManager::addImage(string strKey, int width, int height)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	//만약에 내가 찾으려던 이미지가 이미 있으면 그것을 반환
 	if (img) return img;
 
-	img = new image;
+	img = new Image;
 
 	if (FAILED(img->init(width, height)))
 	{
@@ -43,14 +43,14 @@ image* imageManager::addImage(string strKey, int width, int height)
 	return img;
 }
 
-image * imageManager::addImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor)
+Image * ImageManager::addImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	//만약에 내가 찾으려던 이미지가 이미 있으면 그것을 반환
 	if (img) return img;
 
-	img = new image;
+	img = new Image;
 
 	if (FAILED(img->init(fileName, width, height, trans, transColor)))
 	{
@@ -65,14 +65,14 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+Image * ImageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	//만약에 내가 찾으려던 이미지가 이미 있으면 그것을 반환
 	if (img) return img;
 
-	img = new image;
+	img = new Image;
 
 	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, trans, transColor)))
 	{
@@ -87,14 +87,14 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+Image * ImageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	//만약에 내가 찾으려던 이미지가 이미 있으면 그것을 반환
 	if (img) return img;
 
-	img = new image;
+	img = new Image;
 
 	if (FAILED(img->init(fileName, width, height, frameX, frameY, trans, transColor)))
 	{
@@ -109,7 +109,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 	return img;
 }
 
-image * imageManager::findImage(string strKey)
+Image * ImageManager::findImage(string strKey)
 {
 	mapImageIter key = _mImageList.find(strKey);
 
@@ -122,7 +122,7 @@ image * imageManager::findImage(string strKey)
 	return nullptr;
 }
 
-BOOL imageManager::deleteImage(string strKey)
+BOOL ImageManager::deleteImage(string strKey)
 {
 	mapImageIter key = _mImageList.find(strKey);
 
@@ -138,7 +138,7 @@ BOOL imageManager::deleteImage(string strKey)
 	return false;
 }
 
-BOOL imageManager::deleteAll()
+BOOL ImageManager::deleteAll()
 {
 	mapImageIter iter = _mImageList.begin();
 
@@ -159,23 +159,23 @@ BOOL imageManager::deleteAll()
 	return true;
 }
 
-void imageManager::render(string strKey, HDC hdc)
+void ImageManager::render(string strKey, HDC hdc)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	if (img) img->render(hdc);
 }
 
-void imageManager::render(string strKey, HDC hdc, int destX, int destY)
+void ImageManager::render(string strKey, HDC hdc, int destX, int destY)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	if (img) img->render(hdc, destX, destY);
 }
 
-void imageManager::render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
+void ImageManager::render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
 {
-	image* img = findImage(strKey);
+	Image* img = findImage(strKey);
 
 	if (img) img->render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight);
 }

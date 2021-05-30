@@ -2,16 +2,16 @@
 #include "progressBar.h"
 
 
-progressBar::progressBar()
+ProgressBar::ProgressBar()
 {
 }
 
 
-progressBar::~progressBar()
+ProgressBar::~ProgressBar()
 {
 }
 
-HRESULT progressBar::init(float x, float y, int width, int height)
+HRESULT ProgressBar::init(float x, float y, int width, int height)
 {
 	_x = x;
 	_y = y;
@@ -27,18 +27,18 @@ HRESULT progressBar::init(float x, float y, int width, int height)
 	return S_OK;
 }
 
-void progressBar::release()
+void ProgressBar::release()
 {
 }
 
-void progressBar::update()
+void ProgressBar::update()
 {
 	_rcProgress = RectMakeCenter(_x, _y,
 		_progressBarTop->getWidth(),
 		_progressBarBottom->getHeight());
 }
 
-void progressBar::render()
+void ProgressBar::render()
 {
 	IMAGEMANAGER->render("backBar", getMemDC(),
 		_rcProgress.left + _progressBarBottom->getWidth() / 2,
@@ -54,7 +54,7 @@ void progressBar::render()
 
 }
 
-void progressBar::setGauge(float currentGauge, float maxGauge)
+void ProgressBar::setGauge(float currentGauge, float maxGauge)
 {
 	//백분율 구하는 공식이에여!
 	_width = (currentGauge / maxGauge) * _progressBarBottom->getWidth();

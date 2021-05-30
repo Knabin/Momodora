@@ -12,7 +12,7 @@ HRESULT oko::init(MYPOINT position)
 
 	_rc.set(_x, _y, _x + _image->getWidth(), _y + _image->getHeight());
 
-	_ani_round = new animation;
+	_ani_round = new Animation;
 	_ani_round->init(_imageRound->getWidth(),
 		_imageRound->getHeight(),
 		_imageRound->getFrameWidth(),
@@ -142,7 +142,7 @@ HRESULT monkey::init(MYPOINT position)
 
 	_rcAttack.set(0, 0, 20, 40);
 
-	_ani_run = new animation;
+	_ani_run = new Animation;
 	_ani_run->init(_image->getWidth(),
 		_image->getHeight(),
 		_image->getFrameWidth(),
@@ -152,7 +152,7 @@ HRESULT monkey::init(MYPOINT position)
 	_ani_run->setPlayFrame(0, 5, false, true);
 	_ani_run->start();
 
-	_ani_attack = new animation;
+	_ani_attack = new Animation;
 	_ani_attack->init(IMAGEMANAGER->findImage("몬스터2 공격")->getWidth(),
 		IMAGEMANAGER->findImage("몬스터2 공격")->getHeight(),
 		IMAGEMANAGER->findImage("몬스터2 공격")->getFrameWidth(),
@@ -460,7 +460,7 @@ HRESULT bakman::init(MYPOINT position)
 
 	_rcBullet.set(0, 0, _bullet->getWidth(), _bullet->getHeight());
 
-	_ani_attack = new animation;
+	_ani_attack = new Animation;
 	_ani_attack->init(IMAGEMANAGER->findImage("몬스터3 공격")->getWidth(),
 		IMAGEMANAGER->findImage("몬스터3 공격")->getHeight(),
 		IMAGEMANAGER->findImage("몬스터3 공격")->getFrameWidth(),
@@ -468,7 +468,7 @@ HRESULT bakman::init(MYPOINT position)
 	_ani_attack->setDefPlayFrame(false, false);
 	_ani_attack->setFPS(1);
 
-	_ani_attack2 = new animation;
+	_ani_attack2 = new Animation;
 	_ani_attack2->init(IMAGEMANAGER->findImage("몬스터3 공격2")->getWidth(),
 		IMAGEMANAGER->findImage("몬스터3 공격2")->getHeight(),
 		IMAGEMANAGER->findImage("몬스터3 공격2")->getFrameWidth(),
@@ -671,25 +671,25 @@ HRESULT prim::init(MYPOINT position)
 {
 	_image = IMAGEMANAGER->findImage("보스1 시작");
 	
-	_ani_start = new animation;
+	_ani_start = new Animation;
 	_ani_start->init(_image->getWidth(), _image->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_start->setFPS(1);
 	_ani_start->setDefPlayFrame(false, false);
 
-	_ani_attack = new animation;
+	_ani_attack = new Animation;
 	_ani_attack->init(IMAGEMANAGER->findImage("보스1 공격")->getWidth(), IMAGEMANAGER->findImage("보스1 공격")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_attack->setFPS(1);
 	_ani_attack->setDefPlayFrame(false, false);
 
-	_ani_run = new animation;
+	_ani_run = new Animation;
 	_ani_run->init(IMAGEMANAGER->findImage("보스1 이동")->getWidth(), IMAGEMANAGER->findImage("보스1 이동")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_run->setFPS(1);
 	_ani_run->setDefPlayFrame(false, false);
 
-	_ani_angry = new animation;
+	_ani_angry = new Animation;
 	_ani_angry->init(IMAGEMANAGER->findImage("보스1 화남")->getWidth(), IMAGEMANAGER->findImage("보스1 화남")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_angry->setFPS(1);
@@ -937,7 +937,7 @@ HRESULT witch::init(MYPOINT position)
 	_yRight = _y - 24;
 	
 	{
-		_leftBullet1[0].image = _leftBullet1[1].image = _leftBullet1[2].image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛");
+		_leftBullet1[0].Image = _leftBullet1[1].Image = _leftBullet1[2].Image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛");
 		_leftBullet1[0].fireX = _leftBullet1[0].x = _leftBullet1[1].fireX = _leftBullet1[1].x = _x + 50;
 		_leftBullet1[0].fireY = _leftBullet1[0].y = _leftBullet1[1].fireY = _leftBullet1[1].y = _y;
 		_leftBullet1[0].range = _leftBullet1[1].range = 700;
@@ -947,13 +947,13 @@ HRESULT witch::init(MYPOINT position)
 
 	for (int i = 0; i < 10; ++i)
 	{
-		_leftBullet2[i].image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛2");
+		_leftBullet2[i].Image = IMAGEMANAGER->findImage("보스2 왼쪽 불렛2");
 		_leftBullet2[i].isFire = false;
 		_leftBullet2[i].range = 500;
 	}
 	
 	{
-		_rightBullet1.image = IMAGEMANAGER->findImage("보스2 오른쪽 불렛");
+		_rightBullet1.Image = IMAGEMANAGER->findImage("보스2 오른쪽 불렛");
 		_rightBullet1.fireX = _rightBullet1.x = _xRight - 20;
 		_rightBullet1.fireY = _rightBullet1.y = _yRight - 20;
 		_rightBullet1.range = 1000;
@@ -973,7 +973,7 @@ HRESULT witch::init(MYPOINT position)
 	_rcRight.set(0, 0, 40, 60);
 	_rcRight.setCenterPos(_xRight + _imageRight->getFrameWidth() / 2, _yRight + _imageRight->getFrameHeight() / 2);
 
-	_ani_idle_left = new animation;
+	_ani_idle_left = new Animation;
 	_ani_idle_left->init(_image->getWidth(), _image->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
 	_ani_idle_left->setFPS(1);
@@ -981,7 +981,7 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_left->setPlayFrame(0, 4, false, true);
 	_ani_idle_left->start();
 
-	_ani_attack_left = new animation;
+	_ani_attack_left = new Animation;
 	_ani_attack_left->init(IMAGEMANAGER->findImage("보스2 왼쪽 공격")->getWidth(),
 		IMAGEMANAGER->findImage("보스2 왼쪽 공격")->getHeight(),
 		_image->getFrameWidth(), _image->getFrameHeight());
@@ -989,7 +989,7 @@ HRESULT witch::init(MYPOINT position)
 	_ani_attack_left->setDefPlayFrame(false, false);
 	_ani_attack_left->setPlayFrame(0, 9, false, false);
 
-	_ani_idle_right = new animation;
+	_ani_idle_right = new Animation;
 	_ani_idle_right->init(_imageRight->getWidth(), _imageRight->getHeight(),
 		_imageRight->getFrameWidth(), _imageRight->getFrameHeight());
 	_ani_idle_right->setFPS(1);
@@ -997,7 +997,7 @@ HRESULT witch::init(MYPOINT position)
 	_ani_idle_right->setPlayFrame(0, 4, false, true);
 	_ani_idle_right->start();
 
-	_ani_attack_right = new animation;
+	_ani_attack_right = new Animation;
 	_ani_attack_right->init(IMAGEMANAGER->findImage("보스2 오른쪽 공격")->getWidth(),
 		IMAGEMANAGER->findImage("보스2 오른쪽 공격")->getHeight(),
 		_imageRight->getFrameWidth(), _imageRight->getFrameHeight());
@@ -1146,7 +1146,7 @@ void witch::move()
 		_leftBullet1[0].count += 0.01f;
 		_leftBullet1[0].x = calculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).x;
 		_leftBullet1[0].y = calculateBezierPoint(_leftBullet1[0].count, _pts[0], _pts[1], _pts[2], _pts[3]).y;
-		_leftBullet1[0].rc = { _leftBullet1[0].x, _leftBullet1[0].y, _leftBullet1[0].x + _leftBullet1[0].image->getWidth(), _leftBullet1[0].y + _leftBullet1[0].image->getHeight() };
+		_leftBullet1[0].rc = { _leftBullet1[0].x, _leftBullet1[0].y, _leftBullet1[0].x + _leftBullet1[0].Image->getWidth(), _leftBullet1[0].y + _leftBullet1[0].Image->getHeight() };
 		if (_leftBullet1[0].range <= getDistance(_leftBullet1[0].fireX, _leftBullet1[0].fireY, _leftBullet1[0].x, _leftBullet1[0].y))
 		{
 			_leftBullet1[0].isFire = false;
@@ -1165,7 +1165,7 @@ void witch::move()
 		_leftBullet1[1].count += 0.005f;
 		_leftBullet1[1].x = calculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).x;
 		_leftBullet1[1].y = calculateBezierPoint(_leftBullet1[1].count, _pts[4], _pts[5], _pts[6], _pts[7]).y;
-		_leftBullet1[1].rc = { _leftBullet1[1].x, _leftBullet1[1].y, _leftBullet1[1].x + _leftBullet1[1].image->getWidth(), _leftBullet1[1].y + _leftBullet1[1].image->getHeight() };
+		_leftBullet1[1].rc = { _leftBullet1[1].x, _leftBullet1[1].y, _leftBullet1[1].x + _leftBullet1[1].Image->getWidth(), _leftBullet1[1].y + _leftBullet1[1].Image->getHeight() };
 		if (_leftBullet1[1].range <= getDistance(_leftBullet1[1].fireX, _leftBullet1[1].fireY, _leftBullet1[1].x, _leftBullet1[1].y))
 		{
 			_leftBullet1[1].isFire = false;
@@ -1179,7 +1179,7 @@ void witch::move()
 		{
 			_leftBullet2[i].x += cosf(_leftBullet2[i].angle) * _leftBullet2[i].speed;
 			_leftBullet2[i].y += -sinf(_leftBullet2[i].angle) * _leftBullet2[i].speed;
-			_leftBullet2[i].rc = { _leftBullet2[i].x, _leftBullet2[i].y, _leftBullet2[i].x + _leftBullet2[i].image->getWidth(), _leftBullet2[i].y + _leftBullet2[i].image->getHeight() };
+			_leftBullet2[i].rc = { _leftBullet2[i].x, _leftBullet2[i].y, _leftBullet2[i].x + _leftBullet2[i].Image->getWidth(), _leftBullet2[i].y + _leftBullet2[i].Image->getHeight() };
 			if (getDistance(_leftBullet2[i].x, _leftBullet2[i].y, _leftBullet2[i].fireX, _leftBullet2[i].fireY)
 				>= _leftBullet2[i].range)
 			{
@@ -1199,7 +1199,7 @@ void witch::move()
 		{
 			_rightBullet1.x += cosf(_rightBullet1.angle) * 13.0f;
 			_rightBullet1.y += -sinf(_rightBullet1.angle) * 13.0f;
-			_rightBullet1.rc = { _rightBullet1.x, _rightBullet1.y, _rightBullet1.x + _rightBullet1.image->getWidth(), _rightBullet1.y + _rightBullet1.image->getHeight() };
+			_rightBullet1.rc = { _rightBullet1.x, _rightBullet1.y, _rightBullet1.x + _rightBullet1.Image->getWidth(), _rightBullet1.y + _rightBullet1.Image->getHeight() };
 			if (getDistance(_rightBullet1.x, _rightBullet1.y, _rightBullet1.fireX, _rightBullet1.fireY)
 				>= _rightBullet1.range)
 			{
@@ -1301,7 +1301,7 @@ void witch::draw()
 			if (_leftBullet1[i].isFire)
 			{
 				if (TIMEMANAGER->getDebug()) _leftBullet1[i].rc.render(getMemDC());
-				_leftBullet1[i].image->render(getMemDC(), _leftBullet1[i].x, _leftBullet1[i].y);
+				_leftBullet1[i].Image->render(getMemDC(), _leftBullet1[i].x, _leftBullet1[i].y);
 			}
 		}
 
@@ -1310,14 +1310,14 @@ void witch::draw()
 			if (_leftBullet2[i].isFire)
 			{
 				if (TIMEMANAGER->getDebug()) _leftBullet2[i].rc.render(getMemDC());
-				_leftBullet2[i].image->render(getMemDC(), _leftBullet2[i].x, _leftBullet2[i].y);
+				_leftBullet2[i].Image->render(getMemDC(), _leftBullet2[i].x, _leftBullet2[i].y);
 			}
 		}
 
 		if (_rightBullet1.isFire)
 		{
-			_rightBullet1.image->render(getMemDC(), _rightBullet1.x - _rightBullet1.image->getWidth()/ 2, 
-				_rightBullet1.y - _rightBullet1.image->getHeight() / 2);
+			_rightBullet1.Image->render(getMemDC(), _rightBullet1.x - _rightBullet1.Image->getWidth()/ 2, 
+				_rightBullet1.y - _rightBullet1.Image->getHeight() / 2);
 		}
 
 		if (_rightBullet2.isFire)
@@ -1465,7 +1465,7 @@ HRESULT rell::init(MYPOINT position)
 	_snow2 = IMAGEMANAGER->findImage("보스3-2 눈꽃2");
 
 	{
-		_ani_idle1 = new animation;
+		_ani_idle1 = new Animation;
 		_ani_idle1->init(_image->getWidth(), _image->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_idle1->setFPS(1);
@@ -1473,21 +1473,21 @@ HRESULT rell::init(MYPOINT position)
 		_ani_idle1->setPlayFrame(0, 4, false, true);
 		_ani_idle1->start();
 
-		_ani_ground1 = new animation;
+		_ani_ground1 = new Animation;
 		_ani_ground1->init(IMAGEMANAGER->findImage("보스3-1 땅")->getWidth(), 
 			IMAGEMANAGER->findImage("보스3-1 땅")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_ground1->setFPS(1);
 		_ani_ground1->setDefPlayFrame(false, false);
 
-		_ani_attack1 = new animation;
+		_ani_attack1 = new Animation;
 		_ani_attack1->init(IMAGEMANAGER->findImage("보스3-1 공격")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-1 공격")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
 		_ani_attack1->setFPS(1);
 		_ani_attack1->setDefPlayFrame(false, false);
 
-		_ani_pray = new animation;
+		_ani_pray = new Animation;
 		_ani_pray->init(IMAGEMANAGER->findImage("보스3-1 공격")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-1 공격")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
@@ -1495,7 +1495,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_pray->setDefPlayFrame(false, true);
 
 
-		_ani_attack2 = new animation;
+		_ani_attack2 = new Animation;
 		_ani_attack2->init(IMAGEMANAGER->findImage("보스3-2")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-2")->getHeight(),
 			_image->getFrameWidth(), _image->getFrameHeight());
@@ -1503,7 +1503,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_attack2->setDefPlayFrame(false, false);
 
 
-		_ani_idle3 = new animation;
+		_ani_idle3 = new Animation;
 		_ani_idle3->init(IMAGEMANAGER->findImage("보스3-3 기본")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-3 기본")->getHeight(),
 			IMAGEMANAGER->findImage("보스3-3 기본")->getFrameWidth(),
@@ -1511,7 +1511,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_idle3->setFPS(1);
 		_ani_idle3->setDefPlayFrame(false, true);
 
-		_ani_ground3 = new animation;
+		_ani_ground3 = new Animation;
 		_ani_ground3->init(IMAGEMANAGER->findImage("보스3-3 땅")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-3 땅")->getHeight(),
 			IMAGEMANAGER->findImage("보스3-3 땅")->getFrameWidth(),
@@ -1519,7 +1519,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_ground3->setFPS(1);
 		_ani_ground3->setDefPlayFrame(false, false);
 
-		_ani_attack3 = new animation;
+		_ani_attack3 = new Animation;
 		_ani_attack3->init(IMAGEMANAGER->findImage("보스3-3 공격")->getWidth(),
 			IMAGEMANAGER->findImage("보스3-3 공격")->getHeight(),
 			IMAGEMANAGER->findImage("보스3-3 공격")->getFrameWidth(),
@@ -1527,7 +1527,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_attack3->setFPS(1);
 		_ani_attack3->setDefPlayFrame(false, false);
 
-		_ani_effect_fire = new animation;
+		_ani_effect_fire = new Animation;
 		_ani_effect_fire->init(_fire->getWidth(),
 			_fire->getHeight(),
 			_fire->getFrameWidth(),
@@ -1535,7 +1535,7 @@ HRESULT rell::init(MYPOINT position)
 		_ani_effect_fire->setFPS(1);
 		_ani_effect_fire->setDefPlayFrame(false, false);
 
-		_ani_snow = new animation;
+		_ani_snow = new Animation;
 		_ani_snow->init(_snow2->getWidth(),
 			_snow2->getHeight(),
 			_snow2->getFrameWidth(),
@@ -1566,7 +1566,7 @@ HRESULT rell::init(MYPOINT position)
 	{
 		for (int i = 0; i < 3; ++i)
 		{
-			_bullet1[i].image = IMAGEMANAGER->findImage("보스3 불렛");
+			_bullet1[i].Image = IMAGEMANAGER->findImage("보스3 불렛");
 			_bullet1[i].fireX = _bullet1[i].x = _x + _image->getWidth() / 2;
 			_bullet1[i].fireY = _bullet1[i].y = _y + _image->getHeight() / 2;
 			_bullet1[i].angle = PI * 0.5f;
@@ -1576,7 +1576,7 @@ HRESULT rell::init(MYPOINT position)
 
 		for (int i = 0; i < 20; ++i)
 		{
-			_bullet2[i].image = IMAGEMANAGER->findImage("보스3 불렛");
+			_bullet2[i].Image = IMAGEMANAGER->findImage("보스3 불렛");
 			_bullet2[i].fireX = _bullet2[i].x = _x + _image->getWidth() / 2;
 			_bullet2[i].fireY = _bullet2[i].y = _y + _image->getHeight() / 2;
 			_bullet2[i].angle = PI * 0.5f;
@@ -1587,7 +1587,7 @@ HRESULT rell::init(MYPOINT position)
 
 		for (int i = 0; i < 3; ++i)
 		{
-			_ground[i].image = IMAGEMANAGER->findImage("보스3-1 땅");
+			_ground[i].Image = IMAGEMANAGER->findImage("보스3-1 땅");
 			_ground[i].x = _x + _image->getWidth() / 2;
 			_ground[i].y = _y + _image->getHeight() / 2;
 			_ground[i].rc.set(0, 0, 48, 10);
@@ -1675,13 +1675,13 @@ void rell::attack()
 					if (changeDirectionToLeft())
 					{
 						_state = RELLSTATE::LEFT_GROUND;
-						_ground[0].image = IMAGEMANAGER->findImage("보스3-1 땅 왼쪽");
+						_ground[0].Image = IMAGEMANAGER->findImage("보스3-1 땅 왼쪽");
 						_ani_ground1->setPlayFrame(0, 11);
 					}
 					else
 					{
 						_state = RELLSTATE::RIGHT_GROUND;
-						_ground[0].image = IMAGEMANAGER->findImage("보스3-1 땅 오른쪽");
+						_ground[0].Image = IMAGEMANAGER->findImage("보스3-1 땅 오른쪽");
 						_ani_ground1->setPlayFrame(12, 21);
 					}
 					_ani_ground1->start();
@@ -1926,7 +1926,7 @@ void rell::move()
 			++_bullet1[i].count;
 			_bullet1[i].x += cosf(_bullet1[i].angle) * _bullet1[i].speed;
 			_bullet1[i].y += -sinf(_bullet1[i].angle) * _bullet1[i].speed;
-			_bullet1[i].rc = { _bullet1[i].x, _bullet1[i].y, _bullet1[i].x + _bullet1[i].image->getWidth(), _bullet1[i].y + _bullet1[i].image->getHeight() };
+			_bullet1[i].rc = { _bullet1[i].x, _bullet1[i].y, _bullet1[i].x + _bullet1[i].Image->getWidth(), _bullet1[i].y + _bullet1[i].Image->getHeight() };
 			if (getDistance(_bullet1[i].x, _bullet1[i].y, _bullet1[i].fireX, _bullet1[i].fireY) >= _bullet1[i].range)
 			{
 				_bullet1[i].isFire = false;
@@ -1963,7 +1963,7 @@ void rell::move()
 				_bullet2[i].y = _bullet2[i].fireY;
 			}
 			
-			_bullet2[i].rc = { _bullet2[i].x, _bullet2[i].y, _bullet2[i].x + _bullet2[i].image->getWidth(), _bullet2[i].y + _bullet2[i].image->getHeight() };
+			_bullet2[i].rc = { _bullet2[i].x, _bullet2[i].y, _bullet2[i].x + _bullet2[i].Image->getWidth(), _bullet2[i].y + _bullet2[i].Image->getHeight() };
 		}
 	}
 	else
@@ -2041,12 +2041,12 @@ void rell::draw()
 		{
 			if (!_bullet1[i].isFire) continue;
 			if (TIMEMANAGER->getDebug()) _bullet1[i].rc.render(getMemDC());
-			_bullet1[i].image->alphaRender(getMemDC(), _bullet1[i].x, _bullet1[i].y, 180);
+			_bullet1[i].Image->alphaRender(getMemDC(), _bullet1[i].x, _bullet1[i].y, 180);
 		}
 
 		if (_ground[0].isFire)
 		{
-			_ground[0].image->render(getMemDC(), _ground[0].x - _ground[0].image->getWidth() / 2, _ground[0].y - _ground[0].image->getHeight());
+			_ground[0].Image->render(getMemDC(), _ground[0].x - _ground[0].Image->getWidth() / 2, _ground[0].y - _ground[0].Image->getHeight());
 			if (TIMEMANAGER->getDebug()) _ground[0].rc.render(getMemDC());
 		}
 	}
@@ -2065,7 +2065,7 @@ void rell::draw()
 		{
 			if (!_bullet2[i].isFire) continue;
 			if(TIMEMANAGER->getDebug()) _bullet2[i].rc.render(getMemDC());
-			_bullet2[i].image->alphaRender(getMemDC(), _bullet2[i].x, _bullet2[i].y, 150);
+			_bullet2[i].Image->alphaRender(getMemDC(), _bullet2[i].x, _bullet2[i].y, 150);
 		}
 	}
 	else
@@ -2097,7 +2097,7 @@ void rell::draw()
 		for (int i = 0; i < 3; ++i)
 		{
 			if (!_ground[i].isFire) continue;
-			_ground[i].image->render(getMemDC(), _ground[i].x - _ground[i].image->getWidth() / 2, _ground[i].y - _ground[i].image->getHeight());
+			_ground[i].Image->render(getMemDC(), _ground[i].x - _ground[i].Image->getWidth() / 2, _ground[i].y - _ground[i].Image->getHeight());
 			if (TIMEMANAGER->getDebug()) _ground[i].rc.render(getMemDC());
 		}
 	}
@@ -2240,8 +2240,8 @@ void rell::changeMode()
 			for (int i = 0; i < 8; ++i)
 			{
 				_bullet2[i].isFire = false;
-				_bullet2[i].x = _bullet2[i].fireX = _x + _image->getFrameWidth() / 2 - _bullet2[i].image->getWidth() / 2;
-				_bullet2[i].y = _bullet2[i].fireY = _yUp + _bullet2[i].image->getHeight() / 2 + 20;
+				_bullet2[i].x = _bullet2[i].fireX = _x + _image->getFrameWidth() / 2 - _bullet2[i].Image->getWidth() / 2;
+				_bullet2[i].y = _bullet2[i].fireY = _yUp + _bullet2[i].Image->getHeight() / 2 + 20;
 				_bullet2[i].angle = PI2 * (0.125 * i);
 			}
 			_maxHp = 20;
@@ -2265,7 +2265,7 @@ void rell::changeMode()
 
 			for (int i = 0; i < 3; ++i)
 			{
-				_ground[i].image = IMAGEMANAGER->findImage("보스3-3 땅 공격");
+				_ground[i].Image = IMAGEMANAGER->findImage("보스3-3 땅 공격");
 				_ground[i].x = _xLarge + _image->getWidth() / 2;
 				_ground[i].y = _yLarge + _image->getHeight() / 2 - 80;
 				_ground[i].count = 15 * (i + 1);

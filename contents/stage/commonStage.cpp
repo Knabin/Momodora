@@ -3,11 +3,11 @@
 #include "player/player.h"
 #include "enemy/enemy.h"
 
-commonStage::commonStage()
+CommonStage::CommonStage()
 {
 }
 
-commonStage::commonStage(int stageNum, const char * stageName)
+CommonStage::CommonStage(int stageNum, const char * stageName)
 {
 	switch (stageNum)
 	{
@@ -31,7 +31,7 @@ commonStage::commonStage(int stageNum, const char * stageName)
 	_stageNum = stageNum;
 }
 
-HRESULT commonStage::init()
+HRESULT CommonStage::init()
 {
 	_vEnemy.clear();
 	if (_fileName != nullptr)
@@ -67,7 +67,7 @@ HRESULT commonStage::init()
 	return S_OK;
 }
 
-void commonStage::release()
+void CommonStage::release()
 {
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
@@ -77,7 +77,7 @@ void commonStage::release()
 	_vEnemy.clear();
 }
 
-void commonStage::update()
+void CommonStage::update()
 {
 	if (_backImg)
 	{
@@ -111,7 +111,7 @@ void commonStage::update()
 		_vEnemy[i]->update();
 }
 
-void commonStage::render()
+void CommonStage::render()
 {
 	if (_backImg)
 	{

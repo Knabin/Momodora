@@ -1,17 +1,17 @@
 ﻿#include "stdafx.h"
 #include "camera.h"
 
-camera::camera()
+Camera::Camera()
 	: _cameraInfo(NULL)
 {
 }
 
-camera::~camera()
+Camera::~Camera()
 {
 }
 
 
-HRESULT camera::init(int width, int height, int backWidth, int backHeight)
+HRESULT Camera::init(int width, int height, int backWidth, int backHeight)
 {
 	if (_cameraInfo != NULL) release();
 
@@ -32,7 +32,7 @@ HRESULT camera::init(int width, int height, int backWidth, int backHeight)
 	return S_OK;
 }
 
-void camera::release()
+void Camera::release()
 {
 	if (_cameraInfo)
 	{
@@ -40,7 +40,7 @@ void camera::release()
 	}
 }
 
-bool camera::checkCameraX()
+bool Camera::checkCameraX()
 {
 	if (_cameraInfo->x - _cameraInfo->width / 2 <= 0 ||
 		_cameraInfo->x + _cameraInfo->width / 2 >= _cameraInfo->backWidth)
@@ -48,7 +48,7 @@ bool camera::checkCameraX()
 	return true;
 }
 
-bool camera::checkCameraY()
+bool Camera::checkCameraY()
 {
 	if (_cameraInfo->y - _cameraInfo->height / 2 <= 0 ||
 		_cameraInfo->y + _cameraInfo->height / 2 >= _cameraInfo->backHeight)
@@ -56,7 +56,7 @@ bool camera::checkCameraY()
 	return true;
 }
 
-void camera::cameraShake()
+void Camera::cameraShake()
 {
 	_flag *= -1;
 }

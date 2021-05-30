@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "util/animation/animation.h"
 
-class image
+class Image
 {
 public:
 	//이미지 불러올 타입
@@ -62,8 +62,8 @@ private:
 	LPIMAGE_INFO	_blendImage;//알파블렌드 처리할 이미지정보
 
 public:
-	image();
-	~image();
+	Image();
+	~Image();
 
 	HRESULT init(int width, int height);
 	HRESULT init(const char* fileName, int width, int height,
@@ -109,9 +109,9 @@ public:
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
 	//애니메이션 렌더링용
-	void aniRender(HDC hdc, int destX, int destY, animation* ani);
-	void aniRedRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
-	void aniAlphaRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
+	void aniRender(HDC hdc, int destX, int destY, Animation* ani);
+	void aniRedRender(HDC hdc, int destX, int destY, Animation* ani, BYTE alpha);
+	void aniAlphaRender(HDC hdc, int destX, int destY, Animation* ani, BYTE alpha);
 
 	//프레임 알파렌더(뿌려질DC, 그려질 좌표(left), 그려질 좌표(top), 알파값(0 ~ 255))
 	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);

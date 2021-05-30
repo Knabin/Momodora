@@ -7,19 +7,19 @@
 #include "stage/commonStage.h"
 
 
-playGround::playGround()
+PlayGround::PlayGround()
 {
 }
 
 
-playGround::~playGround()
+PlayGround::~PlayGround()
 {
 }
 
 //초기화 함수
-HRESULT playGround::init()
+HRESULT PlayGround::init()
 {
-	gameNode::init(true);
+	GameNode::init(true);
 	{
 		IMAGEMANAGER->addImage("백1", "resources/image/back1.bmp", 960, 723, true, RGB(255, 0, 255));
 		IMAGEMANAGER->addImage("백2", "resources/image/back2.bmp", 960, 723, true, RGB(255, 0, 255));
@@ -132,8 +132,8 @@ HRESULT playGround::init()
 		SOUNDMANAGER->addSound("rellexp", "resources/sound/explosion2.wav", false, false);
 	}
 
-	_player = new player;
-	_sm = new stageManager;
+	_player = new Player;
+	_sm = new StageManager;
 
 	_player->setStageManagerMemoryAddressLink(_sm);
 	_sm->setPlayerMemoryAddressLink(_player);
@@ -177,7 +177,7 @@ HRESULT playGround::init()
 }
 
 //메모리 해제
-void playGround::release()
+void PlayGround::release()
 {
 	_player->release();
 	SAFE_DELETE(_player);
@@ -190,9 +190,9 @@ void playGround::release()
 }
 
 //연산
-void playGround::update()
+void PlayGround::update()
 {
-	gameNode::update();
+	GameNode::update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
@@ -233,7 +233,7 @@ void playGround::update()
 }
 
 //그리기 전용
-void playGround::render()
+void PlayGround::render()
 {	
 	PatBlt(getMemDC(), 0, 0, getMemDCWidth(), getMemDCHeight(), WHITENESS);
 	//=================================================

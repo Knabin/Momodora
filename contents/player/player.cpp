@@ -2,7 +2,7 @@
 #include "player.h"
 #include "stageManager.h"
 
-HRESULT player::init()
+HRESULT Player::init()
 {
 	_x = 100;
 	_y = WINSIZEY / 2;
@@ -30,7 +30,7 @@ HRESULT player::init()
 	_canMoveLeft = _canMoveRight =  true;
 
 	{
-		_ani_idle = new animation;
+		_ani_idle = new Animation;
 		_ani_idle->init(IMAGEMANAGER->findImage("idle")->getWidth(),
 			IMAGEMANAGER->findImage("idle")->getHeight(),
 			IMAGEMANAGER->findImage("idle")->getFrameWidth(),
@@ -38,7 +38,7 @@ HRESULT player::init()
 		_ani_idle->setDefPlayFrame(false, true);
 		_ani_idle->setFPS(1);
 
-		_ani_run = new animation;
+		_ani_run = new Animation;
 		_ani_run->init(IMAGEMANAGER->findImage("run")->getWidth(),
 			IMAGEMANAGER->findImage("run")->getHeight(),
 			IMAGEMANAGER->findImage("run")->getFrameWidth(),
@@ -46,7 +46,7 @@ HRESULT player::init()
 		_ani_run->setDefPlayFrame(false, true);
 		_ani_run->setFPS(1);
 
-		_ani_attack = new animation;
+		_ani_attack = new Animation;
 		_ani_attack->init(IMAGEMANAGER->findImage("attack")->getWidth(),
 			IMAGEMANAGER->findImage("attack")->getHeight(),
 			IMAGEMANAGER->findImage("attack")->getFrameWidth(),
@@ -54,7 +54,7 @@ HRESULT player::init()
 		_ani_attack->setDefPlayFrame(false, true);
 		_ani_attack->setFPS(1);
 
-		_ani_jump = new animation;
+		_ani_jump = new Animation;
 		_ani_jump->init(IMAGEMANAGER->findImage("jump")->getWidth(),
 			IMAGEMANAGER->findImage("jump")->getHeight(),
 			IMAGEMANAGER->findImage("jump")->getFrameWidth(),
@@ -62,7 +62,7 @@ HRESULT player::init()
 		_ani_jump->setDefPlayFrame(false, false);
 		_ani_jump->setFPS(1);
 
-		_ani_throw = new animation;
+		_ani_throw = new Animation;
 		_ani_throw->init(IMAGEMANAGER->findImage("throw")->getWidth(),
 			IMAGEMANAGER->findImage("throw")->getHeight(),
 			IMAGEMANAGER->findImage("throw")->getFrameWidth(),
@@ -70,7 +70,7 @@ HRESULT player::init()
 		_ani_throw->setDefPlayFrame(false, false);
 		_ani_throw->setFPS(1);
 
-		_ani_dead = new animation;
+		_ani_dead = new Animation;
 		_ani_dead->init(IMAGEMANAGER->findImage("dead")->getWidth(),
 			IMAGEMANAGER->findImage("dead")->getHeight(),
 			IMAGEMANAGER->findImage("dead")->getFrameWidth(),
@@ -78,7 +78,7 @@ HRESULT player::init()
 		_ani_dead->setDefPlayFrame(false, false);
 		_ani_dead->setFPS(1);
 
-		_ani_pray = new animation;
+		_ani_pray = new Animation;
 		_ani_pray->init(IMAGEMANAGER->findImage("pray")->getWidth(),
 			IMAGEMANAGER->findImage("pray")->getHeight(),
 			IMAGEMANAGER->findImage("pray")->getFrameWidth(),
@@ -86,7 +86,7 @@ HRESULT player::init()
 		_ani_pray->setDefPlayFrame(false, false);
 		_ani_pray->setFPS(1);
 
-		_ani_effect_charge = new animation;
+		_ani_effect_charge = new Animation;
 		_ani_effect_charge->init(_effect->getWidth(),
 			_effect->getHeight(),
 			_effect->getFrameWidth(),
@@ -109,11 +109,11 @@ HRESULT player::init()
 	return S_OK;
 }
 
-void player::release()
+void Player::release()
 {
 }
 
-void player::update()
+void Player::update()
 {
 	if(KEYMANAGER->isOnceKeyDown('Q'))
 	{
@@ -455,7 +455,7 @@ void player::update()
 	
 }
 
-void player::render()
+void Player::render()
 {
 	if(isAttacking() && !getIsCheckAttack() && TIMEMANAGER->getDebug()) _attackRc.render(getMemDC());
 	if (TIMEMANAGER->getDebug())
@@ -535,7 +535,7 @@ void player::render()
 
 }
 
-void player::setAnimation(PLAYERSTATE state)
+void Player::setAnimation(PLAYERSTATE state)
 {
 	_ani_idle->stop();
 	_ani_run->stop();
@@ -655,18 +655,18 @@ void player::setAnimation(PLAYERSTATE state)
 	}
 }
 
-void player::setStatePray()
+void Player::setStatePray()
 {
 	_prayCount = 0;
 	setAnimation(isLeft() ? LEFT_PRAY : RIGHT_PRAY);
 }
 
-void player::fireBullet()
+void Player::fireBullet()
 {
 	tagBullet bullet;
 	ZeroMemory(&bullet, sizeof(bullet));
 
-	bullet.image = IMAGEMANAGER->findImage("부적");
+	bullet.Image = IMAGEMANAGER->findImage("부적");
 	bullet.speed = 7.0f;
 	bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 	bullet.y = bullet.fireY = _y + 25;
@@ -674,20 +674,20 @@ void player::fireBullet()
 	bullet.range = 150;
 
 	bullet.rc = RectMakeCenter(bullet.x, bullet.y,
-		bullet.image->getWidth(),
-		bullet.image->getHeight());
+		bullet.Image->getWidth(),
+		bullet.Image->getHeight());
 
 	_vBullet.push_back(bullet);
 }
 
-void player::fireChargeBullet()
+void Player::fireChargeBullet()
 {
 	for (int i = 0; i < 3; ++i)
 	{
 		tagBullet bullet;
 		ZeroMemory(&bullet, sizeof(bullet));
 
-		bullet.image = IMAGEMANAGER->findImage("부적");
+		bullet.Image = IMAGEMANAGER->findImage("부적");
 		bullet.speed = 7.0f;
 		bullet.x = bullet.fireX = _x + (isLeft() ? -20 : 20);
 		bullet.y = bullet.fireY = _y + 25;
@@ -695,21 +695,21 @@ void player::fireChargeBullet()
 		bullet.range = 150;
 
 		bullet.rc = RectMakeCenter(bullet.x, bullet.y,
-			bullet.image->getWidth(),
-			bullet.image->getHeight());
+			bullet.Image->getWidth(),
+			bullet.Image->getHeight());
 
 		_vBullet.push_back(bullet);
 	}
 }
 
-void player::moveBullet()
+void Player::moveBullet()
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); )
 	{
 		_viBullet->x += cosf(_viBullet->angle) * _viBullet->speed;
 		_viBullet->y += -sinf(_viBullet->angle) * _viBullet->speed;
 		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
-			_viBullet->image->getWidth(), _viBullet->image->getHeight());
+			_viBullet->Image->getWidth(), _viBullet->Image->getHeight());
 
 		if (_viBullet->range < getDistance(_viBullet->x, _viBullet->y,
 			_viBullet->fireX, _viBullet->fireY))
@@ -720,22 +720,22 @@ void player::moveBullet()
 	}
 }
 
-void player::renderBullet()
+void Player::renderBullet()
 {
 	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
 	{
 		Rectangle(getMemDC(), _viBullet->rc);
-		_viBullet->image->render(getMemDC(),
+		_viBullet->Image->render(getMemDC(),
 			_viBullet->rc.left, _viBullet->rc.top);
 	}
 }
 
-void player::removeBullet(int index)
+void Player::removeBullet(int index)
 {
 	_vBullet.erase(_vBullet.begin() + index);
 }
 
-bool player::checkBulletCollision(MYRECT rc)
+bool Player::checkBulletCollision(MYRECT rc)
 {
 	RECT rcR = RectMake(rc.left, rc.top, rc.getWidth(), rc.getHeight());
 	for (int i = 0; i < _vBullet.size(); ++i)
@@ -750,12 +750,12 @@ bool player::checkBulletCollision(MYRECT rc)
 	return false;
 }
 
-void player::setPointLeftStart()
+void Player::setPointLeftStart()
 {
 	_x = 80;
 }
 
-void player::setPointRightStart()
+void Player::setPointRightStart()
 {
 	_x = _sm->getCurrentStageSize() - 80;
 }

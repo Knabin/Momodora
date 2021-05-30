@@ -1,21 +1,21 @@
 ﻿#pragma once
 #include "util/timer/timer.h"
 
-class timeManager
+class TimeManager
 {
 public:
-	static timeManager* getInstance()
+	static TimeManager* getInstance()
 	{
-		static timeManager instance;
+		static TimeManager instance;
 		return &instance;
 	}
 
 private:
-	timeManager();
-	~timeManager();
+	TimeManager();
+	~TimeManager();
 
 private:
-	timer* _timer;
+	Timer* _timer;
 	bool _debug;
 
 public:

@@ -1,21 +1,21 @@
 ﻿#pragma once
 #include <time.h>
 
-class randomFunction
+class RandomFunction
 {
 public:
-	static randomFunction* getInstance()
+	static RandomFunction* getInstance()
 	{
-		static randomFunction instance;
+		static RandomFunction instance;
 		return &instance;
 	}
 
 private:
-	randomFunction()
+	RandomFunction()
 	{
 		srand(GetTickCount());
 	}
-	~randomFunction()
+	~RandomFunction()
 	{
 
 	}

@@ -9,7 +9,7 @@ LPCTSTR _lpszClass = TEXT("뜨웨니~원");
 
 POINT _ptMouse;
 
-playGround _pg;
+PlayGround _pg;
 
 
 //함수 프로토타입 선언

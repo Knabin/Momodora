@@ -5,7 +5,7 @@
 #pragma comment(lib, "msimg32.lib")
 
 //멤버 이니셜라이즈
-image::image()
+Image::Image()
 	: _imageInfo(NULL),
 	_fileName(NULL),
 	_trans(false),
@@ -14,11 +14,11 @@ image::image()
 }
 
 
-image::~image()
+Image::~Image()
 {
 }
 
-HRESULT image::init(int width, int height)
+HRESULT Image::init(int width, int height)
 {
 	//예외처리
 	if (_imageInfo != NULL) release();
@@ -48,7 +48,7 @@ HRESULT image::init(int width, int height)
 	return S_OK;
 }
 
-HRESULT image::init(const char * fileName, int width, int height, BOOL trans, COLORREF transColor)
+HRESULT Image::init(const char * fileName, int width, int height, BOOL trans, COLORREF transColor)
 {
 	//이미지 정보가 혹시나 남아있다면 해제해라
 	if (_imageInfo != NULL) release();
@@ -100,7 +100,7 @@ HRESULT image::init(const char * fileName, int width, int height, BOOL trans, CO
 	return S_OK;
 }
 
-HRESULT image::init(const char * fileName, float x, float y, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
+HRESULT Image::init(const char * fileName, float x, float y, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
 {
 	//이미지 정보가 혹시나 남아있다면 해제해라
 	if (_imageInfo != NULL) release();
@@ -157,7 +157,7 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 	return S_OK;
 }
 
-HRESULT image::init(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
+HRESULT Image::init(const char * fileName, int width, int height, int frameX, int frameY, BOOL trans, COLORREF transColor)
 {
 	//이미지 정보가 혹시나 남아있다면 해제해라
 	if (_imageInfo != NULL) release();
@@ -211,7 +211,7 @@ HRESULT image::init(const char * fileName, int width, int height, int frameX, in
 	return S_OK;
 }
 
-void image::release()
+void Image::release()
 {
 	if (_imageInfo)
 	{
@@ -232,13 +232,13 @@ void image::release()
 	}
 }
 
-void image::setTransColor(BOOL trans, COLORREF transColor)
+void Image::setTransColor(BOOL trans, COLORREF transColor)
 {
 	_trans = trans;
 	_transColor = transColor;
 }
 
-void image::render(HDC hdc)
+void Image::render(HDC hdc)
 {
 	if (_trans)
 	{
@@ -268,7 +268,7 @@ void image::render(HDC hdc)
 	}
 }
 
-void image::render(HDC hdc, int destX, int destY)
+void Image::render(HDC hdc, int destX, int destY)
 {
 	if (_trans)
 	{
@@ -300,7 +300,7 @@ void image::render(HDC hdc, int destX, int destY)
 
 }
 
-void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
+void Image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
 {
 	if (_trans)
 	{
@@ -330,7 +330,7 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
-void image::frameRender(HDC hdc, int destX, int destY)
+void Image::frameRender(HDC hdc, int destX, int destY)
 {
 	if (_trans)
 	{
@@ -362,7 +362,7 @@ void image::frameRender(HDC hdc, int destX, int destY)
 	}
 }
 
-void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
+void Image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
 {
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
@@ -397,7 +397,7 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 	}
 }
 
-void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
+void Image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 {
 	//정밀한 예외처리를 할땐 나머지 연산자를 꼭 이용합시다
 	if (offSetX < 0) offSetX = _imageInfo->width + (offSetX % _imageInfo->width);
@@ -462,7 +462,7 @@ void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 
 }
 
-void image::alphaRender(HDC hdc, BYTE alpha)
+void Image::alphaRender(HDC hdc, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 
@@ -495,7 +495,7 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 	}
 }
 
-void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
+void Image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 
@@ -528,7 +528,7 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
-void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+void Image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 
@@ -561,22 +561,22 @@ void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int
 	}
 }
 
-void image::aniRender(HDC hdc, int destX, int destY, animation* ani)
+void Image::aniRender(HDC hdc, int destX, int destY, Animation* ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
 }
 
-void image::aniRedRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
+void Image::aniRedRender(HDC hdc, int destX, int destY, Animation * ani, BYTE alpha)
 {
 	alphaRedRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
 }
 
-void image::aniAlphaRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
+void Image::aniAlphaRender(HDC hdc, int destX, int destY, Animation * ani, BYTE alpha)
 {
 	alphaRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
 }
 
-void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
+void Image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 
@@ -617,7 +617,7 @@ void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
-void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+void Image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 	_imageInfo->currentFrameX = currentFrameX;
@@ -661,7 +661,7 @@ void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, i
 
 }
 
-void image::alphaRedRender(HDC hdc, BYTE alpha)
+void Image::alphaRedRender(HDC hdc, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 	HDC tempDC = CreateCompatibleDC(_imageInfo->hMemDC);
@@ -714,7 +714,7 @@ void image::alphaRedRender(HDC hdc, BYTE alpha)
 	DeleteObject(redOrigin);
 }
 
-void image::alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+void Image::alphaRedRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
 {
 	_blendFunc.SourceConstantAlpha = alpha;
 	HDC tempDC = CreateCompatibleDC(_imageInfo->hMemDC);

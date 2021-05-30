@@ -1,7 +1,7 @@
 #pragma once
 
 
-class timer
+class Timer
 {
 private:
 	float _timeScale;
@@ -18,8 +18,8 @@ private:
 	float _worldTime;
 	
 public:
-	timer();
-	~timer();
+	Timer();
+	~Timer();
 
 	HRESULT init();
 	void tick(float lockFPS = 0.0f);

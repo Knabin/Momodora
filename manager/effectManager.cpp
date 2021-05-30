@@ -3,21 +3,21 @@
 #include "effect/effect.h"
 
 
-effectManager::effectManager()
+EffectManager::EffectManager()
 {
 }
 
 
-effectManager::~effectManager()
+EffectManager::~EffectManager()
 {
 }
 
-HRESULT effectManager::init()
+HRESULT EffectManager::init()
 {
 	return S_OK;
 }
 
-void effectManager::release()
+void EffectManager::release()
 {
 	iterTotalEffect vIter;
 	iterEffect mIter;
@@ -44,7 +44,7 @@ void effectManager::release()
 
 }
 
-void effectManager::update()
+void EffectManager::update()
 {
 	iterTotalEffect vIter;
 	iterEffect mIter;
@@ -62,7 +62,7 @@ void effectManager::update()
 	}
 }
 
-void effectManager::render()
+void EffectManager::render()
 {
 	iterTotalEffect vIter;
 	iterEffect mIter;
@@ -80,9 +80,9 @@ void effectManager::render()
 	}
 }
 
-void effectManager::addEffect(string effectName, const char * imageName, int imageWidth, int imageHeight, int effectWidth, int effectHeight, int fps, float elapsedTime, int buffer)
+void EffectManager::addEffect(string effectName, const char * imageName, int imageWidth, int imageHeight, int effectWidth, int effectHeight, int fps, float elapsedTime, int buffer)
 {
-	image* img;
+	Image* img;
 	arrEffects vEffectBuffer;
 	arrEffect mArrEffect;
 
@@ -97,7 +97,7 @@ void effectManager::addEffect(string effectName, const char * imageName, int ima
 
 	for (int i = 0; i < buffer; ++i)
 	{
-		vEffectBuffer.push_back(new effect);
+		vEffectBuffer.push_back(new Effect);
 		vEffectBuffer[i]->init(img, effectWidth, effectHeight, fps, elapsedTime);
 	}
 
@@ -107,7 +107,7 @@ void effectManager::addEffect(string effectName, const char * imageName, int ima
 
 }
 
-void effectManager::play(string effectName, int x, int y)
+void EffectManager::play(string effectName, int x, int y)
 {
 	iterTotalEffect vIter;
 	iterEffect mIter;

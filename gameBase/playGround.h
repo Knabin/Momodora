@@ -4,23 +4,23 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 using namespace std;
 
-class playGround : public gameNode
+class PlayGround : public GameNode
 {
 private:
-	image* _background;
-	image* _backgroundPixel;
+	Image* _background;
+	Image* _backgroundPixel;
 
-	class stageManager* _sm;
+	class StageManager* _sm;
 	class pixelCollsion* _pixel;
-	class player* _player;
+	class Player* _player;
 
 	bool _isShaking;
 	bool _isGameOver;
 	int _shakeCount;
 
 public:
-	playGround();
-	~playGround();
+	PlayGround();
+	~PlayGround();
 
 	virtual HRESULT init();
 	virtual void release();

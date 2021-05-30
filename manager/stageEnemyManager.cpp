@@ -2,30 +2,30 @@
 #include "stageEnemyManager.h"
 #include "enemy/enemy.h"
 
-stageEnemyManager::stageEnemyManager()
+StageEnemyManager::StageEnemyManager()
 {
 }
 
-stageEnemyManager::~stageEnemyManager()
+StageEnemyManager::~StageEnemyManager()
 {
 }
 
-HRESULT stageEnemyManager::init()
+HRESULT StageEnemyManager::init()
 {
 	_rc = RectMakeCenter(744, 552, 48, 48);
 	
 	return S_OK;
 }
 
-void stageEnemyManager::release()
+void StageEnemyManager::release()
 {
 }
 
-void stageEnemyManager::update()
+void StageEnemyManager::update()
 {
 }
 
-void stageEnemyManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy)
+void StageEnemyManager::parsingEnemyData(const char * loadFileName, vector<Enemy*>& vEnemy)
 {
 	_vFileData.clear();
 	_vFileData = TXTDATA->txtLoad(loadFileName);
@@ -35,7 +35,7 @@ void stageEnemyManager::parsingEnemyData(const char * loadFileName, vector<enemy
 		int type = stoi(_vFileData[i], nullptr, 10);
 		float x = stof(_vFileData[i + 1], nullptr);
 		float y = stof(_vFileData[i + 2], nullptr);
-		enemy * e = nullptr;
+		Enemy * e = nullptr;
 
 		switch (type)
 		{
@@ -68,7 +68,7 @@ void stageEnemyManager::parsingEnemyData(const char * loadFileName, vector<enemy
 	}
 }
 
-void stageEnemyManager::parsingBossData(const char * lodaFileName, enemy * boss)
+void StageEnemyManager::parsingBossData(const char * lodaFileName, Enemy * boss)
 {
 	_vFileData.clear();
 	_vFileData = TXTDATA->txtLoad(lodaFileName);

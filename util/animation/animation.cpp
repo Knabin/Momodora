@@ -2,7 +2,7 @@
 #include "animation.h"
 
 
-animation::animation()
+Animation::Animation()
 	: _frameNum(0),
 	_frameWidth(0),
 	_frameHeight(0),
@@ -15,11 +15,11 @@ animation::animation()
 }
 
 
-animation::~animation()
+Animation::~Animation()
 {
 }
 
-HRESULT animation::init(int totalW, int totalH, int frameW, int frameH)
+HRESULT Animation::init(int totalW, int totalH, int frameW, int frameH)
 {
 	//애니메이션 가로 몇 장인지 계산
 	_frameWidth = frameW;
@@ -48,11 +48,11 @@ HRESULT animation::init(int totalW, int totalH, int frameW, int frameH)
 	return S_OK;
 }
 
-void animation::release()
+void Animation::release()
 {
 }
 
-void animation::setDefPlayFrame(BOOL reverse, BOOL loop)
+void Animation::setDefPlayFrame(BOOL reverse, BOOL loop)
 {
 	_loop = loop;
 	_playList.clear();
@@ -104,7 +104,7 @@ void animation::setDefPlayFrame(BOOL reverse, BOOL loop)
 
 }
 
-void animation::setPlayFrame(int * playArr, int arrLen, BOOL loop)
+void Animation::setPlayFrame(int * playArr, int arrLen, BOOL loop)
 {
 	_loop = loop;
 
@@ -117,7 +117,7 @@ void animation::setPlayFrame(int * playArr, int arrLen, BOOL loop)
 
 }
 
-void animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop)
+void Animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop)
 {
 	_loop = loop;
 
@@ -228,12 +228,12 @@ void animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop)
 
 }
 
-void animation::setFPS(int framePerSec)
+void Animation::setFPS(int framePerSec)
 {
 	_frameUpdateSec = 1.0f / framePerSec;
 }
 
-void animation::frameUpdate(float elapsedTime)
+void Animation::frameUpdate(float elapsedTime)
 {
 	if (_play)
 	{
@@ -259,24 +259,24 @@ void animation::frameUpdate(float elapsedTime)
 
 }
 
-void animation::start()
+void Animation::start()
 {
 	_play = TRUE;
 	_nowPlayIndex = 0;
 }
 
-void animation::stop()
+void Animation::stop()
 {
 	_play = FALSE;
 	_nowPlayIndex = 0;
 }
 
-void animation::pause()
+void Animation::pause()
 {
 	_play = FALSE;
 }
 
-void animation::resume()
+void Animation::resume()
 {
 	_play = TRUE;
 }

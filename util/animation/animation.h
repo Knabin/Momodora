@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
 
-class animation
+class Animation
 {
 public:
 	typedef vector<POINT>	vFrameList;	//애니메이션 프레임 저장용
@@ -25,8 +25,8 @@ private:
 	BOOL _play;				//애니메이션 재생여부
 
 public:
-	animation();
-	~animation();
+	Animation();
+	~Animation();
 
 	HRESULT init(int totalW, int totalH, int frameW, int frameH);
 	void release();

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "gameNode.h"
 
-class progressBar : public gameNode
+class ProgressBar : public GameNode
 {
 private:
 	RECT _rcProgress;
@@ -9,12 +9,12 @@ private:
 
 	float _width;	//100%
 
-	image* _progressBarTop;
-	image* _progressBarBottom;
+	Image* _progressBarTop;
+	Image* _progressBarBottom;
 
 public:
-	progressBar();
-	~progressBar();
+	ProgressBar();
+	~ProgressBar();
 
 	HRESULT init(float x, float y, int width, int height);
 	void release();

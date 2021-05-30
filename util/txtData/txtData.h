@@ -1,17 +1,17 @@
 ﻿#pragma once
 #include <vector>
 
-class txtData
+class TxtData
 {
 public:
-	static txtData* getInstance()
+	static TxtData* getInstance()
 	{
-		static txtData instance;
+		static TxtData instance;
 		return &instance;
 	}
 private:
-	txtData();
-	~txtData();
+	TxtData();
+	~TxtData();
 
 public:
 	HRESULT init();

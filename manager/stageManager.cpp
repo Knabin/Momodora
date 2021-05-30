@@ -5,36 +5,36 @@
 #include "stage/commonStage.h"
 #include "enemy/enemy.h"
 
-HRESULT stageManager::init()
+HRESULT StageManager::init()
 {
-	// TODO: enemy 추가하는 걸 ENEMYMANAGER로 옮김, signleton으로 변경
-	commonStage * common1 = new commonStage(0, nullptr);
+	// TODO: Enemy 추가하는 걸 ENEMYMANAGER로 옮김, signleton으로 변경
+	CommonStage * common1 = new CommonStage(0, nullptr);
 	common1->init();
 	common1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common1");
 
-	commonStage * common2 = new commonStage(1, "data/stage/stage1.data");
+	CommonStage * common2 = new CommonStage(1, "data/stage/stage1.data");
 	common2->init();
 	common2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common2");
 
-	commonStage * common3 = new commonStage(2, nullptr);
+	CommonStage * common3 = new CommonStage(2, nullptr);
 	common3->init();
 	common3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common3");
 
 
-	bossStage * boss1 = new bossStage(0, "data/stage/boss1.data");
+	BossStage * boss1 = new BossStage(0, "data/stage/boss1.data");
 	boss1->init();
 	boss1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss1");
 	
-	bossStage * boss2 = new bossStage(1, "data/stage/boss2.data");
+	BossStage * boss2 = new BossStage(1, "data/stage/boss2.data");
 	boss2->init();
 	boss2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss2");
 
-	bossStage * boss3 = new bossStage(2, "data/stage/boss3.data");
+	BossStage * boss3 = new BossStage(2, "data/stage/boss3.data");
 	boss3->init();
 	boss3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss3");
@@ -66,11 +66,11 @@ HRESULT stageManager::init()
 	return S_OK;
 }
 
-void stageManager::release()
+void StageManager::release()
 {
 }
 
-void stageManager::update()
+void StageManager::update()
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
@@ -106,7 +106,7 @@ void stageManager::update()
 	SCENEMANAGER->update();	
 }
 
-void stageManager::render()
+void StageManager::render()
 {
 	SCENEMANAGER->render();
 
@@ -129,14 +129,14 @@ void stageManager::render()
 
 }
 
-void stageManager::moveNextStage()
+void StageManager::moveNextStage()
 {
 	if (getIsBossStage()) return;
 	++_currentIdx;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
 }
 
-void stageManager::movePrevStage()
+void StageManager::movePrevStage()
 {
 	if (_currentIdx == 0) return;
 	if (getIsBossStage()) _currentIdx = 2;
@@ -144,13 +144,13 @@ void stageManager::movePrevStage()
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
 }
 
-void stageManager::moveBossStage(int index)
+void StageManager::moveBossStage(int index)
 {
 	_player->setPointLeftStart();
 	_currentIdx = index;
 	SCENEMANAGER->changeScene(_vStageName[_currentIdx]);
 }
-void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& vEnemy)
+void StageManager::parsingEnemyData(const char * loadFileName, vector<Enemy*>& vEnemy)
 {
 	_vFileData.clear();
 	_vFileData = TXTDATA->txtLoad(loadFileName);
@@ -160,7 +160,7 @@ void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& v
 		int type = stoi(_vFileData[i], nullptr, 10);
 		float x = stof(_vFileData[i + 1], nullptr);
 		float y = stof(_vFileData[i + 2], nullptr);
-		enemy * e = nullptr;
+		Enemy * e = nullptr;
 
 		switch (type)
 		{
@@ -194,7 +194,7 @@ void stageManager::parsingEnemyData(const char * loadFileName, vector<enemy*>& v
 	}
 }
 
-void stageManager::checkEnterBossStage()
+void StageManager::checkEnterBossStage()
 {
 	if (_currentIdx != 2) return;
 	
@@ -212,14 +212,14 @@ void stageManager::checkEnterBossStage()
 	}
 }
 
-bool stageManager::isAliveBoss()
+bool StageManager::isAliveBoss()
 {
 	if (!getIsBossStage()) return false;
 
 	return true;
 }
 
-void stageManager::checkPrayObject()
+void StageManager::checkPrayObject()
 {
 	if (_currentIdx != 2) return;
 
@@ -229,7 +229,7 @@ void stageManager::checkPrayObject()
 	}
 }
 
-int stageManager::getCurrentStageSize()
+int StageManager::getCurrentStageSize()
 {
 	switch (_currentIdx)
 	{

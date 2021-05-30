@@ -2,7 +2,7 @@
 #include "effect/effect.h"
 #include "animation/animation.h"
 
-effect::effect()
+Effect::Effect()
 	: _effectImage(NULL),
 	_effectAnimation(NULL),
 	_isRunning(false),
@@ -11,11 +11,11 @@ effect::effect()
 }
 
 
-effect::~effect()
+Effect::~Effect()
 {
 }
 
-HRESULT effect::init(image * effectImage, int frameW, int frameH, int fps, float elapsedTime)
+HRESULT Effect::init(Image * effectImage, int frameW, int frameH, int fps, float elapsedTime)
 {
 	if (!effectImage) return E_FAIL;
 
@@ -24,7 +24,7 @@ HRESULT effect::init(image * effectImage, int frameW, int frameH, int fps, float
 	_elapsedTime = elapsedTime;
 
 	//이펙트 애니메이션이 없으면 생성해라
-	if (!_effectAnimation) _effectAnimation = new animation;
+	if (!_effectAnimation) _effectAnimation = new Animation;
 
 	_effectAnimation->init(_effectImage->getWidth(), _effectImage->getHeight(),
 		frameW, frameH);
@@ -35,13 +35,13 @@ HRESULT effect::init(image * effectImage, int frameW, int frameH, int fps, float
 	return S_OK;
 }
 
-void effect::release()
+void Effect::release()
 {
 	_effectImage = NULL;
 	SAFE_DELETE(_effectAnimation);
 }
 
-void effect::update()
+void Effect::update()
 {
 	//이펙트 애니메이션 실행 변수가 false면 실행하지 마라
 	if (!_isRunning) return;
@@ -51,14 +51,14 @@ void effect::update()
 	if (!_effectAnimation->isPlay()) killEffect();
 }
 
-void effect::render()
+void Effect::render()
 {
 	if (!_isRunning) return;
 
 	_effectImage->aniRender(getMemDC(), _x, _y, _effectAnimation);
 }
 
-void effect::startEffect(int x, int y)
+void Effect::startEffect(int x, int y)
 {
 	//이펙트 이미지 또는 이펙트 애니메이션이 없으면 실행하지마라
 	if (!_effectImage || !_effectAnimation) return;
@@ -71,7 +71,7 @@ void effect::startEffect(int x, int y)
 	_effectAnimation->start();
 }
 
-void effect::killEffect()
+void Effect::killEffect()
 {
 	_isRunning = false;
 }

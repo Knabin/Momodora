@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "gameNode.h"
 
-class stageManager;
+class StageManager;
 
 enum PLAYERSTATE
 {
@@ -40,7 +40,7 @@ enum PLAYERSTATE
 
 struct tagBullet
 {
-	image* image;
+	Image* Image;
 	RECT rc;
 	float x, y;
 	float fireX, fireY;
@@ -49,11 +49,11 @@ struct tagBullet
 	float range;
 };
 
-class player : public gameNode
+class Player : public GameNode
 {
 private:
-	image* _image;
-	image* _effect;
+	Image* _image;
+	Image* _effect;
 
 	MYRECT _hitbox;
 	MYRECT _attackRc;
@@ -86,17 +86,17 @@ private:
 	PLAYERSTATE _state;
 	PLAYERSTATE _stateBefore;
 
-	stageManager* _sm;
+	StageManager* _sm;
 
-	animation* _ani_idle;
-	animation* _ani_run;
-	animation* _ani_attack;
-	animation* _ani_jump;
-	animation* _ani_throw;
-	animation* _ani_dead;
-	animation* _ani_pray;
+	Animation* _ani_idle;
+	Animation* _ani_run;
+	Animation* _ani_attack;
+	Animation* _ani_jump;
+	Animation* _ani_throw;
+	Animation* _ani_dead;
+	Animation* _ani_pray;
 
-	animation* _ani_effect_charge;
+	Animation* _ani_effect_charge;
 
 	int _attackCount;
 	int _attackCount2;
@@ -247,6 +247,6 @@ public:
 	bool getCanMoveRight() { return _canMoveRight; }
 	void setCanMoveRight(bool canMoveRight) { _canMoveRight = canMoveRight; }
 
-	void setStageManagerMemoryAddressLink(stageManager* sm) { _sm = sm; }
+	void setStageManagerMemoryAddressLink(StageManager* sm) { _sm = sm; }
 };
 

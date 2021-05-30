@@ -2,17 +2,17 @@
 #include "gameNode.h"
 #include <string>
 
-class stageManager;
-class player;
+class StageManager;
+class Player;
 
-class pixelCollsion : public gameNode
+class pixelCollsion : public GameNode
 {
 private:
-	image* _pixel;
+	Image* _pixel;
 	string _str[4];
 
-	stageManager* _sm;
-	player* _player;
+	StageManager* _sm;
+	Player* _player;
 
 public:
 	pixelCollsion();
@@ -23,7 +23,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setStageManagerMemoryAddressLink(stageManager* sm) { _sm = sm; }
-	void setPlayerMemoryAddressLink(player* p) { _player = p; }
+	void setStageManagerMemoryAddressLink(StageManager* sm) { _sm = sm; }
+	void setPlayerMemoryAddressLink(Player* p) { _player = p; }
 };
 

@@ -3,16 +3,16 @@
 
 #pragma comment(lib, "winmm.lib")
 
-timer::timer()
+Timer::Timer()
 {
 }
 
 
-timer::~timer()
+Timer::~Timer()
 {
 }
 
-HRESULT timer::init()
+HRESULT Timer::init()
 {
 	if (QueryPerformanceFrequency((LARGE_INTEGER*)&_periodFrequency))
 	{
@@ -29,7 +29,7 @@ HRESULT timer::init()
 	return S_OK;
 }
 
-void timer::tick(float lockFPS)
+void Timer::tick(float lockFPS)
 {
 	QueryPerformanceCounter((LARGE_INTEGER*)&_curTime);
 
@@ -64,7 +64,7 @@ void timer::tick(float lockFPS)
 
 }
 
-unsigned long timer::getFrameRate(char* str) const
+unsigned long Timer::getFrameRate(char* str) const
 {
 	if (str != NULL)
 	{

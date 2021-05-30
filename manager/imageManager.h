@@ -2,23 +2,23 @@
 #include "util/image/image.h"
 #include <map>
 
-class imageManager
+class ImageManager
 {
 public:
-	static imageManager* getInstance()
+	static ImageManager* getInstance()
 	{
-		static imageManager instance;
+		static ImageManager instance;
 		return &instance;
 	}
 
 private:
-	imageManager();
-	~imageManager();
+	ImageManager();
+	~ImageManager();
 
 private:
 	//      map<first, second>
-	typedef map<string, image*>				mapImageList;
-	typedef map<string, image*>::iterator	mapImageIter;
+	typedef map<string, Image*>				mapImageList;
+	typedef map<string, Image*>::iterator	mapImageIter;
 
 private:
 	mapImageList _mImageList;
@@ -27,14 +27,14 @@ public:
 	HRESULT init();
 	void release();
 
-	image* addImage(string strKey, int width, int height);
-	image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor);
+	Image* addImage(string strKey, int width, int height);
+	Image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor);
 
-	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
-	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
+	Image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
+	Image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
 
 	//이미지 찾는 함수 (중요)
-	image* findImage(string strKey);
+	Image* findImage(string strKey);
 
 	BOOL deleteImage(string strKey);
 	

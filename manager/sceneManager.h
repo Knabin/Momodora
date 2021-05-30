@@ -1,27 +1,27 @@
 ﻿#pragma once
 #include <map>
 
-class gameNode;
+class GameNode;
 
-class sceneManager
+class SceneManager
 {
 public:
-	static sceneManager* getInstance()
+	static SceneManager* getInstance()
 	{
-		static sceneManager instance;
+		static SceneManager instance;
 		return &instance;
 	}
 
 private:
-	sceneManager();
-	~sceneManager();
+	SceneManager();
+	~SceneManager();
 
 public:
-	typedef map<string, gameNode*>			 mapSceneList;
-	typedef map<string, gameNode*>::iterator mapSceneIter;
+	typedef map<string, GameNode*>			 mapSceneList;
+	typedef map<string, GameNode*>::iterator mapSceneIter;
 
 private:
-	static gameNode* _currentScene;
+	static GameNode* _currentScene;
 	mapSceneList _mSceneList;
 
 public:
@@ -30,7 +30,7 @@ public:
 	void update();
 	void render();
 
-	gameNode* addScene(string sceneName, gameNode* scene);
+	GameNode* addScene(string sceneName, GameNode* scene);
 
 	HRESULT changeScene(string sceneName);
 
