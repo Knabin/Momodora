@@ -165,23 +165,23 @@ void StageManager::parsingEnemyData(const char * loadFileName, vector<Enemy*>& v
 		switch (type)
 		{
 		case 0:
-			e = new oko;
-			dynamic_cast<oko*>(e)->setObjectRect(_rc2);
+			e = new Oko;
+			dynamic_cast<Oko*>(e)->setObjectRect(_rc2);
 			break;
 		case 1:
-			e = new monkey;
+			e = new Monkey;
 			break;
 		case 2:
 			e = new bakman;
 			break;
 		case 3:
-			e = new prim;
+			e = new Prim;
 			break;
 		case 4:
-			e = new witch;
+			e = new Witch;
 			break;
 		case 5:
-			e = new rell;
+			e = new Rell;
 			break;
 		}
 

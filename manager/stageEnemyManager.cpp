@@ -40,23 +40,23 @@ void StageEnemyManager::parsingEnemyData(const char * loadFileName, vector<Enemy
 		switch (type)
 		{
 		case 0:
-			e = new oko;
-			dynamic_cast<oko*>(e)->setObjectRect(_rc);
+			e = new Oko;
+			dynamic_cast<Oko*>(e)->setObjectRect(_rc);
 			break;
 		case 1:
-			e = new monkey;
+			e = new Monkey;
 			break;
 		case 2:
 			e = new bakman;
 			break;
 		case 3:
-			e = new prim;
+			e = new Prim;
 			break;
 		case 4:
-			e = new witch;
+			e = new Witch;
 			break;
 		case 5:
-			e = new rell;
+			e = new Rell;
 			break;
 		}
 
@@ -82,23 +82,23 @@ void StageEnemyManager::parsingBossData(const char * lodaFileName, Enemy * boss)
 	switch (type)
 	{
 	case 0:
-		boss = new oko;
-		dynamic_cast<oko*>(boss)->setObjectRect(_rc);
+		boss = new Oko;
+		dynamic_cast<Oko*>(boss)->setObjectRect(_rc);
 		break;
 	case 1:
-		boss = new monkey;
+		boss = new Monkey;
 		break;
 	case 2:
 		boss = new bakman;
 		break;
 	case 3:
-		boss = new prim;
+		boss = new Prim;
 		break;
 	case 4:
-		boss = new witch;
+		boss = new Witch;
 		break;
 	case 5:
-		boss = new rell;
+		boss = new Rell;
 		break;
 	}
 

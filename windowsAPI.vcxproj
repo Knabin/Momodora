@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./;./contents;./data;./gameBase;./include;./manager;./util;./include/json;./include/fmod</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./contents;./contents/boss;./contents/enemy;./data;./gameBase;./include;./manager;./util;./include/json;./include/fmod</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="contents\boss\prim.h" />
+    <ClInclude Include="contents\boss\rell.h" />
+    <ClInclude Include="contents\boss\witch.h" />
+    <ClInclude Include="contents\enemy\bakman.h" />
     <ClInclude Include="contents\enemy\enemy.h" />
+    <ClInclude Include="contents\enemy\monkey.h" />
+    <ClInclude Include="contents\enemy\oko.h" />
     <ClInclude Include="contents\player\player.h" />
     <ClInclude Include="contents\stage\bossStage.h" />
     <ClInclude Include="contents\stage\commonStage.h" />
@@ -185,7 +191,13 @@
     <ClInclude Include="windowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="contents\boss\prim.cpp" />
+    <ClCompile Include="contents\boss\rell.cpp" />
+    <ClCompile Include="contents\boss\witch.cpp" />
+    <ClCompile Include="contents\enemy\bakman.cpp" />
     <ClCompile Include="contents\enemy\enemy.cpp" />
+    <ClCompile Include="contents\enemy\monkey.cpp" />
+    <ClCompile Include="contents\enemy\oko.cpp" />
     <ClCompile Include="contents\player\player.cpp" />
     <ClCompile Include="contents\stage\bossStage.cpp" />
     <ClCompile Include="contents\stage\commonStage.cpp" />

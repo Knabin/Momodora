@@ -61,6 +61,9 @@
     <Filter Include="util\image">
       <UniqueIdentifier>{161a019f-83fb-4aa5-a2bd-53b11c8888ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="contents\boss">
+      <UniqueIdentifier>{edb85982-ea5e-4f0c-84b1-7bd840f67685}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -156,6 +159,24 @@
     <ClInclude Include="manager\jsonManager.h">
       <Filter>manager</Filter>
     </ClInclude>
+    <ClInclude Include="contents\enemy\oko.h">
+      <Filter>contents\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="contents\enemy\monkey.h">
+      <Filter>contents\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="contents\enemy\bakman.h">
+      <Filter>contents\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="contents\boss\prim.h">
+      <Filter>contents\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="contents\boss\rell.h">
+      <Filter>contents\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="contents\boss\witch.h">
+      <Filter>contents\boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windowsAPI.cpp">
@@ -238,6 +259,24 @@
     </ClCompile>
     <ClCompile Include="manager\jsonManager.cpp">
       <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\enemy\oko.cpp">
+      <Filter>contents\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\enemy\monkey.cpp">
+      <Filter>contents\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\enemy\bakman.cpp">
+      <Filter>contents\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\boss\prim.cpp">
+      <Filter>contents\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\boss\rell.cpp">
+      <Filter>contents\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\boss\witch.cpp">
+      <Filter>contents\boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
