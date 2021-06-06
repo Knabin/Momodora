@@ -177,6 +177,9 @@
     <ClInclude Include="contents\boss\witch.h">
       <Filter>contents\boss</Filter>
     </ClInclude>
+    <ClInclude Include="contents\stage\stage.h">
+      <Filter>contents\stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windowsAPI.cpp">
@@ -277,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="contents\boss\witch.cpp">
       <Filter>contents\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="contents\stage\stage.cpp">
+      <Filter>contents\stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

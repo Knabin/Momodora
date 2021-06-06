@@ -1,27 +1,12 @@
 ﻿#pragma once
-#include "gameNode.h"
-
-enum
-{
-	STAGE1,
-	STAGE2,
-	STAGE3
-};
+#include "stage.h"
 
 class Player;
 class Enemy;
 
-class CommonStage : public GameNode
+class CommonStage : public Stage
 {
 private:
-	vector<Enemy *> _vEnemy;
-	vector<Enemy *>::iterator _viEnemy;
-
-	const char * _fileName;
-
-	Image* _image;
-	Image* _pixel;
-
 	bool _backImg;
 
 	int _loopCount;
@@ -31,25 +16,13 @@ private:
 	int _loopX3;
 	int _loopX4;
 
-	Player* _player;
-
-	int _stageNum;
-
-
 public:
-	CommonStage();
 	CommonStage(int stageNum, const char * fileName);
+	~CommonStage() override final;
 
-	// STAGE1 = 0, STAGE2 = 1, STAGE3 = 2
-	virtual HRESULT init();
-	virtual void release();
-	virtual void update();
-	virtual void render();
-
-	void setPlayerMemoryAddressLink(Player *p) { _player = p; }
-
-	vector<Enemy *>& getEnemyVector() { return _vEnemy; }
-	void setEnemyVector(vector<Enemy *>& vEnemy) { _vEnemy = vEnemy; }
-	void insertIntoEnemyVector(Enemy * e) { _vEnemy.push_back(e); }
+	virtual HRESULT init() override;
+	virtual void release() override;
+	virtual void update() override;
+	virtual void render() override;
 };
 

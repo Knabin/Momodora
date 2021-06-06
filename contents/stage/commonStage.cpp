@@ -3,42 +3,49 @@
 #include "player/player.h"
 #include "enemy/enemy.h"
 
-CommonStage::CommonStage()
+CommonStage::CommonStage(int stageNum, const char* fileName)
+	: Stage(stageNum, fileName)
+	, _backImg(false)
+	, _loopCount(0)
+	, _loopX1(0)
+	, _loopX2(0)
+	, _loopX3(0)
+	, _loopX4(0)
 {
+	init();
 }
 
-CommonStage::CommonStage(int stageNum, const char * stageName)
+CommonStage::~CommonStage()
 {
-	switch (stageNum)
-	{
-	case STAGE1:
-		_image = IMAGEMANAGER->findImage("배경");
-		_pixel = IMAGEMANAGER->findImage("배경 픽셀");
-		_backImg = true;
-		break;
-	case STAGE2:
-		_image = IMAGEMANAGER->findImage("배경2");
-		_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
-		_backImg = true;
-		break;
-	case STAGE3:
-		_image = IMAGEMANAGER->findImage("배경3");
-		_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
-		_backImg = false;
-		break;
-	}
-	_fileName = stageName;
-	_stageNum = stageNum;
 }
 
 HRESULT CommonStage::init()
 {
-	_vEnemy.clear();
-	if (_fileName != nullptr)
-		STAGEENEMYMANAGER->parsingEnemyData(_fileName, _vEnemy);
+	switch (_stageNum)
+	{
+	case STAGE1:
+		_background = IMAGEMANAGER->findImage("배경");
+		_pixel = IMAGEMANAGER->findImage("배경 픽셀");
+		_backImg = true;
+		break;
+	case STAGE2:
+		_background = IMAGEMANAGER->findImage("배경2");
+		_pixel = IMAGEMANAGER->findImage("배경2 픽셀");
+		_backImg = true;
+		break;
+	case STAGE3:
+		_background = IMAGEMANAGER->findImage("배경3");
+		_pixel = IMAGEMANAGER->findImage("배경3 픽셀");
+		_backImg = false;
+		break;
+	}
 
-	for (int i = 0; i < _vEnemy.size(); ++i)
-		_vEnemy[i]->setPlayerMemoryAddressLink(_player);
+	_enemies.clear();
+	if (_fileName != nullptr)
+		STAGEENEMYMANAGER->parsingEnemyData(_fileName, _enemies);
+
+	for (int i = 0; i < _enemies.size(); ++i)
+		_enemies[i]->setPlayerMemoryAddressLink(_player);
 
 	_loopX1 = 0;
 	_loopX2 = 0;
@@ -69,12 +76,12 @@ HRESULT CommonStage::init()
 
 void CommonStage::release()
 {
-	for (int i = 0; i < _vEnemy.size(); ++i)
+	for (int i = 0; i < _enemies.size(); ++i)
 	{
-		_vEnemy[i]->release();
-		SAFE_DELETE(_vEnemy[i]);
+		_enemies[i]->release();
+		SAFE_DELETE(_enemies[i]);
 	}
-	_vEnemy.clear();
+	_enemies.clear();
 }
 
 void CommonStage::update()
@@ -107,8 +114,8 @@ void CommonStage::update()
 		}
 	}
 
-	for (int i = 0; i < _vEnemy.size(); ++i)
-		_vEnemy[i]->update();
+	for (int i = 0; i < _enemies.size(); ++i)
+		_enemies[i]->update();
 }
 
 void CommonStage::render()
@@ -126,13 +133,13 @@ void CommonStage::render()
 		IMAGEMANAGER->findImage("백1")->loopRender(getMemDC(), &one, _loopX1, 0);
 	}
 
-	_image->render(getMemDC());
+	_background->render(getMemDC());
 
 	if (TIMEMANAGER->getDebug())
 	{
 		_pixel->render(getMemDC());
 	}
 
-	for (int i = 0; i < _vEnemy.size(); ++i)
-		_vEnemy[i]->render();
+	for (int i = 0; i < _enemies.size(); ++i)
+		_enemies[i]->render();
 }

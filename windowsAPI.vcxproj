@@ -162,6 +162,7 @@
     <ClInclude Include="contents\player\player.h" />
     <ClInclude Include="contents\stage\bossStage.h" />
     <ClInclude Include="contents\stage\commonStage.h" />
+    <ClInclude Include="contents\stage\stage.h" />
     <ClInclude Include="contents\ui\progressBar\progressBar.h" />
     <ClInclude Include="gameBase\gameNode.h" />
     <ClInclude Include="gameBase\playGround.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="contents\player\player.cpp" />
     <ClCompile Include="contents\stage\bossStage.cpp" />
     <ClCompile Include="contents\stage\commonStage.cpp" />
+    <ClCompile Include="contents\stage\stage.cpp" />
     <ClCompile Include="contents\ui\progressBar\progressBar.cpp" />
     <ClCompile Include="gameBase\gameNode.cpp" />
     <ClCompile Include="gameBase\playGround.cpp" />
