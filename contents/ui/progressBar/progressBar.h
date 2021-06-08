@@ -13,10 +13,10 @@ private:
 	Image* _progressBarBottom;
 
 public:
-	ProgressBar();
+	ProgressBar(float x, float y, int width, int height);
 	~ProgressBar();
 
-	HRESULT init(float x, float y, int width, int height);
+	HRESULT init();
 	void release();
 	void update();
 	void render();

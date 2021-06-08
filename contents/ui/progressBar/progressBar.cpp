@@ -1,9 +1,12 @@
 ﻿#include "stdafx.h"
 #include "progressBar.h"
 
-
-ProgressBar::ProgressBar()
+ProgressBar::ProgressBar(float x, float y, int width, int height)
+	: _x(x), _y(y), _rcProgress(RectMake(x, y, width, height))
+	, _progressBarTop(IMAGEMANAGER->addImage("frontBar", "resources/image/boss_health.bmp", width, height, true, RGB(255, 0, 255)))
+	, _progressBarBottom(IMAGEMANAGER->addImage("backBar", "resources/image/boss_health_back.bmp", width, height, false, RGB(255, 0, 255)))
 {
+	init();
 }
 
 
@@ -11,17 +14,8 @@ ProgressBar::~ProgressBar()
 {
 }
 
-HRESULT ProgressBar::init(float x, float y, int width, int height)
+HRESULT ProgressBar::init()
 {
-	_x = x;
-	_y = y;
-
-	_rcProgress = RectMake(x, y, width, height);
-
-	_progressBarTop = IMAGEMANAGER->addImage("frontBar", "resources/image/boss_health.bmp", width, height, true, RGB(255, 0, 255));
-	_progressBarBottom = IMAGEMANAGER->addImage("backBar", "resources/image/boss_health_back.bmp", width, height, false, RGB(255, 0, 255));
-
-	//뒤에 깔리는 게이지의 가로크기를 기준으로 삼는다
 	_width = _progressBarBottom->getWidth();
 
 	return S_OK;
@@ -56,6 +50,5 @@ void ProgressBar::render()
 
 void ProgressBar::setGauge(float currentGauge, float maxGauge)
 {
-	//백분율 구하는 공식이에여!
 	_width = (currentGauge / maxGauge) * _progressBarBottom->getWidth();
 }
