@@ -4,40 +4,48 @@
 #include "enemy/enemy.h"
 
 BossStage::BossStage(int bossNum, const char * fileName)
+	: Stage(bossNum, fileName)
+	, _isStart(false)
+	, _isDead(false)
+	, _blockRc(0, 0, 0, 0)
+	, _blockColRc(0, 0, 0, 0)
 {
-	_image = IMAGEMANAGER->findImage("보스 배경");
-	_block = IMAGEMANAGER->findImage("보스 블록");
+	init();
+}
 
-	_ani_block = new Animation;
-	_ani_block->init(_block->getWidth(),
-		_block->getHeight(),
-		_block->getFrameWidth(),
-		_block->getFrameHeight());
-	_ani_block->setFPS(1);
-	_ani_block->setDefPlayFrame(false, false);
-
-	_fileName = fileName;
-	_bossNum = bossNum;
+BossStage::~BossStage()
+{
+	SAFE_DELETE(_ani_block);
 }
 
 HRESULT BossStage::init()
 {
-	_rc.set(0, 144, 48, 428);
-	_rcCol.set(0, 0, 50, 150);
-	_rcCol.setLeftTopPos(0, _rc.bottom);
+	_background = IMAGEMANAGER->findImage("보스 배경");
+	_block = IMAGEMANAGER->findImage("보스 블록");
 
-	_pgBar.init(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
-	_vBoss.clear();
-	if(_fileName != nullptr) STAGEENEMYMANAGER->parsingEnemyData(_fileName, _vBoss);
+	_ani_block = new Animation;
+	_ani_block->init(_block->getWidth(), _block->getHeight(),
+					 _block->getFrameWidth(), _block->getFrameHeight());
+	_ani_block->setFPS(1);
+	_ani_block->setDefPlayFrame(false, false);
+
+	_blockRc.set(0, 144, 48, 428);
+	_blockColRc.set(0, 0, 50, 150);
+	_blockColRc.setLeftTopPos(0, _blockRc.bottom);
+
+	_pgBar = make_unique<ProgressBar>(new ProgressBar(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39));
+	_enemies.clear();
+
+	if(_fileName != nullptr) STAGEENEMYMANAGER->parsingEnemyData(_fileName, _enemies);
 	
-	for(int i = 0; i < _vBoss.size(); ++i)
-		_vBoss[i]->setPlayerMemoryAddressLink(_player);
+	for(int i = 0; i < _enemies.size(); ++i)
+		_enemies[i]->setPlayerMemoryAddressLink(_player);
 
 	_isStart = _isDead = false;
 
-	switch (_bossNum)
+	switch (_stageNum)
 	{
-	case BOSS1:
+	case STAGE1:
 		
 		if (!SOUNDMANAGER->isPlaySound("보스1 맵"))
 		{
@@ -45,14 +53,14 @@ HRESULT BossStage::init()
 			SOUNDMANAGER->playBGM("보스1 맵", BGMVOLUME);
 		}
 		break;
-	case BOSS2:
+	case STAGE2:
 		if (!SOUNDMANAGER->isPlaySound("보스2 맵"))
 		{
 			SOUNDMANAGER->stopAll("보스2 맵");
 			SOUNDMANAGER->playBGM("보스2 맵", BGMVOLUME);
 		}
 		break;
-	case BOSS3:
+	case STAGE3:
 		if (!SOUNDMANAGER->isPlaySound("보스3 맵"))
 		{
 			SOUNDMANAGER->stopAll("보스3 맵");
@@ -64,12 +72,13 @@ HRESULT BossStage::init()
 	return S_OK;
 }
 
-
-
 void BossStage::release()
 {
-	_vBoss[0]->release();
-	SAFE_DELETE(_vBoss[0]);
+	for (int i = 0; i < _enemies.size(); ++i)
+	{
+		_enemies[i]->release();
+		SAFE_DELETE(_enemies[i]);
+	}
 }
 
 void BossStage::update()
@@ -93,33 +102,43 @@ void BossStage::update()
 		_isDead = true;
 	}
 
-	if (checkPointInRect(_rcCol, _player->getProbeXL(), _player->getY()) && _isStart && !_isDead)
+	if (checkPointInRect(_blockColRc, _player->getProbeXL(), _player->getY()) && _isStart && !_isDead)
 	{
 		_player->setCanMoveLeft(false);
 	}
 
 	if (_isStart)
 	{
-		for (int i = 0; i < _vBoss.size(); ++i)
-			_vBoss[i]->update();
+		bool checkDead = true;
+		for (int i = 0; i < _enemies.size(); ++i)
+		{
+			_enemies[i]->update();
+
+			if (_enemies[i]->getHP() > 0)
+			{
+				checkDead = false;
+			}
+		}
+		_isDead = checkDead;
 	}
 
-	if (_vBoss[0]->getHP() <= 0) _isDead = true;
-
-	_pgBar.setGauge(_vBoss[0]->getHP(), _vBoss[0]->getMaxHP());
-	_pgBar.update();
+	if (_enemies.size() != 0)
+	{
+		_pgBar->setGauge(_enemies[0]->getHP(), _enemies[0]->getMaxHP());
+		_pgBar->update();
+	}
 }
 
 void BossStage::render()
 {
-	_image->render(getMemDC());
+	_background->render(getMemDC());
 	
 	if (_isStart && !_isDead)
 	{
-		_pgBar.render();
-		_block->aniRender(getMemDC(), _rc.left, _rc.bottom, _ani_block);
+		_pgBar->render();
+		_block->aniRender(getMemDC(), _blockRc.left, _blockRc.bottom, _ani_block);
 	}
 
-	for (int i = 0; i < _vBoss.size(); ++i)
-		_vBoss[i]->render();
+	for (int i = 0; i < _enemies.size(); ++i)
+		_enemies[i]->render();
 }

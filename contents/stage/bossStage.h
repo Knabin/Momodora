@@ -1,49 +1,32 @@
 ﻿#pragma once
-#include "ui/progressBar/progressBar.h"
 
-enum
-{
-	BOSS1,
-	BOSS2,
-	BOSS3
-};
+#include "stage.h"
+#include "ui/progressBar/progressBar.h"
 
 class Player;
 class Enemy;
 
-class BossStage : public GameNode
+class BossStage : public Stage
 {
-private:
-	Image* _image;
-
-	Image* _block;
-	Animation* _ani_block;
-
-	MYRECT _rc;
-	MYRECT _rcCol;
-
-	ProgressBar _pgBar;
-
-	Player* _player;
-	
-	int _bossNum;
-
-	const char * _fileName;
-	vector<Enemy*> _vBoss;
-
-	bool _isStart;
-	bool _isDead;
-
 public:
 	BossStage(int bossNum, const char * fileName);
+	virtual ~BossStage() override final;
+
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();
 
-	void setPlayerMemoryAddressLink(Player *p) { _player = p; }
+private:
+	Image* _block;
+	Animation* _ani_block;
 
-	/*Enemy* getBossPointer() { return _boss; }
-	void setBossPointer(Enemy* boss) { _boss = boss; }*/
+	MYRECT _blockRc;
+	MYRECT _blockColRc;
+
+	unique_ptr<ProgressBar> _pgBar;
+
+	bool _isStart;
+	bool _isDead;
 };
 
