@@ -5,10 +5,9 @@
 
 BossStage::BossStage(int bossNum, const char * fileName)
 	: Stage(bossNum, fileName)
-	, _isStart(false)
-	, _isDead(false)
 	, _blockRc(0, 0, 0, 0)
 	, _blockColRc(0, 0, 0, 0)
+	, _state(boss_state::wait)
 {
 	init();
 }
@@ -33,15 +32,18 @@ HRESULT BossStage::init()
 	_blockColRc.set(0, 0, 50, 150);
 	_blockColRc.setLeftTopPos(0, _blockRc.bottom);
 
-	_pgBar = make_unique<ProgressBar>(new ProgressBar(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39));
+	_pgBar = make_unique<ProgressBar>(WINSIZEX / 2 - 343, WINSIZEY - 100, 687, 39);
 	_enemies.clear();
 
-	if(_fileName != nullptr) STAGEENEMYMANAGER->parsingEnemyData(_fileName, _enemies);
+	if (_fileName != nullptr)
+	{
+		STAGEENEMYMANAGER->parsingEnemyData(_fileName, _enemies);
+	}
 	
-	for(int i = 0; i < _enemies.size(); ++i)
+	for (int i = 0; i < _enemies.size(); ++i)
+	{
 		_enemies[i]->setPlayerMemoryAddressLink(_player);
-
-	_isStart = _isDead = false;
+	}
 
 	switch (_stageNum)
 	{
@@ -77,15 +79,16 @@ void BossStage::release()
 	for (int i = 0; i < _enemies.size(); ++i)
 	{
 		_enemies[i]->release();
+		// FIXME : Rell만 맵 나가면 터짐;
 		SAFE_DELETE(_enemies[i]);
 	}
 }
 
 void BossStage::update()
 {
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && !_isStart)
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _state == boss_state::wait)
 	{
-		_isStart = true;
+		_state = boss_state::alive;
 		_ani_block->setPlayFrame(0, 23, false);
 		_ani_block->start();
 		CAMERA->setBackWidth(960);
@@ -96,20 +99,21 @@ void BossStage::update()
 		_ani_block->frameUpdate(TIMEMANAGER->getElapsedTime() * 30);
 	}
 
+	// 치트키
 	if (KEYMANAGER->isOnceKeyDown(VK_LSHIFT))
 	{
-		_isStart = false;
-		_isDead = true;
+		_state = boss_state::dead;
 	}
 
-	if (checkPointInRect(_blockColRc, _player->getProbeXL(), _player->getY()) && _isStart && !_isDead)
+	if (_state == boss_state::alive)
 	{
-		_player->setCanMoveLeft(false);
-	}
+		if (checkPointInRect(_blockColRc, _player->getProbeXL(), _player->getY()))
+		{
+			_player->setCanMoveLeft(false);
+		}
 
-	if (_isStart)
-	{
 		bool checkDead = true;
+
 		for (int i = 0; i < _enemies.size(); ++i)
 		{
 			_enemies[i]->update();
@@ -119,7 +123,11 @@ void BossStage::update()
 				checkDead = false;
 			}
 		}
-		_isDead = checkDead;
+
+		if (checkDead)
+		{
+			_state = boss_state::dead;
+		}
 	}
 
 	if (_enemies.size() != 0)
@@ -133,7 +141,7 @@ void BossStage::render()
 {
 	_background->render(getMemDC());
 	
-	if (_isStart && !_isDead)
+	if (_state == boss_state::alive)
 	{
 		_pgBar->render();
 		_block->aniRender(getMemDC(), _blockRc.left, _blockRc.bottom, _ani_block);

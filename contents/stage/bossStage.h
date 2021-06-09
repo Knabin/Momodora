@@ -8,6 +8,13 @@ class Enemy;
 
 class BossStage : public Stage
 {
+	enum class boss_state
+	{
+		wait,
+		alive,
+		dead,
+	};
+
 public:
 	BossStage(int bossNum, const char * fileName);
 	virtual ~BossStage() override final;
@@ -26,7 +33,6 @@ private:
 
 	unique_ptr<ProgressBar> _pgBar;
 
-	bool _isStart;
-	bool _isDead;
+	boss_state _state;
 };
 
