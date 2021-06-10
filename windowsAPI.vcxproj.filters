@@ -64,6 +64,9 @@
     <Filter Include="contents\boss">
       <UniqueIdentifier>{edb85982-ea5e-4f0c-84b1-7bd840f67685}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\json">
+      <UniqueIdentifier>{6fb9ae08-c153-4732-b263-d91c478ae4ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -180,6 +183,9 @@
     <ClInclude Include="contents\stage\stage.h">
       <Filter>contents\stage</Filter>
     </ClInclude>
+    <ClInclude Include="util\json\JsonData.h">
+      <Filter>util\json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windowsAPI.cpp">
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="contents\stage\stage.cpp">
       <Filter>contents\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="util\json\JsonData.cpp">
+      <Filter>util\json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

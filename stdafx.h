@@ -25,6 +25,7 @@ using namespace std;
 #include "manager/soundManager.h"
 #include "manager/sceneManager.h"
 #include "txtData/txtData.h"
+#include "json/JsonData.h"
 #include "camera/camera.h"
 #include "manager/stageEnemyManager.h"
 
@@ -51,6 +52,7 @@ using namespace TTYONE_UTIL;
 #define SOUNDMANAGER SoundManager::getInstance()
 #define SCENEMANAGER SceneManager::getInstance()
 #define TXTDATA TxtData::getInstance()
+#define JSON JsonData::getInstance()
 #define CAMERA Camera::getInstance()
 #define STAGEENEMYMANAGER StageEnemyManager::getInstance()
 

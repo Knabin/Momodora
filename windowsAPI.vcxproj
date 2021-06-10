@@ -76,6 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)lib;$(SolutionDir)lib\jsoncpp;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)include\jsoncpp;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,8 +112,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionFolder)\lib\jsoncpp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>.\lib\jsoncpp\jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\jsoncpp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -185,6 +187,7 @@
     <ClInclude Include="util\commonMacroFunction.h" />
     <ClInclude Include="util\effect\effect.h" />
     <ClInclude Include="util\image\image.h" />
+    <ClInclude Include="util\json\JsonData.h" />
     <ClInclude Include="util\randomFunction.h" />
     <ClInclude Include="util\timer\timer.h" />
     <ClInclude Include="util\txtData\txtData.h" />
@@ -227,6 +230,7 @@
     <ClCompile Include="util\collision\pixelCollsion.cpp" />
     <ClCompile Include="util\effect\effect.cpp" />
     <ClCompile Include="util\image\image.cpp" />
+    <ClCompile Include="util\json\JsonData.cpp" />
     <ClCompile Include="util\timer\timer.cpp" />
     <ClCompile Include="util\txtData\txtData.cpp" />
     <ClCompile Include="util\utils.cpp" />
