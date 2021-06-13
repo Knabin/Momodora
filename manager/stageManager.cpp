@@ -4,6 +4,12 @@
 #include "stage/bossStage.h"
 #include "stage/commonStage.h"
 #include "enemy/enemy.h"
+#include "enemy/oko.h"
+#include "enemy/monkey.h"
+#include "enemy/bakman.h"
+#include "boss/prim.h"
+#include "boss/rell.h"
+#include "boss/witch.h"
 
 HRESULT StageManager::init()
 {
@@ -165,23 +171,23 @@ void StageManager::parsingEnemyData(const char * loadFileName, vector<Enemy*>& v
 		switch (type)
 		{
 		case 0:
-			e = new Oko;
+			e = new Oko();
 			dynamic_cast<Oko*>(e)->setObjectRect(_rc2);
 			break;
 		case 1:
-			e = new Monkey;
+			e = new Monkey();
 			break;
 		case 2:
-			e = new bakman;
+			e = new bakman();
 			break;
 		case 3:
-			e = new Prim;
+			e = new Prim();
 			break;
 		case 4:
-			e = new Witch;
+			e = new Witch();
 			break;
 		case 5:
-			e = new Rell;
+			e = new Rell();
 			break;
 		}
 

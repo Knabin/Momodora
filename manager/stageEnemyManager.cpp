@@ -1,8 +1,15 @@
 ﻿#include "stdafx.h"
 #include "stageEnemyManager.h"
 #include "enemy/enemy.h"
+#include "enemy/oko.h"
+#include "enemy/monkey.h"
+#include "enemy/bakman.h"
+#include "boss/prim.h"
+#include "boss/rell.h"
+#include "boss/witch.h"
 
 StageEnemyManager::StageEnemyManager()
+	: _rc()
 {
 }
 
@@ -29,6 +36,7 @@ void StageEnemyManager::parsingEnemyData(const char * loadFileName, vector<Enemy
 {
 	_vFileData.clear();
 	_vFileData = TXTDATA->txtLoad(loadFileName);
+	JSON->dataLoad("data/stage/stage1.json");
 
 	for (int i = 0; i < _vFileData.size(); i += 3)
 	{
