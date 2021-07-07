@@ -20,6 +20,6 @@ public:
 	HRESULT init();
 	void release();
 
-	void dataLoad(const char* loadFileName);
+	void dataLoad(const char* loadFileName, vector <Utils::st_data_enemy > & vec);
 };
 

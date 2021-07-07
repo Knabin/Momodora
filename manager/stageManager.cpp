@@ -19,7 +19,7 @@ HRESULT StageManager::init()
 	common1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common1");
 
-	CommonStage * common2 = new CommonStage(1, "data/stage/stage1.data");
+	CommonStage * common2 = new CommonStage(1, "data/stage/stage1.json");
 	common2->init();
 	common2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("common2");
@@ -30,17 +30,17 @@ HRESULT StageManager::init()
 	_vStageName.push_back("common3");
 
 
-	BossStage * boss1 = new BossStage(0, "data/stage/boss1.data");
+	BossStage * boss1 = new BossStage(0, "data/stage/boss1.json");
 	boss1->init();
 	boss1->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss1");
 	
-	BossStage * boss2 = new BossStage(1, "data/stage/boss2.data");
+	BossStage * boss2 = new BossStage(1, "data/stage/boss2.json");
 	boss2->init();
 	boss2->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss2");
 
-	BossStage * boss3 = new BossStage(2, "data/stage/boss3.data");
+	BossStage * boss3 = new BossStage(2, "data/stage/boss3.json");
 	boss3->init();
 	boss3->setPlayerMemoryAddressLink(_player);
 	_vStageName.push_back("boss3");

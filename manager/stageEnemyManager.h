@@ -18,8 +18,8 @@ private:
 	~StageEnemyManager();
 
 private:
-	vector<string> _vFileData;
-	vector<string>::iterator _viFileData;
+	vector<Utils::st_data_enemy> _vFileData;
+	vector<Utils::st_data_enemy> ::iterator _viFileData;
 
 	RECT _rc;
 
@@ -29,6 +29,6 @@ public:
 	void update();
 
 	void parsingEnemyData(const char * loadFileName, vector<Enemy *>& vEnemy);
-	void parsingBossData(const char * lodaFileName, Enemy * boss);
+	void parsingBossData(const char * loadFileName, Enemy * boss);
 };
 

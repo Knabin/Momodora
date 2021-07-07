@@ -2,7 +2,7 @@
 #include "collision.h"
 
 
-namespace TTYONE_UTIL
+namespace Utils
 {
 	bool checkPointInRect(const RECT& rc, const POINT& pt)
 	{

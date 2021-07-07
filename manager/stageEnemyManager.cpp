@@ -35,14 +35,14 @@ void StageEnemyManager::update()
 void StageEnemyManager::parsingEnemyData(const char * loadFileName, vector<Enemy*>& vEnemy)
 {
 	_vFileData.clear();
-	_vFileData = TXTDATA->txtLoad(loadFileName);
-	JSON->dataLoad("data/stage/stage1.json");
+	JSON->dataLoad(loadFileName, _vFileData);
 
-	for (int i = 0; i < _vFileData.size(); i += 3)
+	for (int i = 0; i < _vFileData.size(); ++i)
 	{
-		int type = stoi(_vFileData[i], nullptr, 10);
-		float x = stof(_vFileData[i + 1], nullptr);
-		float y = stof(_vFileData[i + 2], nullptr);
+		int type = _vFileData[i].type;
+		float x = _vFileData[i].x;
+		float y = _vFileData[i].y;
+
 		Enemy * e = nullptr;
 
 		switch (type)
@@ -76,16 +76,16 @@ void StageEnemyManager::parsingEnemyData(const char * loadFileName, vector<Enemy
 	}
 }
 
-void StageEnemyManager::parsingBossData(const char * lodaFileName, Enemy * boss)
+void StageEnemyManager::parsingBossData(const char * loadFileName, Enemy * boss)
 {
 	_vFileData.clear();
-	_vFileData = TXTDATA->txtLoad(lodaFileName);
+	JSON->dataLoad(loadFileName, _vFileData);
 
 	if (_vFileData.size() <= 0) return;
 
-	int type = stoi(_vFileData[0], nullptr, 10);
-	float x = stof(_vFileData[1], nullptr);
-	float y = stof(_vFileData[2], nullptr);
+	int type = _vFileData[0].type;
+	float x = _vFileData[0].x;
+	float y = _vFileData[0].y;
 
 	switch (type)
 	{

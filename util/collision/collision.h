@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-namespace TTYONE_UTIL
+namespace Utils
 {
 	typedef struct tagPoint
 	{

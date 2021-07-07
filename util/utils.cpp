@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "utils.h"
 
-namespace TTYONE_UTIL
+namespace Utils
 {
 	float getDistance(float startX, float startY, float endX, float endY)
 	{

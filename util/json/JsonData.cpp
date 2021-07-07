@@ -21,32 +21,31 @@ void JsonData::release()
 {
 }
 
-void JsonData::dataLoad(const char* loadFileName)
+void JsonData::dataLoad(const char* loadFileName, vector<Utils::st_data_enemy>& vec)
 {
 	ifstream openFile;
 	openFile.open(loadFileName);
 
 	if (openFile.is_open()) {
-		string test((istreambuf_iterator<char>(openFile)),
+		string file((istreambuf_iterator<char>(openFile)),
 			(istreambuf_iterator<char>()));
 
-		std::string test2(test);
-		auto length = static_cast<int>(test2.length());
+		auto length = static_cast<int>(file.length());
 
 		JSONCPP_STRING err;
 		Json::Value root;
 
 		Json::CharReaderBuilder builder;
 		const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
-		if (!reader->parse(test2.c_str(), test2.c_str() + length, &root, &err)) {
-			cout << "error" << endl;
+		if (!reader->parse(file.c_str(), file.c_str() + length, &root, &err)) {
+			cout << "error!" << endl;
 		}
 
-		auto test3 = root["stage"];
-		test3.size();
-		test3[0]["type"].asInt();
-		test3[0]["x"].asInt();
-		test3[0]["y"].asInt();
+		auto stage = root["stage"];
 
+		for (auto data : stage)
+		{
+			vec.push_back(Utils::st_data_enemy(data["type"].asInt(), data["x"].asInt(), data["y"].asInt()));
+		}
 	}
 }
